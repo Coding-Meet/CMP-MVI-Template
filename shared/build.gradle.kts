@@ -44,7 +44,7 @@ kotlin {
         val desktopMain by getting
 
         androidMain.dependencies {
-            implementation(compose.preview)
+            implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.core.splashscreen)
 
@@ -58,17 +58,17 @@ kotlin {
 
         commonMain.dependencies {
             // Compose Multiplatform
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.ui)
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.uiToolingPreview)
 
             // Material Design 3
-            implementation(compose.material3)
-            implementation(compose.material3AdaptiveNavigationSuite)
-            implementation(compose.materialIconsExtended)
+            implementation(libs.material3)
             implementation(libs.material3.adaptive)
+            implementation(libs.material3.adaptive.navigation.suite)
+            implementation(libs.material.icons.extended)
 
             // Navigation
             implementation(libs.androidx.navigation.compose)

@@ -1,4 +1,4 @@
-# Pokemon App - MVI Compose Multiplatform Template ✨
+# 🧬 Pokémon App - MVI Compose Multiplatform Template ✨
 
 A beautiful, modern Pokemon application built with Compose Multiplatform featuring MVI architecture,
 type-safe navigation, and dynamic theming. Explore Pokemon, manage favorites, and enjoy a seamless

@@ -1,6 +1,7 @@
 package com.example.cmp_mvi_template.di
 
 import com.example.cmp_mvi_template.core.data.datastore.ThemePreferences
+import com.example.cmp_mvi_template.core.data.datastore.onboarding.OnboardingPreferences
 import com.example.cmp_mvi_template.core.data.local.PokemonDatabase
 import com.example.cmp_mvi_template.core.data.network.HttpClientFactory
 import com.example.cmp_mvi_template.core.platform.database.getPokemonDatabase
@@ -27,4 +28,6 @@ val coreModule = module {
     // Theme Preference
     singleOf(::ThemePreferences)
 
+    // Onboarding Preference
+    singleOf(::OnboardingPreferences)
 }

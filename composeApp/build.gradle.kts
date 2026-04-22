@@ -27,7 +27,6 @@ kotlin {
     }
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
@@ -76,7 +75,6 @@ kotlin {
             implementation(compose.material3)                  // Material3 design system
             implementation(compose.material3AdaptiveNavigationSuite) // adaptive design
             implementation(compose.materialIconsExtended) // Extended Material icons
-            implementation(compose.material3AdaptiveNavigationSuite)
             implementation(libs.material3.adaptive)
 
             // 🧭 Navigation - Type-safe screen navigation
@@ -104,7 +102,7 @@ kotlin {
 
             // 🗄️ Database - Room for local data storage
             implementation(libs.androidx.room.runtime)         // Room database runtime
-            implementation(libs.sqlite.bundled)               // SQLite database engine
+            implementation(libs.androidx.sqlite.bundled)              // SQLite database engine
 
             // 💉 Dependency Injection - Koin for DI
             api(libs.koin.core)                     // Koin dependency injection core
@@ -140,7 +138,7 @@ kotlin {
             implementation(libs.ktor.client.okhttp)               // OkHttp engine
 
 
-            implementation("com.github.Dansoftowner:jSystemThemeDetector:3.6")
+            implementation(libs.jsystemthemedetector)
         }
 
         iosMain.dependencies {
@@ -148,10 +146,6 @@ kotlin {
 
             // 📡 Ktor iOS - Darwin engine for iOS
             implementation(libs.ktor.client.darwin)            // Darwin engine (native iOS networking)
-        }
-        dependencies {
-            // 🗄️ Database - Room for local data storage
-            ksp(libs.androidx.room.compiler)                   // Room compiler
         }
     }
 }
@@ -185,6 +179,11 @@ android {
 }
 
 dependencies {
+
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspDesktop", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
     debugImplementation(compose.uiTooling)
 }
 

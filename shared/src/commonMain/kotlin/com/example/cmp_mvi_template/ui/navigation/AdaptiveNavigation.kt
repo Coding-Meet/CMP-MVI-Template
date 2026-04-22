@@ -15,8 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldValue
+import androidx.compose.material3.adaptive.navigationsuite.rememberNavigationSuiteScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -50,16 +52,21 @@ fun AdaptiveNavigation() {
     }
 
     val currentWindowAdaptiveInfo = currentWindowAdaptiveInfo()
-    val layoutType by remember(currentNavigationItem,currentWindowAdaptiveInfo) {
-        derivedStateOf {
-            if (currentNavigationItem != null) {
-                NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(currentWindowAdaptiveInfo)
-            } else {
-                NavigationSuiteType.None
-            }
+    val layoutType = NavigationSuiteScaffoldDefaults.navigationSuiteType(
+        adaptiveInfo = currentWindowAdaptiveInfo
+    )
+    val navigationSuiteState = rememberNavigationSuiteScaffoldState(
+        initialValue = NavigationSuiteScaffoldValue.Hidden
+    )
+    LaunchedEffect(currentNavigationItem) {
+        if (currentNavigationItem != null) {
+            navigationSuiteState.show()
+        } else {
+            navigationSuiteState.hide()
         }
     }
     NavigationSuiteScaffold(
+        state = navigationSuiteState,
         navigationSuiteItems = {
             navigationBar(
                 currentNavigationItem = currentNavigationItem,

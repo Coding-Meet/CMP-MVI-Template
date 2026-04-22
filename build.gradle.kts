@@ -4,6 +4,7 @@ plugins {
     // 🤖 Android plugins - For Android app and library modules
     alias(libs.plugins.androidApplication) apply false   // Android application plugin
     alias(libs.plugins.androidLibrary) apply false       // Android library plugin
+    alias(libs.plugins.androidKotlinMultiplatformLibrary) apply false // KMP library plugin
 
     // 🔧 Kotlin plugins - For multiplatform and serialization
     alias(libs.plugins.kotlinMultiplatform) apply false  // Kotlin Multiplatform plugin

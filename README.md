@@ -53,17 +53,15 @@ experience across Android, Desktop, and iOS platforms.
 
 ### Run the app on your device or emulator:
 
-- For Android, run the `composeApp` module by selecting the `app` configuration. If you need help
-  with the
-  configuration, follow this link
+- For Android, run the `androidApp` module by selecting the `app` configuration. If you need help
+  with the configuration, follow this link
   for [android](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html#run-your-application-on-android)
-- For iOS, run the `composeApp` module by selecting the `iosApp` configuration. If you need help
-  with the configuration,
+- For iOS, run the `iosApp` configuration in Xcode. If you need help with the configuration,
   follow this link
-  for [Ios](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html#run-your-application-on-ios)
-- For Desktop, run `./gradlew :composeApp:run`
+  for [iOS](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html#run-your-application-on-ios)
+- For Desktop, run `./gradlew :desktopApp:run`
 - For Desktop with hot reload, run
-  `./gradlew desktopRun -DmainClass=com.example.cmp_mvi_template.MainKt`
+  `./gradlew :desktopApp:desktopRun -DmainClass=com.example.cmp_mvi_template.MainKt`
 
 ## Screenshot 💻
 
@@ -185,17 +183,14 @@ experience across Android, Desktop, and iOS platforms.
 
 ```
 CMP-MVI-Template/
-├── composeApp/                             # ✅ Main Compose Multiplatform app module
-│   ├── build.gradle.kts                    # ➕ Gradle config for this module
+├── shared/                                 # ✅ KMP library — shared code for all platforms
+│   ├── build.gradle.kts                    # ➕ Gradle config (com.android.kotlin.multiplatform.library)
 │   ├── setting.preferences_pb              # 📦 Proto DataStore schema for user settings (theme, etc.)
 │
 │   └── src/
-│       ├── androidMain/                    # 🤖 Android-specific code
-│       │   ├── AndroidManifest.xml         # 📄 Manifest file for Android
+│       ├── androidMain/                    # 🤖 Android-specific implementations
 │       │   └── kotlin/
 │       │       └── com/example/cmp_mvi_template/
-│       │           ├── MainActivity.kt     # 🚀 Entry point for Android app
-│       │           ├── MyApplication.kt    # 🏁 Application class for Koin setup
 │       │           └── core/platform/      # 🔌 Android actual implementations for platform interfaces
 │
 │       ├── iosMain/                        # 🍎 iOS-specific code (uses Kotlin/Native)
@@ -204,10 +199,10 @@ CMP-MVI-Template/
 │       │           ├── MainViewController.kt # 🧭 iOS screen entry point (UIKit)
 │       │           └── core/platform/        # 🔌 iOS actual implementations for platform interfaces
 │
-│       ├── desktopMain/                    # 🖥 Desktop-specific entry point
+│       ├── desktopMain/                    # 🖥 Desktop-specific implementations
 │       │   └── kotlin/
 │       │       └── com/example/cmp_mvi_template/
-│       │           └── main.kt             # 💻 Desktop launcher with ComposeWindow
+│       │           └── core/platform/      # 🔌 Desktop actual implementations for platform interfaces
 │
 │       ├── commonMain/                     # 🔁 Shared code between all platforms
 │       │   ├── composeResources/           # 🎨 Compose Multiplatform resources (fonts, strings, etc.)
@@ -247,9 +242,25 @@ CMP-MVI-Template/
 │       │               └── sample_example/ # 🧪 Optional example/template feature
 │       │                   ├── presentation/
 │       │                   └── domain/
-│       ├── commonTest/                     # 🧪 Shared unit tests
-│       │   └── com/example/cmp_mvi_template/
-│       │       └── ComposeAppCommonTest.kt # ✅ Sample shared test
+│       └── commonTest/                     # 🧪 Shared unit tests
+│           └── com/example/cmp_mvi_template/
+│               └── ComposeAppCommonTest.kt # ✅ Sample shared test
+│
+├── androidApp/                             # 🤖 Android entry point module
+│   ├── build.gradle.kts                    # ➕ Gradle config (com.android.application)
+│   └── src/main/
+│       ├── AndroidManifest.xml             # 📄 App manifest (launcher activity, permissions)
+│       ├── kotlin/com/example/cmp_mvi_template/
+│       │   ├── MainActivity.kt             # 🚀 Entry point for Android app
+│       │   └── MyApplication.kt            # 🏁 Application class for Koin setup
+│       └── res/                            # 🎨 Android resources (icons, themes, strings)
+│
+├── desktopApp/                             # 🖥 Desktop entry point module
+│   ├── build.gradle.kts                    # ➕ Gradle config (Compose Desktop application)
+│   └── src/desktopMain/kotlin/com/example/cmp_mvi_template/
+│       └── main.kt                         # 💻 Desktop launcher with ComposeWindow
+│
+└── iosApp/                                 # 🍎 iOS Xcode project (unchanged)
 
 ```
 
@@ -257,22 +268,36 @@ CMP-MVI-Template/
 
 ```
 └── CMP-MVI-Template/
-├── composeApp/
+├── androidApp/
+│   ├── build.gradle.kts
+│   └── src/main/
+│       ├── AndroidManifest.xml
+│       ├── res/
+│       │   └── values/
+│       │       └── strings.xml
+│       └── kotlin/
+│           └── com/
+│               └── example/
+│                   └── cmp_mvi_template/
+│                       ├── MyApplication.kt
+│                       └── MainActivity.kt
+├── desktopApp/
+│   ├── build.gradle.kts
+│   └── src/desktopMain/
+│       └── kotlin/
+│           └── com/
+│               └── example/
+│                   └── cmp_mvi_template/
+│                       └── main.kt
+├── shared/
 │   ├── setting.preferences_pb
 │   ├── build.gradle.kts
 │   └── src/
 │       ├── androidMain/
-│       │   ├── AndroidManifest.xml
-│       │   ├── res/
-│       │   │   └── values/
-│       │   │       └── strings.xml
-│       │   │  
 │       │   └── kotlin/
 │       │       └── com/
 │       │           └── example/
 │       │               └── cmp_mvi_template/
-│       │                   ├── MyApplication.kt
-│       │                   ├── MainActivity.kt
 │       │                   └── core/
 │       │                       └── platform/
 │       │                           ├── theme/
@@ -485,10 +510,7 @@ CMP-MVI-Template/
 │       │   └── kotlin/
 │       │       └── com/
 │       │           └── example/
-│       │               ├── .DS_Store
 │       │               └── cmp_mvi_template/
-│       │                   ├── .DS_Store
-│       │                   ├── main.kt
 │       │                   └── core/
 │       │                       └── platform/
 │       │                           ├── theme/

@@ -64,7 +64,7 @@ fun OnboardingScreen(onFinished: () -> Unit) {
         containerColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onBackground,
     ) { paddingValues ->
-        if (windowInfo.isExpanded) {
+        if (windowInfo.useHorizontalLayout) {
             ExpandedOnboardingLayout(
                 pagerState = pagerState,
                 state = state,

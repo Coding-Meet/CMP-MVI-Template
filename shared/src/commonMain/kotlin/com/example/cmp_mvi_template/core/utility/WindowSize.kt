@@ -2,6 +2,7 @@ package com.example.cmp_mvi_template.core.utility
 
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.window.core.layout.WindowSizeClass
 
 /**
@@ -37,89 +38,60 @@ enum class WindowHeightType {
 }
 
 /**
- * Aggregated window information used across the app.
+ * Central UI state for responsive layouts.
  *
- * Provides:
- * - Exact width and height categories
- * - Convenient boolean flags for simpler UI conditions
- *
- * Marked as @Stable to help Compose avoid unnecessary recompositions.
+ * Keep this minimal and use semantic helpers instead of raw checks.
  */
+@Stable
 data class WindowInfo(
     val widthType: WindowWidthType,
-    val heightType: WindowHeightType,
-
-    val isCompact: Boolean,
-    val isMedium: Boolean,
-    val isExpanded: Boolean,
-    val isLarge: Boolean,
-    val isExtraLarge: Boolean,
-
-    val isHeightCompact: Boolean,
-    val isHeightMedium: Boolean,
-    val isHeightExpanded: Boolean
+    val heightType: WindowHeightType
 ) {
 
-    /**
-     * Returns true for tablet-like devices.
-     *
-     * Includes:
-     * - MEDIUM (portrait tablets, foldables)
-     * - EXPANDED (landscape tablets)
-     *
-     * Use when you want a "tablet UI" regardless of orientation.
-     */
+    /** True for phones */
+    val isCompact: Boolean
+        get() = widthType == WindowWidthType.COMPACT
+
+    /** True for tablets (medium + expanded) */
     val isTablet: Boolean
         get() = widthType == WindowWidthType.MEDIUM ||
                 widthType == WindowWidthType.EXPANDED
 
-    /**
-     * Returns true for desktop-class screens.
-     *
-     * Includes:
-     * - LARGE
-     * - EXTRA_LARGE
-     *
-     * Use for:
-     * - dashboards
-     * - multi-pane layouts
-     * - productivity UI
-     */
+    /** True for desktop / very large screens */
     val isDesktop: Boolean
         get() = widthType == WindowWidthType.LARGE ||
                 widthType == WindowWidthType.EXTRA_LARGE
 
-    /**
-     * Returns true for any device that is NOT compact.
-     *
-     * Includes:
-     * - tablets
-     * - desktops
-     *
-     * Useful for enabling:
-     * - two-pane layouts
-     * - side-by-side content
-     */
+    /** True for anything bigger than phone */
     val isAtLeastTablet: Boolean
         get() = widthType != WindowWidthType.COMPACT
 
-    /**
-     * Returns true for screens that are expanded or larger.
-     *
-     * Includes:
-     * - EXPANDED
-     * - LARGE
-     * - EXTRA_LARGE
-     *
-     * Useful for:
-     * - showing sidebars
-     * - persistent navigation
-     * - advanced layouts
-     */
+    /** True for expanded and above (useful for sidebars, etc.) */
     val isAtLeastExpanded: Boolean
         get() = widthType == WindowWidthType.EXPANDED ||
                 widthType == WindowWidthType.LARGE ||
                 widthType == WindowWidthType.EXTRA_LARGE
+
+    /** True only for expanded (not desktop) */
+    val isExpandedOnly: Boolean
+        get() = widthType == WindowWidthType.EXPANDED
+
+    /** Height helpers (useful for landscape / compact height UI) */
+    /** True for normal height windows  **/
+    val isHeightCompact: Boolean
+        get() = heightType == WindowHeightType.COMPACT
+
+    /** True for medium height windows */
+    val isHeightMedium: Boolean
+        get() = heightType == WindowHeightType.MEDIUM
+
+    /** True for tall windows */
+    val isHeightExpanded: Boolean
+        get() = heightType == WindowHeightType.EXPANDED
+
+    /** True if the UI should prefer a horizontal/side-by-side layout */
+    val useHorizontalLayout: Boolean
+        get() = isHeightCompact || isAtLeastTablet
 }
 
 /**
@@ -136,11 +108,9 @@ data class WindowInfo(
 @Composable
 fun rememberWindowInfo(): WindowInfo {
 
-    // Get current adaptive window info from Compose
     val windowAdaptiveInfo = currentWindowAdaptiveInfo()
     val sizeClass = windowAdaptiveInfo.windowSizeClass
 
-    // Determine width category (largest to smallest)
     val widthType = when {
         sizeClass.isWidthAtLeastBreakpoint(1600) -> WindowWidthType.EXTRA_LARGE
         sizeClass.isWidthAtLeastBreakpoint(1200) -> WindowWidthType.LARGE
@@ -155,7 +125,6 @@ fun rememberWindowInfo(): WindowInfo {
         else -> WindowWidthType.COMPACT
     }
 
-    // Determine height category
     val heightType = when {
         sizeClass.isHeightAtLeastBreakpoint(
             WindowSizeClass.HEIGHT_DP_EXPANDED_LOWER_BOUND // 900dp
@@ -168,21 +137,8 @@ fun rememberWindowInfo(): WindowInfo {
         else -> WindowHeightType.COMPACT
     }
 
-    // Return aggregated result with helper flags
-    return WindowInfo(
-        widthType = widthType,
-        heightType = heightType,
 
-        isCompact = widthType == WindowWidthType.COMPACT,
-        isMedium = widthType == WindowWidthType.MEDIUM,
-        isExpanded = widthType == WindowWidthType.EXPANDED,
-        isLarge = widthType == WindowWidthType.LARGE,
-        isExtraLarge = widthType == WindowWidthType.EXTRA_LARGE,
-
-        isHeightCompact = heightType == WindowHeightType.COMPACT,
-        isHeightMedium = heightType == WindowHeightType.MEDIUM,
-        isHeightExpanded = heightType == WindowHeightType.EXPANDED
-    )
+    return WindowInfo(widthType, heightType)
 }
 /* ---------------------------------------------------
    Private Usage Examples (with explanations)
@@ -201,7 +157,7 @@ private fun ExampleTabletCheck() {
     val window = rememberWindowInfo()
 
     if (window.isTablet) {
-        // Medium + Expanded → tablets / foldables
+        // Tablets + foldables
         TabletLayout()
     } else {
         // Compact → phones
@@ -221,7 +177,7 @@ private fun ExampleAtLeastTablet() {
     val window = rememberWindowInfo()
 
     if (window.isAtLeastTablet) {
-        // Tablet + Desktop → enough space for 2 panes
+        // Enough space for 2 screens side-by-side
         TwoPaneLayout()
     } else {
         // Phone → single screen UI
@@ -243,7 +199,7 @@ private fun ExampleExpandedOnly() {
     val window = rememberWindowInfo()
 
     if (window.isAtLeastExpanded) {
-        // Expanded + Large + ExtraLarge
+        // Show sidebar only on large screens
         ShowSidebar()
     }
 }
@@ -296,16 +252,19 @@ private fun ExampleThreeLayouts() {
  * - gallery screens
  */
 @Composable
-private fun ExampleGridColumns(): Int {
-    val window = rememberWindowInfo()
-
-    return when {
-        window.isCompact -> 2       // phones
-        window.isTablet -> 4        // tablets
-        window.isExpanded -> 6      // large tablets
-        window.isDesktop -> 8       // desktop
-        else -> 10                  // very large screens
+private fun ExampleGridColumns() {
+    fun getGridColumns(window: WindowInfo): Int {
+        return when {
+            window.isCompact -> 2       // phones
+            window.isTablet -> 4        // tablets
+            window.isExpandedOnly -> 6      // large tablets
+            window.isDesktop -> 8       // desktop
+            else -> 10                  // very large screens
+        }
     }
+
+    val window = rememberWindowInfo()
+    val columns = getGridColumns(window)
 }
 
 /* Dummy placeholders */

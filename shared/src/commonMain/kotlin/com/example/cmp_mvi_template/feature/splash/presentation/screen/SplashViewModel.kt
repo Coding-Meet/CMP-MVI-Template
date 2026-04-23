@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -33,7 +32,7 @@ class SplashViewModel(
             _startAnimation.update {
                 true
             }
-            val isOnboardingCompleted = onboardingPreferences.isOnboardingCompleted.first()
+            val isOnboardingCompleted = false
             delay(1000)
             if (isOnboardingCompleted) {
                 _effect.emit(SplashEffect.NavigateToMain)

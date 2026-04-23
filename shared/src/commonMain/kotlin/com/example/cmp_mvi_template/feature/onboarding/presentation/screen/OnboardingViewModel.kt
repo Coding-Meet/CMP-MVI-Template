@@ -22,21 +22,28 @@ class OnboardingViewModel(
 
     fun handleEvent(event: OnboardingEvent) {
         when (event) {
-            OnboardingEvent.NextPage -> _state.update {
-                it.copy(currentPage = (it.currentPage + 1).coerceAtMost(it.pages.lastIndex))
-            }
-
-            OnboardingEvent.PreviousPage -> _state.update {
-                it.copy(currentPage = (it.currentPage - 1).coerceAtLeast(0))
-            }
-
-            is OnboardingEvent.PageChanged -> {
-                _state.update { it.copy(currentPage = event.page) }
-            }
-
+            OnboardingEvent.NextPage -> nextPage()
+            OnboardingEvent.PreviousPage -> previousPage()
+            is OnboardingEvent.PageChanged -> onPageChanged(event.page)
             OnboardingEvent.CompleteOnboarding,
             OnboardingEvent.SkipOnboarding -> complete()
         }
+    }
+
+    private fun nextPage() {
+        _state.update {
+            it.copy(currentPage = (it.currentPage + 1).coerceAtMost(it.pages.lastIndex))
+        }
+    }
+
+    private fun previousPage() {
+        _state.update {
+            it.copy(currentPage = (it.currentPage - 1).coerceAtLeast(0))
+        }
+    }
+
+    private fun onPageChanged(page: Int) {
+        _state.update { it.copy(currentPage = page) }
     }
 
     private fun complete() {

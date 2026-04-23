@@ -3,9 +3,9 @@
 
     <string name="error_request_timeout">The request timed out.</string>
     <string name="error_too_many_requests">Oops, it seems like your quota is exceeded.</string>
-    <string name="error_no_internet">Could n\'t connect to server, please check your internet connection.</string>
+    <string name="error_no_internet">Could n't connect to server, please check your internet connection.</string>
     <string name="error_unknown">Something went wrong. Please try again later.</string>
-    <string name="error_serialization">Could n\'t serialize or deserialize data.</string>
+    <string name="error_serialization">Could n't serialize or deserialize data.</string>
     <string name="error_disk_full">Disk is full.</string>
 
 
@@ -72,4 +72,22 @@
     <string name="primary">Primary</string>
     <string name="secondary">Secondary</string>
     <string name="tertiary">Tertiary</string>
+
+    <string name="splash_tagline">Compose Multiplatform</string>
+
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_get_started">Get Started</string>
+
+    <string name="onboarding_page1_title">Welcome</string>
+    <string name="onboarding_page1_desc">A modern Compose Multiplatform template for Android, iOS and Desktop.</string>
+
+    <string name="onboarding_page2_title">Explore Pokemon</string>
+    <string name="onboarding_page2_desc">Browse hundreds of Pokemon with beautiful cards and infinite scrolling.</string>
+
+    <string name="onboarding_page3_title">Save Favorites</string>
+    <string name="onboarding_page3_desc">Keep your favorite Pokemon and access them anytime, even offline.</string>
+
+    <string name="onboarding_page4_title">Ready to Explore?</string>
+    <string name="onboarding_page4_desc">Your adventure begins now. Let's catch 'em all!</string>
 </resources>

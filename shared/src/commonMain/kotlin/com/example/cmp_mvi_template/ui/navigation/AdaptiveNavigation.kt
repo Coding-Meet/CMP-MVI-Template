@@ -30,11 +30,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.cmp_mvi_template.feature.onboarding.presentation.screen.OnboardingScreen
 import com.example.cmp_mvi_template.feature.pokemon.presentation.favorites.screen.FavoritesScreen
 import com.example.cmp_mvi_template.feature.pokemon.presentation.pokemon_details.screen.PokemonDetailsScreen
 import com.example.cmp_mvi_template.feature.pokemon.presentation.pokemon_list.screen.PokemonListScreen
 import com.example.cmp_mvi_template.feature.sample_example.presentation.screen.SampleExampleScreen
 import com.example.cmp_mvi_template.feature.setting.presentation.screen.SettingScreen
+import com.example.cmp_mvi_template.feature.splash.presentation.screen.SplashScreen
 import com.example.cmp_mvi_template.ui.navigation.bottom_navigation_bar.NavigationItem
 import com.example.cmp_mvi_template.ui.navigation.bottom_navigation_bar.navigationBar
 
@@ -91,7 +93,7 @@ fun AdaptiveNavigation() {
     ) {
         NavHost(
             navController = navController,
-            startDestination = AppDestination.PokemonList,
+            startDestination = AppDestination.Splash,
             enterTransition = {
                 slideInHorizontally(
                     initialOffsetX = { it },
@@ -117,6 +119,31 @@ fun AdaptiveNavigation() {
                 ) + fadeOut()
             }
         ) {
+
+            composable<AppDestination.Splash> {
+                SplashScreen(
+                    onNavigateToOnboarding = {
+                        navController.navigate(AppDestination.Onboarding) {
+                            popUpTo(AppDestination.Splash) { inclusive = true }
+                        }
+                    },
+                    onNavigateToMain = {
+                        navController.navigate(AppDestination.PokemonList) {
+                            popUpTo(AppDestination.Splash) { inclusive = true }
+                        }
+                    },
+                )
+            }
+
+            composable<AppDestination.Onboarding> {
+                OnboardingScreen(
+                    onFinished = {
+                        navController.navigate(AppDestination.PokemonList) {
+                            popUpTo(AppDestination.Onboarding) { inclusive = true }
+                        }
+                    }
+                )
+            }
 
             composable<AppDestination.PokemonList> {
                 PokemonListScreen(

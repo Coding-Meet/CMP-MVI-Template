@@ -1,8 +1,8 @@
-# 🧬 Pokémon App - MVI Compose Multiplatform Template ✨
+# 🛍️ Store App - MVI Compose Multiplatform Template ✨
 
-A beautiful, modern Pokemon application built with Compose Multiplatform featuring MVI architecture,
-type-safe navigation, and dynamic theming. Explore Pokemon, manage favorites, and enjoy a seamless
-experience across Android, Desktop, and iOS platforms.
+A beautiful, modern E-Commerce application built with Compose Multiplatform featuring MVI architecture,
+type-safe navigation, and dynamic theming. Explore products, manage favorites/wishlist, and enjoy a seamless
+experience across Android, Desktop, and iOS platforms powered by DummyJSON API.
 
 [![News Kotlin Multiplatform AppPreview](screenshot/pokemon_cmp_mvi_template.png)]()
 
@@ -15,15 +15,14 @@ experience across Android, Desktop, and iOS platforms.
 - 🧭 Type-Safe Navigation: Kotlin Serialization-based routing
 - 🎨 Material 3 Design: Modern UI with dynamic theming
 - 🌓 Theme Management: Dark mode + Android Dynamic Colors
-- 💾 Offline Support: Room database for favorites
+- 💾 Offline Support: Room database for favorites/wishlist
 - 🔄 Reactive UI: Real-time updates with StateFlow
 
-🐾 Pokemon Features
+🛍️ Product Features
 
-- 🔍 Pokemon List: Browse all Pokemon with infinite scrolling
-- ❤️ Favorites Management: Add/remove Pokemon from favorites
-- 📊 Detailed View: Stats, abilities, types, and more
-- 🎨 Type-based Theming: Colors based on Pokemon types
+- 🔍 Product Catalog: Browse products with infinite scrolling pagination
+- ❤️ Favorites / Wishlist: Add/remove products from favorites with swipe-to-delete
+- 📊 Detailed View: Image carousel, price, ratings, specs, and customer reviews
 - ✨ Shimmer Loading: Beautiful loading animations
 
 🎭 UI/UX Features
@@ -230,7 +229,7 @@ CMP-MVI-Template/
 │       │           │   └── Theme/          # 🎨 Theme definitions (Typography, Colors, Dimens)
 │       │
 │       │           └── feature/            # 🌟 Feature modules – each screen or flow has its own folder
-│       │               ├── pokemon/        # 🐱 Pokemon feature (MVI pattern)
+│       │               ├── product/        # 🛍️ Product feature (MVI pattern)
 │       │               │   ├── domain/     # 🔁 Business logic interfaces & models
 │       │               │   ├── data/       # 💾 Repository, fake/local/remote data
 │       │               │   ├── presentation/ # 🎭 UI state, event, screen, and ViewModel
@@ -349,10 +348,10 @@ CMP-MVI-Template/
 │       │                   │   │   │   ├── ThemeMode.kt
 │       │                   │   │   │   └── ThemePreferences.kt
 │       │                   │   │   ├── local/
-│       │                   │   │   │   ├── PokemonDatabase.kt
-│       │                   │   │   │   ├── PokemonDatabaseConstructor.kt
+│       │                   │   │   │   ├── AppDatabase.kt
+│       │                   │   │   │   ├── AppDatabaseConstructor.kt
 │       │                   │   │   │   └── dao/
-│       │                   │   │   │       └── PokemonDao.kt
+│       │                   │   │   │       └── ProductDao.kt
 │       │                   │   │   └── network/
 │       │                   │   │       ├── NetworkExtensions.kt
 │       │                   │   │       └── HttpClientFactory.kt
@@ -435,33 +434,33 @@ CMP-MVI-Template/
 │       │                       │           ├── ThemeSelectionRow.kt
 │       │                       │           ├── ThemeSelectionDialog.kt
 │       │                       │           └── ThemePreview.kt
-│       │                       ├── pokemon/
+│       │                       ├── product/
 │       │                       │   ├── di/
-│       │                       │   │   └── PokemonModule.kt
+│       │                       │   │   └── ProductModule.kt
 │       │                       │   ├── presentation/
 │       │                       │   │   ├── component/
-│       │                       │   │   │   ├── PokemonCard.kt
+│       │                       │   │   │   ├── ProductCard.kt
 │       │                       │   │   │   └── ShimmerEffect.kt
-│       │                       │   │   ├── pokemon_details/
+│       │                       │   │   ├── product_details/
 │       │                       │   │   │   ├── screen/
-│       │                       │   │   │   │   ├── PokemonDetailsViewModel.kt
-│       │                       │   │   │   │   ├── PokemonDetailsEvent.kt
-│       │                       │   │   │   │   ├── PokemonDetailsScreen.kt
-│       │                       │   │   │   │   ├── PokemonDetailsEffect.kt
-│       │                       │   │   │   │   └── PokemonDetailsState.kt
+│       │                       │   │   │   │   ├── ProductDetailsViewModel.kt
+│       │                       │   │   │   │   ├── ProductDetailsEvent.kt
+│       │                       │   │   │   │   ├── ProductDetailsScreen.kt
+│       │                       │   │   │   │   ├── ProductDetailsEffect.kt
+│       │                       │   │   │   │   └── ProductDetailsState.kt
 │       │                       │   │   │   └── component/
-│       │                       │   │   │       ├── PokemonAbilitiesSection.kt
-│       │                       │   │   │       ├── PokemonDetailsContent.kt
-│       │                       │   │   │       ├── PokemonStatsSection.kt
-│       │                       │   │   │       ├── PokemonBasicInfoSection.kt
-│       │                       │   │   │       └── PokemonImageSection.kt
-│       │                       │   │   ├── pokemon_list/
+│       │                       │   │   │       ├── ProductImageCarousel.kt
+│       │                       │   │   │       ├── ProductInfoSection.kt
+│       │                       │   │   │       ├── ProductSpecsSection.kt
+│       │                       │   │   │       ├── ProductReviewsSection.kt
+│       │                       │   │   │       └── ProductDetailsContent.kt
+│       │                       │   │   ├── product_list/
 │       │                       │   │   │   └── screen/
-│       │                       │   │   │       ├── PokemonListEvent.kt
-│       │                       │   │   │       ├── PokemonListViewModel.kt
-│       │                       │   │   │       ├── PokemonListScreen.kt
-│       │                       │   │   │       ├── PokemonListEffect.kt
-│       │                       │   │   │       └── PokemonListState.kt
+│       │                       │   │   │       ├── ProductListEvent.kt
+│       │                       │   │   │       ├── ProductListViewModel.kt
+│       │                       │   │   │       ├── ProductListScreen.kt
+│       │                       │   │   │       ├── ProductListEffect.kt
+│       │                       │   │   │       └── ProductListState.kt
 │       │                       │   │   └── favorites/
 │       │                       │   │       ├── screen/
 │       │                       │   │       │   ├── FavoritesState.kt
@@ -470,32 +469,32 @@ CMP-MVI-Template/
 │       │                       │   │       │   ├── FavoritesEvent.kt
 │       │                       │   │       │   └── FavoritesViewModel.kt
 │       │                       │   │       └── component/
-│       │                       │   │           ├── SwipeToDeletePokemonCard.kt
+│       │                       │   │           ├── SwipeToDeleteProductCard.kt
 │       │                       │   │           ├── FavoritesListContent.kt
 │       │                       │   │           └── EmptyFavoritesScreen.kt
 │       │                       │   ├── domain/
 │       │                       │   │   ├── usecase/
-│       │                       │   │   │   ├── GetFavoritesPokemonUseCase.kt
-│       │                       │   │   │   ├── GetPokemonDetailsUseCase.kt
-│       │                       │   │   │   ├── CheckIfFavoriteUseCase.kt
-│       │                       │   │   │   ├── GetPokemonListUseCase.kt
-│       │                       │   │   │   └── ToggleFavoriteUseCase.kt
+│       │                       │   │   │   ├── GetFavoriteProductsUseCase.kt
+│       │                       │   │   │   ├── GetProductDetailsUseCase.kt
+│       │                       │   │   │   ├── CheckIfProductFavoriteUseCase.kt
+│       │                       │   │   │   ├── GetProductListUseCase.kt
+│       │                       │   │   │   └── ToggleFavoriteProductUseCase.kt
 │       │                       │   │   ├── entity/
-│       │                       │   │   │   ├── PokemonEntity.kt
-│       │                       │   │   │   └── Pokemon.kt
+│       │                       │   │   │   ├── ProductEntity.kt
+│       │                       │   │   │   └── Product.kt
 │       │                       │   │   └── repository/
-│       │                       │   │       └── PokemonRepository.kt
+│       │                       │   │       └── ProductRepository.kt
 │       │                       │   └── data/
 │       │                       │       ├── mapper/
 │       │                       │       │   └── toDomain.kt
 │       │                       │       ├── repository/
-│       │                       │       │   └── PokemonRepositoryImpl.kt
+│       │                       │       │   └── ProductRepositoryImpl.kt
 │       │                       │       └── remote/
 │       │                       │           ├── api/
-│       │                       │           │   ├── PokemonApiServiceImpl.kt
-│       │                       │           │   └── PokemonApiService.kt
+│       │                       │           │   ├── ProductApiServiceImpl.kt
+│       │                       │           │   └── ProductApiService.kt
 │       │                       │           └── dto/
-│       │                       │               └── PokemonListResponseDto.kt
+│       │                       │               └── ProductDto.kt
 │       │                       └── sample_example/
 │       │                           ├── di/
 │       │                           │   └── SampleExampleModule.kt

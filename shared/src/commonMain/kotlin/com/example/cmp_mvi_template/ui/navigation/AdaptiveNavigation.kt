@@ -31,9 +31,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.cmp_mvi_template.feature.onboarding.presentation.screen.OnboardingScreen
-import com.example.cmp_mvi_template.feature.pokemon.presentation.favorites.screen.FavoritesScreen
-import com.example.cmp_mvi_template.feature.pokemon.presentation.pokemon_details.screen.PokemonDetailsScreen
-import com.example.cmp_mvi_template.feature.pokemon.presentation.pokemon_list.screen.PokemonListScreen
+import com.example.cmp_mvi_template.feature.product.presentation.favorites.screen.FavoritesScreen
+import com.example.cmp_mvi_template.feature.product.presentation.product_details.screen.ProductDetailsScreen
+import com.example.cmp_mvi_template.feature.product.presentation.product_list.screen.ProductListScreen
 import com.example.cmp_mvi_template.feature.sample_example.presentation.screen.SampleExampleScreen
 import com.example.cmp_mvi_template.feature.setting.presentation.screen.SettingScreen
 import com.example.cmp_mvi_template.feature.splash.presentation.screen.SplashScreen
@@ -128,7 +128,7 @@ fun AdaptiveNavigation() {
                         }
                     },
                     onNavigateToMain = {
-                        navController.navigate(AppDestination.PokemonList) {
+                        navController.navigate(AppDestination.ProductList) {
                             popUpTo(AppDestination.Splash) { inclusive = true }
                         }
                     },
@@ -138,25 +138,25 @@ fun AdaptiveNavigation() {
             composable<AppDestination.Onboarding> {
                 OnboardingScreen(
                     onFinished = {
-                        navController.navigate(AppDestination.PokemonList) {
+                        navController.navigate(AppDestination.ProductList) {
                             popUpTo(AppDestination.Onboarding) { inclusive = true }
                         }
                     }
                 )
             }
 
-            composable<AppDestination.PokemonList> {
-                PokemonListScreen(
-                    onNavigateToDetails = { pokemonId ->
-                        navController.navigate(AppDestination.PokemonDetails(pokemonId))
+            composable<AppDestination.ProductList> {
+                ProductListScreen(
+                    onNavigateToDetails = { productId ->
+                        navController.navigate(AppDestination.ProductDetails(productId))
                     }
                 )
             }
 
             composable<AppDestination.Favorites> {
                 FavoritesScreen(
-                    onNavigateToDetails = { pokemonId ->
-                        navController.navigate(AppDestination.PokemonDetails(pokemonId))
+                    onNavigateToDetails = { productId ->
+                        navController.navigate(AppDestination.ProductDetails(productId))
                     }
                 )
             }
@@ -164,7 +164,7 @@ fun AdaptiveNavigation() {
                 SettingScreen()
             }
 
-            composable<AppDestination.PokemonDetails>(
+            composable<AppDestination.ProductDetails>(
                 enterTransition = {
                     scaleIn(
                         initialScale = 0.8f,
@@ -178,7 +178,7 @@ fun AdaptiveNavigation() {
                     ) + fadeOut()
                 }
             ) {
-                PokemonDetailsScreen(
+                ProductDetailsScreen(
                     onNavigateBack = {
                         navController.navigateUp()
                     }

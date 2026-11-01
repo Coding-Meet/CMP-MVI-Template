@@ -16,7 +16,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.seconds
 
-private const val BASE_URL = "https://pokeapi.co/api/v2/"
+private const val BASE_URL = "https://dummyjson.com/"
 
 object HttpClientFactory {
     fun create(): HttpClient {

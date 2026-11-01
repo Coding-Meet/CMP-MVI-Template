@@ -11,13 +11,13 @@ sealed interface AppDestination {
     data object Onboarding : AppDestination
 
     @Serializable
-    data object PokemonList : AppDestination
+    data object ProductList : AppDestination
 
     @Serializable
     data object Favorites : AppDestination
 
     @Serializable
-    data class PokemonDetails(val pokemonId: Int) : AppDestination
+    data class ProductDetails(val productId: Int) : AppDestination
 
     @Serializable
     data object Settings : AppDestination

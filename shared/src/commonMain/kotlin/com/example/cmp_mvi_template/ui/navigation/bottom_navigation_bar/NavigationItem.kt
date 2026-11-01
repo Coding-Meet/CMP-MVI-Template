@@ -16,11 +16,11 @@ enum class NavigationItem(
     val title: UiText,
     val route: AppDestination
 ) {
-    POKEMON(
+    PRODUCTS(
         selectedIcon = IconResource.ImageVector(Icons.AutoMirrored.Filled.List),
         unSelectedIcon = IconResource.ImageVector(Icons.AutoMirrored.Outlined.List),
-        title = UiText.StringResource(Res.string.tab_pokemon),
-        route = AppDestination.PokemonList
+        title = UiText.StringResource(Res.string.tab_products),
+        route = AppDestination.ProductList
     ),
     FAVORITES(
         selectedIcon = IconResource.ImageVector(Icons.Filled.Favorite),

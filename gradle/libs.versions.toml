@@ -1,27 +1,26 @@
 [versions]
 # Core Kotlin
-agp = "9.0.0"
-android-compileSdk = "36"
+agp = "9.1.1"
+android-compileSdk = "37"
 android-minSdk = "24"
-android-targetSdk = "36"
-kotlin = "2.3.20"
+android-targetSdk = "37"
+kotlin = "2.4.21"
 ksp = "2.3.6"
 
 # Coroutines & Serialization & Datetime
-kotlinx-coroutines = "1.10.2"
+kotlinx-coroutines = "1.11.0"
 kotlinx-serialization = "1.11.0"
-kotlinx-datetime = "0.7.1"
+kotlinx-datetime = "0.8.0"
 
 # Compose Multiplatform
-composeMultiplatform = "1.10.3"
-composeHotReload = "1.0.0"
+composeMultiplatform = "1.12.2"
 
 # AndroidX Core
 androidx-activity = "1.13.0"
-androidx-appcompat = "1.7.1"
+androidx-appcompat = "1.8.0"
 androidx-constraintlayout = "2.2.1"
-androidx-core = "1.18.0"
-androidx-lifecycle = "2.10.0"
+androidx-core = "1.19.1"
+androidx-lifecycle = "2.11.0"
 androidx-splashscreen = "1.2.0"
 
 # Testing
@@ -30,37 +29,39 @@ androidx-testExt = "1.3.0"
 junit = "4.13.2"
 
 # Navigation
-androidx-navigation = "2.9.2"
+androidx-navigation = "2.10.0"
 
 # Material Design
-material3 = "1.10.0-alpha05"
-material3-adaptive = "1.2.0"
+material3 = "1.12.0-alpha03"
+material3-adaptive = "1.3.0"
 material3WindowSizeClass = "1.9.0"
 materialIconsExtended = "1.7.3"
 
 # Networking (Ktor)
-ktor = "3.4.3"
+ktor = "3.6.0"
 
 # Database - Room
-room = "2.8.4"
-sqlite = "2.6.2"
+room = "2.8.5"
+sqlite = "2.7.1"
 
 # DataStore
-datastore = "1.2.1"
+datastore = "1.3.0"
 
 # Dependency Injection
-koin = "4.2.1"
+koin = "4.2.2"
 
 # Image Loading
-coil3 = "3.4.0"
+coil3 = "3.6.3"
 
 # Logging
-kermit = "2.1.0"
+kermit = "2.2.0"
 
 # BuildConfig
-buildkonfig = "0.18.0"
+buildkonfig = "0.23.0"
 
 jsystemthemedetector = "3.6"
+
+
 [libraries]
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeMultiplatform" }
@@ -151,15 +152,14 @@ jsystemthemedetector = { module = "com.github.Dansoftowner:jSystemThemeDetector"
 [plugins]
 # Core Plugins
 androidApplication = { id = "com.android.application", version.ref = "agp" }
-androidLibrary = { id = "com.android.library", version.ref = "agp" }
-androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+androidMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 # Compose
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }
 
 # BuildConfig
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }

@@ -4,12 +4,11 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidKotlinMultiplatformLibrary)
+    alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.kotlinSerialization)
 
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.composeHotReload)
 
     alias(libs.plugins.buildkonfig)
 
@@ -26,22 +25,29 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
+        withHostTest {
+            isIncludeAndroidResources = true
+        }
+        withDeviceTestBuilder {
+            sourceSetTreeName = "test"
+        }.configure {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        }
     }
 
     listOf(
         iosArm64(), iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "Shared"
             isStatic = true
             linkerOpts.add("-lsqlite3")
         }
     }
 
-    jvm("desktop")
+    jvm()
 
     sourceSets {
-        val desktopMain by getting
 
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
@@ -119,7 +125,7 @@ kotlin {
             implementation(libs.kotlin.test)
         }
 
-        desktopMain.dependencies {
+        jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
@@ -134,11 +140,11 @@ kotlin {
 
 dependencies {
     // Preview
-    "androidRuntimeClasspath"(libs.compose.uiTooling)
+    androidRuntimeClasspath(libs.compose.uiTooling)
 
     // ksp
     add("kspAndroid", libs.androidx.room.compiler)
-    add("kspDesktop", libs.androidx.room.compiler)
+    add("kspJvm", libs.androidx.room.compiler)
     add("kspIosArm64", libs.androidx.room.compiler)
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
 }

@@ -1,23 +1,18 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
 }
 
-kotlin {
-    jvm("desktop")
-
-    sourceSets {
-        val desktopMain by getting {
-            dependencies {
-                implementation(projects.shared)
-                implementation(compose.desktop.currentOs)
-                implementation(libs.kotlinx.coroutines.swing)
-            }
-        }
-    }
+dependencies {
+    implementation(project(":shared"))
+    implementation(compose.desktop.currentOs)
+    implementation(libs.compose.components.resources)
+    implementation(libs.compose.foundation)
+    implementation(libs.kotlinx.coroutines.swing)
+    implementation(libs.compose.uiToolingPreview)
 }
 
 compose.desktop {

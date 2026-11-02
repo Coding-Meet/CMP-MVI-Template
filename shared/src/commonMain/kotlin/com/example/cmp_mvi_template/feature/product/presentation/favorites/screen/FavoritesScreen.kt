@@ -21,6 +21,9 @@ import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
 import com.example.cmp_mvi_template.feature.product.presentation.favorites.component.EmptyFavoritesScreen
 import com.example.cmp_mvi_template.feature.product.presentation.favorites.component.FavoritesListContent
 import com.example.cmp_mvi_template.ui.layout.ErrorMessageLayout
+import com.example.cmp_mvi_template.feature.product.domain.entity.Product
+import com.example.cmp_mvi_template.feature.product.presentation.favorites.component.FavoritesGrid
+import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -80,6 +83,29 @@ fun FavoritesScreen(
                     )
                 }
             }
+        }
+    }
+}
+
+@AllAdaptivePreviews
+@Composable
+private fun FavoritesScreenPreview() {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Favorites") },
+            )
+        }
+    ) { paddingValues ->
+        Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+            FavoritesGrid(
+                products = listOf(
+                    Product(id = 1, title = "Essence Mascara", price = 9.99, rating = 4.9, brand = "Essence"),
+                    Product(id = 2, title = "Eyeshadow Palette", price = 19.99, rating = 4.5, brand = "Glamour")
+                ),
+                onProductClick = {},
+                onDeleteClick = {}
+            )
         }
     }
 }

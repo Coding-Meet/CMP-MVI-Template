@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 import cmp_mvi_template.composeapp.generated.resources.*
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -96,4 +97,10 @@ fun ThemePreview() {
             }
         }
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun ThemePreviewComponentPreview() {
+    ThemePreview()
 }

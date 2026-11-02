@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.cmp_mvi_template.feature.cart.domain.entity.CartItem
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @Composable
 fun CartItemCard(
@@ -171,5 +172,24 @@ fun CartItemCard(
             }
         }
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun CartItemCardPreview() {
+    CartItemCard(
+        item = CartItem(
+            id = 1,
+            title = "Essence Mascara Lash Princess",
+            price = 9.99,
+            quantity = 2,
+            thumbnail = "",
+            discountPercentage = 7.17
+        ),
+        onIncrease = {},
+        onDecrease = {},
+        onRemove = {},
+        onClick = {}
+    )
 }
 

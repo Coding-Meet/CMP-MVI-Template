@@ -46,6 +46,8 @@ import cmp_mvi_template.composeapp.generated.resources.onboarding_skip
 import com.example.cmp_mvi_template.feature.onboarding.presentation.model.OnboardingPage
 import com.example.cmp_mvi_template.feature.onboarding.presentation.screen.OnboardingEvent
 import com.example.cmp_mvi_template.feature.onboarding.presentation.screen.OnboardingState
+import androidx.compose.foundation.pager.rememberPagerState
+import com.example.cmp_mvi_template.ui.theme.PhonePreview
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.absoluteValue
 
@@ -303,4 +305,16 @@ private fun ControlsSection(
             }
         }
     }
+}
+
+@PhonePreview
+@Composable
+private fun CompactOnboardingLayoutPreview() {
+    val pagerState = rememberPagerState(pageCount = { 3 })
+    CompactOnboardingLayout(
+        pagerState = pagerState,
+        state = OnboardingState(),
+        containerColor = MaterialTheme.colorScheme.surface,
+        onEvent = {}
+    )
 }

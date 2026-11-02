@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.cmp_mvi_template.feature.product.domain.entity.ProductCategory
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @Composable
 fun CategoryChipsRow(
@@ -54,5 +55,20 @@ fun CategoryChipsRow(
             )
         }
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun CategoryChipsRowPreview() {
+    CategoryChipsRow(
+        categories = listOf(
+            ProductCategory(slug = "beauty", name = "Beauty"),
+            ProductCategory(slug = "fragrances", name = "Fragrances"),
+            ProductCategory(slug = "furniture", name = "Furniture"),
+            ProductCategory(slug = "groceries", name = "Groceries")
+        ),
+        selectedCategory = "beauty",
+        onCategorySelected = {}
+    )
 }
 

@@ -43,11 +43,12 @@ import cmp_mvi_template.composeapp.generated.resources.add_to_favorites
 import cmp_mvi_template.composeapp.generated.resources.back
 import cmp_mvi_template.composeapp.generated.resources.remove_from_favorites
 import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
+import com.example.cmp_mvi_template.feature.product.domain.entity.Product
 import com.example.cmp_mvi_template.feature.product.presentation.product_details.component.ProductDetailsContent
 import com.example.cmp_mvi_template.ui.layout.ErrorMessageLayout
+import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-
 
 @Composable
 fun ProductDetailsScreen(
@@ -60,7 +61,7 @@ fun ProductDetailsScreen(
     // Handle effects
     productDetailsViewModel.effect.ObserveAsEvents { effect ->
         when (effect) {
-            ProductDetailsEffect.NavigateBack -> onNavigateBack()
+            is ProductDetailsEffect.NavigateBack -> onNavigateBack()
             is ProductDetailsEffect.ShowError -> {
                 snackBarHostState.showSnackbar(effect.message.asStringForSuspend())
             }
@@ -70,6 +71,29 @@ fun ProductDetailsScreen(
         }
     }
 
+    ProductDetailsScreenContent(
+        state = state,
+        snackBarHostState = snackBarHostState,
+        onNavigateBack = onNavigateBack,
+        onAddToCart = { productDetailsViewModel.handleEvent(ProductDetailsEvent.AddToCart) },
+        onToggleFavorite = { productDetailsViewModel.handleEvent(ProductDetailsEvent.ToggleFavorite) },
+        onRetry = {
+            state.product?.id?.let { id ->
+                productDetailsViewModel.handleEvent(ProductDetailsEvent.LoadProductDetails(id))
+            }
+        }
+    )
+}
+
+@Composable
+fun ProductDetailsScreenContent(
+    state: ProductDetailsState,
+    snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onNavigateBack: () -> Unit,
+    onAddToCart: () -> Unit,
+    onToggleFavorite: () -> Unit,
+    onRetry: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -81,9 +105,7 @@ fun ProductDetailsScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
-                        productDetailsViewModel.handleEvent(ProductDetailsEvent.NavigateBack)
-                    }) {
+                    IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(Res.string.back)
@@ -92,34 +114,31 @@ fun ProductDetailsScreen(
                 },
                 actions = {
                     if (state.product != null) {
-                        AnimatedContent(
-                            targetState = state.isFavorite,
-                            transitionSpec = {
-                                (scaleIn() + fadeIn()).togetherWith(scaleOut() + fadeOut())
-                            },
-                            label = "product_favorite_button"
-                        ) { isFavorite ->
-                            IconButton(
-                                onClick = {
-                                    productDetailsViewModel.handleEvent(ProductDetailsEvent.ToggleFavorite)
-                                }
-                            ) {
-                                if (state.isTogglingFavorite) {
-                                    CircularProgressIndicator(
-                                        modifier = Modifier.size(24.dp),
-                                        strokeWidth = 2.dp
-                                    )
-                                } else {
-                                    Icon(
-                                        imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                                        contentDescription = if (isFavorite) {
-                                            stringResource(Res.string.remove_from_favorites)
-                                        } else {
-                                            stringResource(Res.string.add_to_favorites)
-                                        },
-                                        tint = if (isFavorite) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface
-                                    )
-                                }
+                        IconButton(onClick = onToggleFavorite) {
+                            AnimatedContent(
+                                targetState = state.isFavorite,
+                                transitionSpec = {
+                                    (scaleIn() + fadeIn()).togetherWith(scaleOut() + fadeOut())
+                                },
+                                label = "favorite_anim"
+                            ) { isFavorite ->
+                                Icon(
+                                    imageVector = if (isFavorite) {
+                                        Icons.Filled.Favorite
+                                    } else {
+                                        Icons.Outlined.FavoriteBorder
+                                    },
+                                    contentDescription = if (isFavorite) {
+                                        stringResource(Res.string.remove_from_favorites)
+                                    } else {
+                                        stringResource(Res.string.add_to_favorites)
+                                    },
+                                    tint = if (isFavorite) {
+                                        MaterialTheme.colorScheme.error
+                                    } else {
+                                        MaterialTheme.colorScheme.onSurface
+                                    }
+                                )
                             }
                         }
                     }
@@ -133,9 +152,7 @@ fun ProductDetailsScreen(
                     tonalElevation = 8.dp
                 ) {
                     Button(
-                        onClick = {
-                            productDetailsViewModel.handleEvent(ProductDetailsEvent.AddToCart)
-                        },
+                        onClick = onAddToCart,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp)
@@ -148,7 +165,7 @@ fun ProductDetailsScreen(
                             modifier = Modifier.size(20.dp)
                         )
                         Text(
-                            text = "Add to Cart • $${state.product!!.price}",
+                            text = "Add to Cart • $${state.product.price}",
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(start = 8.dp)
@@ -167,22 +184,42 @@ fun ProductDetailsScreen(
 
                 state.error != null -> {
                     ErrorMessageLayout(
-                        error = state.error!!,
-                        onRetry = {
-                            state.product?.id?.let { id ->
-                                productDetailsViewModel.handleEvent(ProductDetailsEvent.LoadProductDetails(id))
-                            }
-                        }
+                        error = state.error,
+                        onRetry = onRetry
                     )
                 }
 
                 state.product != null -> {
                     ProductDetailsContent(
-                        product = state.product!!,
+                        product = state.product,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
             }
         }
     }
+}
+
+@AllAdaptivePreviews
+@Composable
+private fun ProductDetailsScreenPreview() {
+    ProductDetailsScreenContent(
+        state = ProductDetailsState(
+            product = Product(
+                id = 1,
+                title = "Essence Mascara Lash Princess",
+                description = "Volumizing mascara with false lash effect.",
+                price = 9.99,
+                discountPercentage = 7.17,
+                rating = 4.94,
+                stock = 5,
+                brand = "Essence"
+            ),
+            isFavorite = true
+        ),
+        onNavigateBack = {},
+        onAddToCart = {},
+        onToggleFavorite = {},
+        onRetry = {}
+    )
 }

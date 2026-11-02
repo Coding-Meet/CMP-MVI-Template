@@ -22,13 +22,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
+import com.example.cmp_mvi_template.feature.cart.domain.entity.CartItem
+import com.example.cmp_mvi_template.feature.cart.domain.entity.CartSummary
 import com.example.cmp_mvi_template.feature.cart.presentation.component.CartItemCard
 import com.example.cmp_mvi_template.feature.cart.presentation.component.CartSummaryCard
 import com.example.cmp_mvi_template.feature.cart.presentation.component.CheckoutSuccessDialog
 import com.example.cmp_mvi_template.feature.cart.presentation.component.EmptyCartScreen
 import com.example.cmp_mvi_template.ui.layout.ErrorMessageLayout
+import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
+import com.example.cmp_mvi_template.ui.theme.PhonePreview
 import org.koin.compose.viewmodel.koinViewModel
-
 
 @Composable
 fun CartScreen(
@@ -62,72 +65,99 @@ fun CartScreen(
         },
         snackbarHost = { SnackbarHost(snackBarHostState) }
     ) { paddingValues ->
-        Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
-            when {
-                state.isLoading -> {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                }
+        CartBody(
+            state = state,
+            onIncrease = { id, qty -> cartViewModel.handleEvent(CartEvent.IncreaseQuantity(id, qty)) },
+            onDecrease = { id, qty -> cartViewModel.handleEvent(CartEvent.DecreaseQuantity(id, qty)) },
+            onRemove = { id -> cartViewModel.handleEvent(CartEvent.RemoveItem(id)) },
+            onItemClick = { id -> cartViewModel.handleEvent(CartEvent.NavigateToProductDetails(id)) },
+            onCheckout = { cartViewModel.handleEvent(CartEvent.Checkout) },
+            onShopNow = onNavigateToShop,
+            onDismissDialog = { cartViewModel.handleEvent(CartEvent.DismissCheckoutDialog) },
+            onRetry = { cartViewModel.handleEvent(CartEvent.LoadCart) },
+            modifier = Modifier.padding(paddingValues)
+        )
+    }
+}
 
-                state.error != null -> {
-                    ErrorMessageLayout(
-                        error = state.error!!,
-                        onRetry = { cartViewModel.handleEvent(CartEvent.LoadCart) }
-                    )
-                }
-
-                state.cartItems.isEmpty() -> {
-                    EmptyCartScreen(onShopNowClick = onNavigateToShop)
-                }
-
-                state.cartItems.isNotEmpty() -> {
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(
-                            items = state.cartItems,
-                            key = { item -> item.id }
-                        ) { item ->
-                            CartItemCard(
-                                item = item,
-                                onIncrease = {
-                                    cartViewModel.handleEvent(
-                                        CartEvent.IncreaseQuantity(item.id, item.quantity)
-                                    )
-                                },
-                                onDecrease = {
-                                    cartViewModel.handleEvent(
-                                        CartEvent.DecreaseQuantity(item.id, item.quantity)
-                                    )
-                                },
-                                onRemove = {
-                                    cartViewModel.handleEvent(CartEvent.RemoveItem(item.id))
-                                },
-                                onClick = {
-                                    cartViewModel.handleEvent(
-                                        CartEvent.NavigateToProductDetails(item.id)
-                                    )
-                                }
-                            )
-                        }
-
-                        item {
-                            CartSummaryCard(
-                                summary = state.summary,
-                                onCheckout = {
-                                    cartViewModel.handleEvent(CartEvent.Checkout)
-                                }
-                            )
-                        }
-                    }
-                }
+@Composable
+fun CartBody(
+    state: CartState,
+    onIncrease: (Int, Int) -> Unit,
+    onDecrease: (Int, Int) -> Unit,
+    onRemove: (Int) -> Unit,
+    onItemClick: (Int) -> Unit,
+    onCheckout: () -> Unit,
+    onShopNow: () -> Unit,
+    onDismissDialog: () -> Unit,
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.fillMaxSize()) {
+        when {
+            state.isLoading -> {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
 
-            if (state.showCheckoutSuccessDialog) {
-                CheckoutSuccessDialog(
-                    onDismiss = {
-                        cartViewModel.handleEvent(CartEvent.DismissCheckoutDialog)
-                    }
+            state.error != null -> {
+                ErrorMessageLayout(
+                    error = state.error,
+                    onRetry = onRetry
                 )
             }
+
+            state.cartItems.isEmpty() -> {
+                EmptyCartScreen(onShopNowClick = onShopNow)
+            }
+
+            state.cartItems.isNotEmpty() -> {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(
+                        items = state.cartItems,
+                        key = { item -> item.id }
+                    ) { item ->
+                        CartItemCard(
+                            item = item,
+                            onIncrease = { onIncrease(item.id, item.quantity) },
+                            onDecrease = { onDecrease(item.id, item.quantity) },
+                            onRemove = { onRemove(item.id) },
+                            onClick = { onItemClick(item.id) }
+                        )
+                    }
+
+                    item {
+                        CartSummaryCard(
+                            summary = state.summary,
+                            onCheckout = onCheckout
+                        )
+                    }
+                }
+            }
+        }
+
+        if (state.showCheckoutSuccessDialog) {
+            CheckoutSuccessDialog(onDismiss = onDismissDialog)
         }
     }
 }
 
+@AllAdaptivePreviews
+@Composable
+private fun CartScreenPreview() {
+    CartBody(
+        state = CartState(
+            cartItems = listOf(
+                CartItem(id = 1, title = "Essence Mascara", price = 9.99, discountPercentage = 7.17, quantity = 2),
+                CartItem(id = 2, title = "Eyeshadow Palette", price = 19.99, discountPercentage = 0.0, quantity = 1)
+            )
+        ),
+        onIncrease = { _, _ -> },
+        onDecrease = { _, _ -> },
+        onRemove = {},
+        onItemClick = {},
+        onCheckout = {},
+        onShopNow = {},
+        onDismissDialog = {},
+        onRetry = {}
+    )
+}

@@ -14,6 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
+import com.example.cmp_mvi_template.ui.theme.PhonePreview
 
 @Composable
 fun EmptyCartScreen(
@@ -54,5 +56,11 @@ fun EmptyCartScreen(
             Text("Start Shopping")
         }
     }
+}
+
+@AllAdaptivePreviews
+@Composable
+private fun EmptyCartScreenPreview() {
+    EmptyCartScreen(onShopNowClick = {})
 }
 

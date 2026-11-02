@@ -21,14 +21,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmp_mvi_template.composeapp.generated.resources.Res
 import cmp_mvi_template.composeapp.generated.resources.title_settings
+import com.example.cmp_mvi_template.core.data.datastore.ThemeMode
 import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
 import com.example.cmp_mvi_template.feature.setting.presentation.component.DynamicThemeToggleAndroidOnly
 import com.example.cmp_mvi_template.feature.setting.presentation.component.ThemePreview
 import com.example.cmp_mvi_template.feature.setting.presentation.component.ThemeSelectionDialog
 import com.example.cmp_mvi_template.feature.setting.presentation.component.ThemeSelectionRow
+import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-
 
 @Composable
 fun SettingScreen() {
@@ -60,31 +61,14 @@ fun SettingScreen() {
             SnackbarHost(snackBarHostState)
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 10.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-
-            ThemeSelectionRow(
-                themeState.themeMode.icon,
-                themeState.themeMode.screenTitle,
-                onClick = {
-                    showThemeDialog = true
-                })
-
-            // Dynamic Theme Toggle (Android only)
-            DynamicThemeToggleAndroidOnly(themeState) {
-                settingViewModel.handleEvent(
-                    SettingEvent.SetDynamicTheme(it)
-                )
-            }
-            // Theme Preview
-            ThemePreview()
-        }
+        SettingScreenContent(
+            themeState = themeState,
+            onThemeClick = { showThemeDialog = true },
+            onDynamicThemeToggle = {
+                settingViewModel.handleEvent(SettingEvent.SetDynamicTheme(it))
+            },
+            modifier = Modifier.padding(paddingValues)
+        )
     }
 
     // Show Theme Selection Dialog
@@ -99,3 +83,45 @@ fun SettingScreen() {
     }
 }
 
+@Composable
+fun SettingScreenContent(
+    themeState: SettingState,
+    onThemeClick: () -> Unit,
+    onDynamicThemeToggle: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 10.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        ThemeSelectionRow(
+            themeState.themeMode.icon,
+            themeState.themeMode.screenTitle,
+            onClick = onThemeClick
+        )
+
+        // Dynamic Theme Toggle (Android only)
+        DynamicThemeToggleAndroidOnly(themeState) {
+            onDynamicThemeToggle(it)
+        }
+
+        // Theme Preview
+        ThemePreview()
+    }
+}
+
+@AllAdaptivePreviews
+@Composable
+private fun SettingScreenPreview() {
+    SettingScreenContent(
+        themeState = SettingState(
+            themeMode = ThemeMode.SYSTEM,
+            isDynamicColor = true
+        ),
+        onThemeClick = {},
+        onDynamicThemeToggle = {}
+    )
+}

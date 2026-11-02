@@ -16,6 +16,7 @@ import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
 import com.example.cmp_mvi_template.core.utility.rememberWindowInfo
 import com.example.cmp_mvi_template.feature.onboarding.presentation.component.CompactOnboardingLayout
 import com.example.cmp_mvi_template.feature.onboarding.presentation.component.ExpandedOnboardingLayout
+import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -86,4 +87,17 @@ fun OnboardingScreen(onFinished: () -> Unit) {
             )
         }
     }
+}
+
+@AllAdaptivePreviews
+@Composable
+private fun OnboardingScreenPreview() {
+    val state = OnboardingState()
+    val pagerState = rememberPagerState(pageCount = { state.pages.size })
+    CompactOnboardingLayout(
+        pagerState = pagerState,
+        state = state,
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        onEvent = {}
+    )
 }

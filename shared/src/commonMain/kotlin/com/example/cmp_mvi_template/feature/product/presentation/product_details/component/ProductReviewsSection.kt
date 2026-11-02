@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.cmp_mvi_template.feature.product.domain.entity.ProductReview
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @Composable
 fun ProductReviewsSection(
@@ -99,5 +100,26 @@ fun ProductReviewsSection(
             }
         }
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun ProductReviewsSectionPreview() {
+    ProductReviewsSection(
+        reviews = listOf(
+            ProductReview(
+                rating = 5,
+                comment = "Amazing mascara! Highly recommended.",
+                date = "2024-05-23T08:56:21.618Z",
+                reviewerName = "Emily Johnson"
+            ),
+            ProductReview(
+                rating = 4,
+                comment = "Very good quality for the price.",
+                date = "2024-05-20T10:15:30.120Z",
+                reviewerName = "Sophia Brown"
+            )
+        )
+    )
 }
 

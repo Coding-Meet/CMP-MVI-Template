@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 import com.example.cmp_mvi_template.ui.theme.minCardSize
 
 fun Modifier.shimmerEffect(): Modifier = composed {
@@ -145,5 +146,11 @@ fun LazyStaggeredGridScope.productListLoadingShimmer() {
     items(4) {
         ProductCardShimmer()
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun ProductCardShimmerPreview() {
+    ProductCardShimmer()
 }
 

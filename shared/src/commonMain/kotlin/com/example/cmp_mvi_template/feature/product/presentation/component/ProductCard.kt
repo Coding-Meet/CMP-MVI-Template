@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.cmp_mvi_template.feature.product.domain.entity.Product
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @Composable
 fun ProductCard(
@@ -192,5 +193,27 @@ fun ProductCard(
             }
         }
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun ProductCardPreview() {
+    ProductCard(
+        product = Product(
+            id = 1,
+            title = "Essence Mascara Lash Princess",
+            description = "The Essence Mascara Lash Princess is a popular mascara.",
+            category = "beauty",
+            price = 9.99,
+            discountPercentage = 7.17,
+            rating = 4.94,
+            stock = 5,
+            brand = "Essence",
+            thumbnail = ""
+        ),
+        isFavorite = true,
+        onProductClick = {},
+        onFavoriteClick = {}
+    )
 }
 

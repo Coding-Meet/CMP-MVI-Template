@@ -3,22 +3,22 @@ package com.example.cmp_mvi_template.feature.product.domain.entity
 data class Product(
     val id: Int,
     val title: String,
-    val description: String,
-    val category: String,
-    val price: Double,
-    val discountPercentage: Double,
-    val rating: Double,
-    val stock: Int,
-    val tags: List<String>,
-    val brand: String?,
-    val warrantyInformation: String?,
-    val shippingInformation: String?,
-    val availabilityStatus: String?,
-    val returnPolicy: String?,
-    val minimumOrderQuantity: Int,
-    val thumbnail: String,
-    val images: List<String>,
-    val reviews: List<ProductReview>
+    val description: String = "",
+    val category: String = "",
+    val price: Double = 0.0,
+    val discountPercentage: Double = 0.0,
+    val rating: Double = 0.0,
+    val stock: Int = 0,
+    val tags: List<String> = emptyList(),
+    val brand: String? = null,
+    val warrantyInformation: String? = null,
+    val shippingInformation: String? = null,
+    val availabilityStatus: String? = null,
+    val returnPolicy: String? = null,
+    val minimumOrderQuantity: Int = 1,
+    val thumbnail: String = "",
+    val images: List<String> = emptyList(),
+    val reviews: List<ProductReview> = emptyList()
 )
 
 data class ProductReview(

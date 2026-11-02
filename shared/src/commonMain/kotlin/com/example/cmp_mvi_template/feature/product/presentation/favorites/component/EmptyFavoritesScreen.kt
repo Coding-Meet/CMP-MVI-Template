@@ -17,6 +17,7 @@ import cmp_mvi_template.composeapp.generated.resources.Res
 import cmp_mvi_template.composeapp.generated.resources.add_favorite_hint
 import cmp_mvi_template.composeapp.generated.resources.no_favorite_products
 import org.jetbrains.compose.resources.stringResource
+import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
 
 @Composable
 fun EmptyFavoritesScreen() {
@@ -48,5 +49,11 @@ fun EmptyFavoritesScreen() {
             modifier = Modifier.padding(horizontal = 32.dp)
         )
     }
+}
+
+@AllAdaptivePreviews
+@Composable
+private fun EmptyFavoritesScreenPreview() {
+    EmptyFavoritesScreen()
 }
 

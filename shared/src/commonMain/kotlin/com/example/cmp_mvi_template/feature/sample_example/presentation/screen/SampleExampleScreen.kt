@@ -19,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
 import com.example.cmp_mvi_template.core.utility.UiText
 import com.example.cmp_mvi_template.ui.dialog.LoadingDialog
+import com.example.cmp_mvi_template.ui.theme.PhonePreview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -141,5 +142,21 @@ fun SampleExampleScreen(
                 Text("Show SnackBar with Action")
             }
         }
+    }
+}
+
+@PhonePreview
+@Composable
+private fun SampleExampleScreenPreview() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {}) { Text("Move Detail Screen") }
+        Button(onClick = {}) { Text("Show Loading") }
+        Button(onClick = {}) { Text("Show System Toast") }
+        Button(onClick = {}) { Text("Show Popup Toast") }
+        Button(onClick = {}) { Text("Show SnackBar") }
     }
 }

@@ -44,6 +44,10 @@ import com.example.cmp_mvi_template.feature.product.presentation.product_list.co
 import com.example.cmp_mvi_template.feature.product.presentation.product_list.component.SortBottomSheet
 import com.example.cmp_mvi_template.ui.layout.ErrorMessageLayout
 import kotlinx.coroutines.flow.distinctUntilChanged
+import com.example.cmp_mvi_template.feature.product.domain.entity.ProductCategory
+import com.example.cmp_mvi_template.feature.product.domain.entity.Product
+import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
+import com.example.cmp_mvi_template.ui.theme.PhonePreview
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -201,6 +205,49 @@ fun ProductListScreen(
                     }
                 )
             }
+        }
+    }
+}
+
+@AllAdaptivePreviews
+@Composable
+private fun ProductListScreenPreview() {
+    val listState = rememberLazyStaggeredGridState()
+    Scaffold(
+        topBar = {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                TopAppBar(
+                    title = { Text("Products") },
+                    actions = {
+                        IconButton(onClick = {}) {
+                            Icon(Icons.Filled.Search, contentDescription = "Search")
+                        }
+                        IconButton(onClick = {}) {
+                            Icon(Icons.Filled.Tune, contentDescription = "Sort")
+                        }
+                    }
+                )
+                CategoryChipsRow(
+                    categories = listOf(
+                        ProductCategory(slug = "beauty", name = "Beauty"),
+                        ProductCategory(slug = "fragrances", name = "Fragrances")
+                    ),
+                    selectedCategory = "beauty",
+                    onCategorySelected = {}
+                )
+            }
+        }
+    ) { paddingValues ->
+        Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+            com.example.cmp_mvi_template.feature.product.presentation.product_list.component.ProductListGrid(
+                listState = listState,
+                products = listOf(
+                    Product(id = 1, title = "Essence Mascara", price = 9.99, rating = 4.9, brand = "Essence"),
+                    Product(id = 2, title = "Eyeshadow Palette", price = 19.99, rating = 4.5, brand = "Glamour")
+                ),
+                isLoadingMore = false,
+                onProductClick = {}
+            )
         }
     }
 }

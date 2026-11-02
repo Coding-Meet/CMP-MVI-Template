@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.cmp_mvi_template.feature.product.domain.entity.ProductSortOption
-
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,44 +38,64 @@ fun SortBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 8.dp)
-                .padding(bottom = 24.dp)
-        ) {
-            Text(
-                text = "Sort Products By",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+        SortOptionsContent(
+            selectedSort = selectedSort,
+            onSortSelected = onSortSelected
+        )
+    }
+}
 
-            Spacer(modifier = Modifier.height(16.dp))
+@Composable
+fun SortOptionsContent(
+    selectedSort: ProductSortOption,
+    onSortSelected: (ProductSortOption) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 8.dp)
+            .padding(bottom = 24.dp)
+    ) {
+        Text(
+            text = "Sort Products By",
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
 
-            ProductSortOption.entries.forEach { option ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onSortSelected(option) }
-                        .padding(vertical = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = option.displayName,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = if (selectedSort == option) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
-                        fontWeight = if (selectedSort == option) FontWeight.SemiBold else FontWeight.Normal
-                    )
+        Spacer(modifier = Modifier.height(16.dp))
 
-                    RadioButton(
-                        selected = selectedSort == option,
-                        onClick = { onSortSelected(option) }
-                    )
-                }
+        ProductSortOption.entries.forEach { option ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onSortSelected(option) }
+                    .padding(vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = option.displayName,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = if (selectedSort == option) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                    fontWeight = if (selectedSort == option) FontWeight.SemiBold else FontWeight.Normal
+                )
+
+                RadioButton(
+                    selected = selectedSort == option,
+                    onClick = { onSortSelected(option) }
+                )
             }
         }
     }
 }
 
+@ComponentPreviews
+@Composable
+private fun SortOptionsContentPreview() {
+    SortOptionsContent(
+        selectedSort = ProductSortOption.PRICE_LOW_TO_HIGH,
+        onSortSelected = {}
+    )
+}

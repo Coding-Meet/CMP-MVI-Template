@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.cmp_mvi_template.feature.product.domain.entity.Product
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @Composable
 fun ProductSpecsSection(
@@ -89,5 +90,24 @@ private fun SpecRow(label: String, value: String) {
             color = MaterialTheme.colorScheme.onSurface
         )
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun ProductSpecsSectionPreview() {
+    ProductSpecsSection(
+        product = Product(
+            id = 1,
+            title = "Essence Mascara",
+            description = "High quality volumizing mascara for daily use.",
+            category = "beauty",
+            price = 9.99,
+            brand = "Essence",
+            warrantyInformation = "1 month warranty",
+            shippingInformation = "Ships in 1-2 days",
+            returnPolicy = "30 days return",
+            minimumOrderQuantity = 1
+        )
+    )
 }
 

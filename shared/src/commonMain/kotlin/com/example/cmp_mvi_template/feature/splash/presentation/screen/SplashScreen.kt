@@ -33,6 +33,7 @@ import cmp_mvi_template.composeapp.generated.resources.Res
 import cmp_mvi_template.composeapp.generated.resources.app_name
 import cmp_mvi_template.composeapp.generated.resources.splash_tagline
 import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
+import com.example.cmp_mvi_template.ui.theme.PhonePreview
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -60,50 +61,62 @@ fun SplashScreen(
     ) { if (it) 1f else 0f }
 
     val alpha by transition.animateFloat(
-        transitionSpec = { tween(500) },
+        transitionSpec = { tween(durationMillis = 600) },
         label = "alpha"
     ) { if (it) 1f else 0f }
 
     val titleOffset by transition.animateFloat(
-        transitionSpec = { tween(600, delayMillis = 200) },
-        label = "titleOffset"
-    ) { if (it) 0f else 40f }
+        transitionSpec = {
+            spring(
+                dampingRatio = Spring.DampingRatioLowBouncy,
+                stiffness = Spring.StiffnessLow
+            )
+        },
+        label = "title_offset"
+    ) { if (it) 0f else 60f }
 
     val taglineAlpha by transition.animateFloat(
-        transitionSpec = { tween(500, delayMillis = 400) },
-        label = "taglineAlpha"
+        transitionSpec = { tween(durationMillis = 500, delayMillis = 300) },
+        label = "tagline_alpha"
     ) { if (it) 1f else 0f }
 
-    // Handle effects
     splashViewModel.effect.ObserveAsEvents { effect ->
         when (effect) {
-            SplashEffect.NavigateToMain -> onNavigateToMain()
             SplashEffect.NavigateToOnboarding -> onNavigateToOnboarding()
+            SplashEffect.NavigateToMain -> onNavigateToMain()
         }
     }
 
+    SplashLayout(
+        scale = scale,
+        alpha = alpha,
+        titleOffset = titleOffset,
+        taglineAlpha = taglineAlpha
+    )
+}
+
+@Composable
+fun SplashLayout(
+    scale: Float,
+    alpha: Float,
+    titleOffset: Float,
+    taglineAlpha: Float,
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .background(
-                Brush.radialGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.55f),
-                        MaterialTheme.colorScheme.background,
-                    ),
-                    radius = 1400f,
-                )
-            ),
+            .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            // Gradient circle with spring-bounce entrance
+            // Animated logo container
             Box(
                 modifier = Modifier
-                    .size(200.dp)
+                    .size(140.dp)
                     .graphicsLayer {
                         scaleX = scale
                         scaleY = scale
@@ -156,3 +169,13 @@ fun SplashScreen(
     }
 }
 
+@PhonePreview
+@Composable
+private fun SplashScreenPreview() {
+    SplashLayout(
+        scale = 1f,
+        alpha = 1f,
+        titleOffset = 0f,
+        taglineAlpha = 1f
+    )
+}

@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.cmp_mvi_template.feature.cart.domain.entity.CartSummary
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @Composable
 fun CartSummaryCard(
@@ -123,5 +124,19 @@ private fun SummaryRow(
             }
         )
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun CartSummaryCardPreview() {
+    CartSummaryCard(
+        summary = CartSummary(
+            totalItemCount = 3,
+            subtotal = 89.97,
+            discountTotal = 15.00,
+            finalTotal = 74.97
+        ),
+        onCheckout = {}
+    )
 }
 

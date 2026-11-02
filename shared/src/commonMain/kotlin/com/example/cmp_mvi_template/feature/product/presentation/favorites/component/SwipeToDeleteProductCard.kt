@@ -26,6 +26,7 @@ import cmp_mvi_template.composeapp.generated.resources.delete
 import com.example.cmp_mvi_template.feature.product.domain.entity.Product
 import com.example.cmp_mvi_template.feature.product.presentation.component.ProductCard
 import org.jetbrains.compose.resources.stringResource
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @Composable
 fun SwipeToDeleteProductCard(
@@ -96,5 +97,21 @@ private fun DismissBackground(dismissState: SwipeToDismissBoxState) {
             }
         }
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun SwipeToDeleteProductCardPreview() {
+    SwipeToDeleteProductCard(
+        product = Product(
+            id = 1,
+            title = "Essence Mascara Lash Princess",
+            price = 9.99,
+            brand = "Essence",
+            rating = 4.94
+        ),
+        onProductClick = {},
+        onDeleteClick = {}
+    )
 }
 

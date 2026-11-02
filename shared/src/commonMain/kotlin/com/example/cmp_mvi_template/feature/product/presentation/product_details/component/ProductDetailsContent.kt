@@ -7,6 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.cmp_mvi_template.feature.product.domain.entity.Product
+import com.example.cmp_mvi_template.feature.product.domain.entity.ProductReview
+import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
+import com.example.cmp_mvi_template.ui.theme.PhonePreview
 
 @Composable
 fun ProductDetailsContent(
@@ -38,3 +41,32 @@ fun ProductDetailsContent(
     }
 }
 
+@AllAdaptivePreviews
+@Composable
+private fun ProductDetailsContentPreview() {
+    ProductDetailsContent(
+        product = Product(
+            id = 1,
+            title = "Essence Mascara Lash Princess",
+            description = "The Essence Mascara Lash Princess is a popular mascara known for volumizing lashes.",
+            category = "beauty",
+            price = 9.99,
+            discountPercentage = 7.17,
+            rating = 4.94,
+            stock = 15,
+            brand = "Essence",
+            availabilityStatus = "In Stock",
+            warrantyInformation = "1 month warranty",
+            shippingInformation = "Ships in 2 days",
+            returnPolicy = "30 days return",
+            reviews = listOf(
+                ProductReview(
+                    rating = 5,
+                    comment = "Super good quality!",
+                    date = "2024-05-23T08:56:21.618Z",
+                    reviewerName = "Emily"
+                )
+            )
+        )
+    )
+}

@@ -60,6 +60,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
 import com.example.cmp_mvi_template.feature.auth.domain.entity.AuthUser
+import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
+import com.example.cmp_mvi_template.ui.theme.PhonePreview
 import org.koin.compose.viewmodel.koinViewModel
 
 
@@ -432,4 +434,37 @@ private fun SignInContent(
             }
         }
     }
+}
+
+@AllAdaptivePreviews
+@Composable
+private fun LoggedInProfilePreview() {
+    LoggedInProfileContent(
+        user = AuthUser(
+            id = 1,
+            username = "emilys",
+            email = "emily.johnson@x.dummyjson.com",
+            firstName = "Emily",
+            lastName = "Johnson",
+            gender = "female",
+            image = ""
+        ),
+        onLogoutClick = {}
+    )
+}
+
+@PhonePreview
+@Composable
+private fun SignInContentPreview() {
+    SignInContent(
+        state = AuthState(
+            usernameInput = "emilys",
+            passwordInput = "emilyspass"
+        ),
+        onUsernameChange = {},
+        onPasswordChange = {},
+        onTogglePasswordVisibility = {},
+        onFillDemoCredentials = {},
+        onSignInClick = {}
+    )
 }

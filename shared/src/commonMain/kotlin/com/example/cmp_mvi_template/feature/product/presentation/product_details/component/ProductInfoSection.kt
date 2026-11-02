@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cmp_mvi_template.feature.product.domain.entity.Product
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @Composable
 fun ProductInfoSection(
@@ -159,5 +160,24 @@ fun ProductInfoSection(
             }
         }
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun ProductInfoSectionPreview() {
+    ProductInfoSection(
+        product = Product(
+            id = 1,
+            title = "Essence Mascara Lash Princess",
+            description = "Popular volumizing mascara.",
+            category = "beauty",
+            price = 9.99,
+            discountPercentage = 7.17,
+            rating = 4.94,
+            stock = 5,
+            brand = "Essence",
+            availabilityStatus = "Low Stock"
+        )
+    )
 }
 

@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @Composable
 fun ProductImageCarousel(
@@ -86,5 +87,11 @@ fun ProductImageCarousel(
             }
         }
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun ProductImageCarouselPreview() {
+    ProductImageCarousel(images = listOf("", "", ""))
 }
 

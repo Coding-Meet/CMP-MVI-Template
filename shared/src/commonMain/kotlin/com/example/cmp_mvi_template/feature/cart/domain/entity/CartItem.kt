@@ -6,9 +6,9 @@ data class CartItem(
     val id: Int,
     val title: String,
     val price: Double,
-    val discountPercentage: Double,
-    val thumbnail: String,
-    val quantity: Int
+    val discountPercentage: Double = 0.0,
+    val thumbnail: String = "",
+    val quantity: Int = 1
 ) {
     val discountedUnitPrice: Double
         get() = if (discountPercentage > 0) {

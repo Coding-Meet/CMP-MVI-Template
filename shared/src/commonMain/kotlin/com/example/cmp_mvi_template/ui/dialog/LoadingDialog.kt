@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @Composable
 fun LoadingDialog(
@@ -41,5 +42,10 @@ fun LoadingDialog(
             }
         }
     }
+}
 
+@ComponentPreviews
+@Composable
+private fun LoadingDialogPreview() {
+    LoadingDialog(isLoadingState = true)
 }

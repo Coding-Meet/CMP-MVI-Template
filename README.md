@@ -18,11 +18,14 @@ experience across Android, Desktop, and iOS platforms powered by DummyJSON API.
 - 💾 Offline Support: Room database for favorites/wishlist
 - 🔄 Reactive UI: Real-time updates with StateFlow
 
-🛍️ Product Features
+🛍️ Product & E-Commerce Features
 
 - 🔍 Product Catalog: Browse products with infinite scrolling pagination
+- 🔎 Instant Search & Filter: 350ms debounced search, category pill filter, and sorting by Price/Rating
+- 🛒 Shopping Cart System: Room DB persisted cart with real-time bottom nav badge, quantity controls, discount calculations, and checkout simulation
+- 👤 User Authentication & Profile: JWT token persistence via DataStore, 1-click demo login (`emilys`), detailed user profile view, and logout
 - ❤️ Favorites / Wishlist: Add/remove products from favorites with swipe-to-delete
-- 📊 Detailed View: Image carousel, price, ratings, specs, and customer reviews
+- 📊 Detailed View: Image carousel, price, discount tags, ratings, specs, customer reviews, and direct "Add to Cart" action
 - ✨ Shimmer Loading: Beautiful loading animations
 
 🎭 UI/UX Features

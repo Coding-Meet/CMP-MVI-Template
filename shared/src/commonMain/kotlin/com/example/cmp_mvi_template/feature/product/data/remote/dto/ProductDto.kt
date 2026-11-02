@@ -41,3 +41,9 @@ data class ReviewDto(
     val reviewerEmail: String? = null
 )
 
+@Serializable
+data class CategoryDto(
+    val slug: String,
+    val name: String,
+    val url: String = ""
+)

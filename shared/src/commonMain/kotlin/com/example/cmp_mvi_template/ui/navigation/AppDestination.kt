@@ -14,14 +14,19 @@ sealed interface AppDestination {
     data object ProductList : AppDestination
 
     @Serializable
+    data object Cart : AppDestination
+
+    @Serializable
     data object Favorites : AppDestination
 
     @Serializable
     data class ProductDetails(val productId: Int) : AppDestination
 
     @Serializable
-    data object Settings : AppDestination
+    data object Profile : AppDestination
 
+    @Serializable
+    data object Settings : AppDestination
 
     @Serializable
     data object SampleExampleNavigationEvent : AppDestination

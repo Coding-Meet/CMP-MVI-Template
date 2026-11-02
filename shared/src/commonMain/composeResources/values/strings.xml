@@ -9,12 +9,16 @@
     <string name="error_disk_full">Disk is full.</string>
 
     <string name="tab_products">Products</string>
+    <string name="tab_cart">Cart</string>
     <string name="tab_favorites">Favorites</string>
+    <string name="tab_profile">Profile</string>
     <string name="tab_settings">Settings</string>
     <string name="tab_example">Example</string>
 
     <string name="title_products">Products</string>
+    <string name="title_cart">Cart</string>
     <string name="title_favorites">Favorites</string>
+    <string name="title_profile">Profile</string>
     <string name="title_settings">Setting</string>
 
     <string name="back">Back</string>

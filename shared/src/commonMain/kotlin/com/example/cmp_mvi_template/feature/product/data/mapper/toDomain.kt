@@ -1,9 +1,11 @@
 package com.example.cmp_mvi_template.feature.product.data.mapper
 
+import com.example.cmp_mvi_template.feature.product.data.remote.dto.CategoryDto
 import com.example.cmp_mvi_template.feature.product.data.remote.dto.ProductDto
 import com.example.cmp_mvi_template.feature.product.data.remote.dto.ProductListResponseDto
 import com.example.cmp_mvi_template.feature.product.data.remote.dto.ReviewDto
 import com.example.cmp_mvi_template.feature.product.domain.entity.Product
+import com.example.cmp_mvi_template.feature.product.domain.entity.ProductCategory
 import com.example.cmp_mvi_template.feature.product.domain.entity.ProductEntity
 import com.example.cmp_mvi_template.feature.product.domain.entity.ProductListResponse
 import com.example.cmp_mvi_template.feature.product.domain.entity.ProductReview
@@ -49,6 +51,13 @@ fun ReviewDto.toDomain(): ProductReview {
     )
 }
 
+fun CategoryDto.toDomain(): ProductCategory {
+    return ProductCategory(
+        slug = slug,
+        name = name
+    )
+}
+
 fun Product.toEntity(): ProductEntity {
     return ProductEntity(
         id = id,
@@ -88,4 +97,3 @@ fun ProductEntity.toDomain(): Product {
         reviews = emptyList()
     )
 }
-

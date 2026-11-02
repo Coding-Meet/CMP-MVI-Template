@@ -10,9 +10,11 @@ import com.example.cmp_mvi_template.core.domain.map
 import com.example.cmp_mvi_template.feature.product.data.mapper.toDomain
 import com.example.cmp_mvi_template.feature.product.data.mapper.toEntity
 import com.example.cmp_mvi_template.feature.product.data.remote.api.ProductApiService
+import com.example.cmp_mvi_template.feature.product.data.remote.dto.CategoryDto
 import com.example.cmp_mvi_template.feature.product.data.remote.dto.ProductDto
 import com.example.cmp_mvi_template.feature.product.data.remote.dto.ProductListResponseDto
 import com.example.cmp_mvi_template.feature.product.domain.entity.Product
+import com.example.cmp_mvi_template.feature.product.domain.entity.ProductCategory
 import com.example.cmp_mvi_template.feature.product.domain.entity.ProductListResponse
 import com.example.cmp_mvi_template.feature.product.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.Flow
@@ -25,10 +27,12 @@ class ProductRepositoryImpl(
 
     override suspend fun getProductList(
         limit: Int,
-        skip: Int
+        skip: Int,
+        sortBy: String?,
+        order: String?
     ): ResultWrapper<ProductListResponse, DataError> {
         return safeCall<ProductListResponseDto> {
-            apiService.getProductList(limit, skip)
+            apiService.getProductList(limit, skip, sortBy, order)
         }.map { it.toDomain() }
     }
 
@@ -41,10 +45,30 @@ class ProductRepositoryImpl(
     override suspend fun searchProducts(
         query: String,
         limit: Int,
-        skip: Int
+        skip: Int,
+        sortBy: String?,
+        order: String?
     ): ResultWrapper<ProductListResponse, DataError> {
         return safeCall<ProductListResponseDto> {
-            apiService.searchProducts(query, limit, skip)
+            apiService.searchProducts(query, limit, skip, sortBy, order)
+        }.map { it.toDomain() }
+    }
+
+    override suspend fun getCategories(): ResultWrapper<List<ProductCategory>, DataError> {
+        return safeCall<List<CategoryDto>> {
+            apiService.getCategories()
+        }.map { list -> list.map { it.toDomain() } }
+    }
+
+    override suspend fun getProductsByCategory(
+        category: String,
+        limit: Int,
+        skip: Int,
+        sortBy: String?,
+        order: String?
+    ): ResultWrapper<ProductListResponse, DataError> {
+        return safeCall<ProductListResponseDto> {
+            apiService.getProductsByCategory(category, limit, skip, sortBy, order)
         }.map { it.toDomain() }
     }
 
@@ -86,4 +110,3 @@ class ProductRepositoryImpl(
         }
     }
 }
-

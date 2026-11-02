@@ -21,6 +21,7 @@ val coreModule = module {
     // Database
     singleOf(::getAppDatabase)
     single { get<AppDatabase>().productDao() }
+    single { get<AppDatabase>().cartDao() }
 
     // DataStore
     singleOf(::createDataStore)

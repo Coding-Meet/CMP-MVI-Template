@@ -22,22 +22,28 @@ enum class NavigationItem(
         title = UiText.StringResource(Res.string.tab_products),
         route = AppDestination.ProductList
     ),
+    CART(
+        selectedIcon = IconResource.ImageVector(Icons.Filled.ShoppingCart),
+        unSelectedIcon = IconResource.ImageVector(Icons.Outlined.ShoppingCart),
+        title = UiText.StringResource(Res.string.tab_cart),
+        route = AppDestination.Cart
+    ),
     FAVORITES(
         selectedIcon = IconResource.ImageVector(Icons.Filled.Favorite),
         unSelectedIcon = IconResource.ImageVector(Icons.Outlined.Favorite),
         title = UiText.StringResource(Res.string.tab_favorites),
         route = AppDestination.Favorites
     ),
+    PROFILE(
+        selectedIcon = IconResource.ImageVector(Icons.Filled.Person),
+        unSelectedIcon = IconResource.ImageVector(Icons.Outlined.Person),
+        title = UiText.StringResource(Res.string.tab_profile),
+        route = AppDestination.Profile
+    ),
     SETTINGS(
         selectedIcon = IconResource.ImageVector(Icons.Filled.Settings),
         unSelectedIcon = IconResource.ImageVector(Icons.Outlined.Settings),
         title = UiText.StringResource(Res.string.tab_settings),
         route = AppDestination.Settings
-    ),
-    SAMPLE_EXAMPLE(
-        selectedIcon = IconResource.ImageVector(Icons.Filled.EmojiEvents),
-        unSelectedIcon = IconResource.ImageVector(Icons.Outlined.EmojiEvents),
-        title = UiText.DynamicString("Example"),
-        route = AppDestination.SampleExampleNavigationEvent
     )
 }

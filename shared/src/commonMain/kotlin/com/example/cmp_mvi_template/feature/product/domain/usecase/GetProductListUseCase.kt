@@ -10,9 +10,16 @@ class GetProductListUseCase(
 ) {
     suspend operator fun invoke(
         limit: Int = 20,
-        skip: Int = 0
+        skip: Int = 0,
+        category: String? = null,
+        searchQuery: String? = null,
+        sortBy: String? = null,
+        order: String? = null
     ): ResultWrapper<ProductListResponse, DataError> {
-        return repository.getProductList(limit, skip)
+        return when {
+            !searchQuery.isNullOrBlank() -> repository.searchProducts(searchQuery.trim(), limit, skip, sortBy, order)
+            !category.isNullOrBlank() -> repository.getProductsByCategory(category, limit, skip, sortBy, order)
+            else -> repository.getProductList(limit, skip, sortBy, order)
+        }
     }
 }
-

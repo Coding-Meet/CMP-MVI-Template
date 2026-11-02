@@ -5,6 +5,7 @@ import com.example.cmp_mvi_template.feature.product.data.remote.api.ProductApiSe
 import com.example.cmp_mvi_template.feature.product.data.repository.ProductRepositoryImpl
 import com.example.cmp_mvi_template.feature.product.domain.repository.ProductRepository
 import com.example.cmp_mvi_template.feature.product.domain.usecase.CheckIfProductFavoriteUseCase
+import com.example.cmp_mvi_template.feature.product.domain.usecase.GetCategoriesUseCase
 import com.example.cmp_mvi_template.feature.product.domain.usecase.GetFavoriteProductsUseCase
 import com.example.cmp_mvi_template.feature.product.domain.usecase.GetProductDetailsUseCase
 import com.example.cmp_mvi_template.feature.product.domain.usecase.GetProductListUseCase
@@ -27,6 +28,7 @@ val productModule = module {
     // Use Cases
     singleOf(::GetProductListUseCase)
     singleOf(::GetProductDetailsUseCase)
+    singleOf(::GetCategoriesUseCase)
     singleOf(::GetFavoriteProductsUseCase)
     singleOf(::ToggleFavoriteProductUseCase)
     singleOf(::CheckIfProductFavoriteUseCase)
@@ -36,4 +38,3 @@ val productModule = module {
     viewModelOf(::FavoritesViewModel)
     viewModelOf(::ProductDetailsViewModel)
 }
-

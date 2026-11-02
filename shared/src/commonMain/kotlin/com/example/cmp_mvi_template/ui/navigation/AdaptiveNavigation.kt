@@ -30,6 +30,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.cmp_mvi_template.feature.auth.presentation.screen.ProfileScreen
+import com.example.cmp_mvi_template.feature.cart.domain.usecase.GetCartCountUseCase
+import com.example.cmp_mvi_template.feature.cart.presentation.screen.CartScreen
 import com.example.cmp_mvi_template.feature.onboarding.presentation.screen.OnboardingScreen
 import com.example.cmp_mvi_template.feature.product.presentation.favorites.screen.FavoritesScreen
 import com.example.cmp_mvi_template.feature.product.presentation.product_details.screen.ProductDetailsScreen
@@ -39,11 +43,15 @@ import com.example.cmp_mvi_template.feature.setting.presentation.screen.SettingS
 import com.example.cmp_mvi_template.feature.splash.presentation.screen.SplashScreen
 import com.example.cmp_mvi_template.ui.navigation.bottom_navigation_bar.NavigationItem
 import com.example.cmp_mvi_template.ui.navigation.bottom_navigation_bar.navigationBar
+import org.koin.compose.koinInject
 
 @Composable
 fun AdaptiveNavigation() {
     val navController = rememberNavController()
     val navBackStackEntry = navController.currentBackStackEntryAsState()
+
+    val getCartCountUseCase = koinInject<GetCartCountUseCase>()
+    val cartCount by getCartCountUseCase().collectAsStateWithLifecycle(initialValue = 0)
 
     val currentNavigationItem by remember(navBackStackEntry) {
         derivedStateOf {
@@ -72,6 +80,7 @@ fun AdaptiveNavigation() {
         navigationSuiteItems = {
             navigationBar(
                 currentNavigationItem = currentNavigationItem,
+                cartCount = cartCount,
                 onItemClick = {
                     navController.navigate(it.route) {
                         // Pop up to the start destination of the graph to
@@ -153,6 +162,17 @@ fun AdaptiveNavigation() {
                 )
             }
 
+            composable<AppDestination.Cart> {
+                CartScreen(
+                    onNavigateToDetails = { productId ->
+                        navController.navigate(AppDestination.ProductDetails(productId))
+                    },
+                    onNavigateToShop = {
+                        navController.navigate(AppDestination.ProductList)
+                    }
+                )
+            }
+
             composable<AppDestination.Favorites> {
                 FavoritesScreen(
                     onNavigateToDetails = { productId ->
@@ -160,6 +180,11 @@ fun AdaptiveNavigation() {
                     }
                 )
             }
+
+            composable<AppDestination.Profile> {
+                ProfileScreen()
+            }
+
             composable<AppDestination.Settings> {
                 SettingScreen()
             }

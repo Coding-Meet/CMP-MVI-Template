@@ -11,6 +11,8 @@ import com.example.cmp_mvi_template.core.domain.onError
 import com.example.cmp_mvi_template.core.domain.onSuccess
 import com.example.cmp_mvi_template.core.domain.toUiText
 import com.example.cmp_mvi_template.core.utility.UiText
+import com.example.cmp_mvi_template.feature.cart.data.mapper.toCartItem
+import com.example.cmp_mvi_template.feature.cart.domain.usecase.AddToCartUseCase
 import com.example.cmp_mvi_template.feature.product.domain.usecase.CheckIfProductFavoriteUseCase
 import com.example.cmp_mvi_template.feature.product.domain.usecase.GetProductDetailsUseCase
 import com.example.cmp_mvi_template.feature.product.domain.usecase.ToggleFavoriteProductUseCase
@@ -29,7 +31,8 @@ class ProductDetailsViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val getProductDetailsUseCase: GetProductDetailsUseCase,
     private val toggleFavoriteProductUseCase: ToggleFavoriteProductUseCase,
-    private val checkIfProductFavoriteUseCase: CheckIfProductFavoriteUseCase
+    private val checkIfProductFavoriteUseCase: CheckIfProductFavoriteUseCase,
+    private val addToCartUseCase: AddToCartUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ProductDetailsState())
@@ -54,6 +57,7 @@ class ProductDetailsViewModel(
         when (event) {
             is ProductDetailsEvent.LoadProductDetails -> loadProductDetails(event.productId)
             ProductDetailsEvent.ToggleFavorite -> toggleFavorite()
+            ProductDetailsEvent.AddToCart -> addToCart()
             ProductDetailsEvent.NavigateBack -> navigateBack()
             ProductDetailsEvent.ClearError -> clearError()
         }
@@ -130,6 +134,23 @@ class ProductDetailsViewModel(
         }
     }
 
+    private fun addToCart() {
+        val product = _state.value.product ?: return
+        viewModelScope.launch {
+            addToCartUseCase(product.toCartItem(1))
+                .onSuccess {
+                    _effect.emit(
+                        ProductDetailsEffect.ShowSuccess(
+                            UiText.DynamicString("${product.title} added to cart!")
+                        )
+                    )
+                }
+                .onError { error ->
+                    _effect.emit(ProductDetailsEffect.ShowError(error.toUiText()))
+                }
+        }
+    }
+
     private fun navigateBack() {
         viewModelScope.launch {
             _effect.emit(ProductDetailsEffect.NavigateBack)
@@ -140,4 +161,3 @@ class ProductDetailsViewModel(
         _state.update { it.copy(error = null) }
     }
 }
-

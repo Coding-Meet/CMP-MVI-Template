@@ -11,3 +11,4 @@ sealed interface AuthEvent {
     data class ToggleLogoutDialog(val show: Boolean) : AuthEvent
     data object ClearError : AuthEvent
 }
+

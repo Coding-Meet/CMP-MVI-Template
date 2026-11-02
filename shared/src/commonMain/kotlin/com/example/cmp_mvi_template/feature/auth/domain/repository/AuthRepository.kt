@@ -13,3 +13,4 @@ interface AuthRepository {
     suspend fun getCurrentUser(): ResultWrapper<AuthUser, DataError>
     suspend fun logout(): EmptyResult<DataError.Local>
 }
+

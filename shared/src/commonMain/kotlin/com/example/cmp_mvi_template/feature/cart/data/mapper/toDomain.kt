@@ -36,3 +36,4 @@ fun Product.toCartItem(quantity: Int = 1): CartItem {
         quantity = quantity
     )
 }
+

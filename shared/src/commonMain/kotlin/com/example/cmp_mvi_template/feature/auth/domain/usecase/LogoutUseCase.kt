@@ -11,3 +11,4 @@ class LogoutUseCase(
         return repository.logout()
     }
 }
+

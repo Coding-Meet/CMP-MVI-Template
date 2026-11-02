@@ -12,3 +12,4 @@ class GetCategoriesUseCase(
         return repository.getCategories()
     }
 }
+

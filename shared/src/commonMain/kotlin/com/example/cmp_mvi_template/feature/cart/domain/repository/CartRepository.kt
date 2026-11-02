@@ -13,3 +13,4 @@ interface CartRepository {
     suspend fun removeFromCart(productId: Int): EmptyResult<DataError.Local>
     suspend fun clearCart(): EmptyResult<DataError.Local>
 }
+

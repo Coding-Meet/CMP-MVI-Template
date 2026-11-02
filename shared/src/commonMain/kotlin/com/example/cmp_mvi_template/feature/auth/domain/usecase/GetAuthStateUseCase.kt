@@ -10,3 +10,4 @@ class GetAuthStateUseCase(
     val authUser: Flow<AuthUser?> = repository.getAuthUser()
     val isLoggedIn: Flow<Boolean> = repository.isLoggedIn()
 }
+

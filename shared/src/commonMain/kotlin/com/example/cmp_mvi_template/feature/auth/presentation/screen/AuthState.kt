@@ -13,3 +13,4 @@ data class AuthState(
     val showLogoutDialog: Boolean = false,
     val error: UiText? = null
 )
+

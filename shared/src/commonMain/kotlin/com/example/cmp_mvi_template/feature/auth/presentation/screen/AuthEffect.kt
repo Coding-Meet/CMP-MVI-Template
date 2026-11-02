@@ -6,3 +6,4 @@ sealed interface AuthEffect {
     data class ShowSuccess(val message: UiText) : AuthEffect
     data class ShowError(val message: UiText) : AuthEffect
 }
+

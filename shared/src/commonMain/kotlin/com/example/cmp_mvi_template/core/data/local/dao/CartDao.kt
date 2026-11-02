@@ -31,3 +31,4 @@ interface CartDao {
     @Query("SELECT COALESCE(SUM(quantity), 0) FROM cart_items")
     fun getCartTotalCount(): Flow<Int>
 }
+

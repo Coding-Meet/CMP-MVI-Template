@@ -12,3 +12,4 @@ data class CartItemEntity(
     val thumbnail: String,
     val quantity: Int
 )
+

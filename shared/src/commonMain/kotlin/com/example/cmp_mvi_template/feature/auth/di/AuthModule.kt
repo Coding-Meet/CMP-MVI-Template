@@ -32,3 +32,4 @@ val authModule = module {
     // ViewModel
     viewModelOf(::AuthViewModel)
 }
+

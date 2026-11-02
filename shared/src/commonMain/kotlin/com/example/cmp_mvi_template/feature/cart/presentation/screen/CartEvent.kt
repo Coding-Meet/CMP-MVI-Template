@@ -10,3 +10,4 @@ sealed interface CartEvent {
     data object DismissCheckoutDialog : CartEvent
     data class NavigateToProductDetails(val productId: Int) : CartEvent
 }
+

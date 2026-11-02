@@ -15,3 +15,4 @@ class LoginUseCase(
         return repository.login(username.trim(), password)
     }
 }
+

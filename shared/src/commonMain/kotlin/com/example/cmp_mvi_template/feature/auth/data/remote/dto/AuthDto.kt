@@ -32,3 +32,4 @@ data class UserDto(
     val gender: String,
     val image: String
 )
+

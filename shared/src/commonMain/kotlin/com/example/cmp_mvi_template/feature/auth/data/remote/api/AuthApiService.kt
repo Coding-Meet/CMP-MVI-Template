@@ -7,3 +7,4 @@ interface AuthApiService {
     suspend fun login(request: LoginRequestDto): HttpResponse
     suspend fun getCurrentUser(token: String): HttpResponse
 }
+

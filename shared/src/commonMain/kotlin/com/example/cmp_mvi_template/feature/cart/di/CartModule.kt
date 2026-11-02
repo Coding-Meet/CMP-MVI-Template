@@ -29,3 +29,4 @@ val cartModule = module {
     // ViewModel
     viewModelOf(::CartViewModel)
 }
+

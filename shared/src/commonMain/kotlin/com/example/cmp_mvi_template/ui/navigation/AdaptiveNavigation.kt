@@ -12,25 +12,24 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldValue
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.material3.adaptive.navigationsuite.rememberNavigationSuiteScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.cmp_mvi_template.feature.auth.presentation.screen.ProfileScreen
 import com.example.cmp_mvi_template.feature.cart.domain.usecase.GetCartCountUseCase
 import com.example.cmp_mvi_template.feature.cart.presentation.screen.CartScreen
@@ -61,19 +60,15 @@ fun AdaptiveNavigation() {
         }
     }
 
-    val currentWindowAdaptiveInfo = currentWindowAdaptiveInfo()
-    val layoutType = NavigationSuiteScaffoldDefaults.navigationSuiteType(
-        adaptiveInfo = currentWindowAdaptiveInfo
-    )
-    val navigationSuiteState = rememberNavigationSuiteScaffoldState(
-        initialValue = NavigationSuiteScaffoldValue.Hidden
-    )
-    LaunchedEffect(currentNavigationItem) {
-        if (currentNavigationItem != null) {
-            navigationSuiteState.show()
-        } else {
-            navigationSuiteState.hide()
-        }
+    val currentWindowAdaptiveInfo = currentWindowAdaptiveInfoV2()
+
+    val navigationSuiteState = rememberNavigationSuiteScaffoldState()
+    val layoutType = if (currentNavigationItem == null) {
+        NavigationSuiteType.None
+    } else {
+        NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(
+            adaptiveInfo = currentWindowAdaptiveInfo
+        )
     }
     NavigationSuiteScaffold(
         state = navigationSuiteState,

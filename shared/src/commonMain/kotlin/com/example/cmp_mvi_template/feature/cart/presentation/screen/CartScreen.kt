@@ -1,7 +1,6 @@
 package com.example.cmp_mvi_template.feature.cart.presentation.screen
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,7 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeleteSweep
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -31,7 +29,7 @@ import com.example.cmp_mvi_template.feature.cart.presentation.component.EmptyCar
 import com.example.cmp_mvi_template.ui.layout.ErrorMessageLayout
 import org.koin.compose.viewmodel.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun CartScreen(
     onNavigateToDetails: (Int) -> Unit,
@@ -132,3 +130,4 @@ fun CartScreen(
         }
     }
 }
+

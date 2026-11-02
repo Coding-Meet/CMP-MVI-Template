@@ -25,3 +25,4 @@ data class CartSummary(
     val finalTotal: Double,
     val totalItemCount: Int
 )
+

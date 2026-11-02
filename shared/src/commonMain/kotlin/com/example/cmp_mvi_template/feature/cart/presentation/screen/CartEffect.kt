@@ -7,3 +7,4 @@ sealed interface CartEffect {
     data class ShowError(val message: UiText) : CartEffect
     data class NavigateToDetails(val productId: Int) : CartEffect
 }
+

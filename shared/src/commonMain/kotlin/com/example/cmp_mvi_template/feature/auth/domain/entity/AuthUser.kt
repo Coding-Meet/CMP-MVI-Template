@@ -12,3 +12,4 @@ data class AuthUser(
     val fullName: String
         get() = "$firstName $lastName"
 }
+

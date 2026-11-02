@@ -11,3 +11,4 @@ class UpdateCartQuantityUseCase(
         return repository.updateQuantity(productId, quantity)
     }
 }
+

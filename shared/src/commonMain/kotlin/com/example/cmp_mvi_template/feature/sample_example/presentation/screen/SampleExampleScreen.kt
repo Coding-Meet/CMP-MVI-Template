@@ -31,7 +31,6 @@ fun SampleExampleScreen(
     val state by sampleExampleViewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
 
-
     // Handle effects
     sampleExampleViewModel.effect.ObserveAsEvents { effect ->
         when (effect) {
@@ -53,12 +52,8 @@ fun SampleExampleScreen(
                     actionLabel = "Undo"
                 )
                 when (result) {
-                    SnackbarResult.Dismissed -> {
-                        // snackBar dismissed
-                    }
-                    SnackbarResult.ActionPerformed -> {
-                        // snackBar action performed
-                    }
+                    SnackbarResult.Dismissed -> {}
+                    SnackbarResult.ActionPerformed -> {}
                 }
             }
 
@@ -72,37 +67,50 @@ fun SampleExampleScreen(
         }
     }
 
+    SampleExampleContent(
+        state = state,
+        snackBarHostState = snackBarHostState,
+        onEvent = sampleExampleViewModel::handleEvent,
+        onNavigateToDetails = onNavigateToDetails
+    )
+}
 
+@Composable
+fun SampleExampleContent(
+    state: SampleState,
+    snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onEvent: (SampleEvent) -> Unit,
+    onNavigateToDetails: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LoadingDialog(
         isLoadingState = state.isLoading
     )
 
     Scaffold(
+        modifier = modifier,
         snackbarHost = {
             SnackbarHost(snackBarHostState)
-        }) {
+        }
+    ) { paddingValues ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(it),
+            modifier = Modifier.fillMaxSize().padding(paddingValues),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(onClick = {
-                sampleExampleViewModel.handleEvent(
-                    SampleEvent.NavigateToDetail("CMP-MVI-Template")
-                )
+                onEvent(SampleEvent.NavigateToDetail("CMP-MVI-Template"))
             }) {
                 Text("Move Detail Screen")
             }
             Button(onClick = {
-                sampleExampleViewModel.handleEvent(
-                    SampleEvent.LoadingDialogExample
-                )
+                onEvent(SampleEvent.LoadingDialogExample)
             }) {
                 Text("Show Loading")
             }
             Button(
                 onClick = {
-                    sampleExampleViewModel.handleEvent(
+                    onEvent(
                         SampleEvent.ShowSystemToast(
                             UiText.DynamicString("Show System Toast")
                         )
@@ -112,7 +120,7 @@ fun SampleExampleScreen(
             }
             Button(
                 onClick = {
-                    sampleExampleViewModel.handleEvent(
+                    onEvent(
                         SampleEvent.ShowPopupToast(
                             UiText.DynamicString("Show Popup Toast")
                         )
@@ -122,7 +130,7 @@ fun SampleExampleScreen(
             }
             Button(
                 onClick = {
-                    sampleExampleViewModel.handleEvent(
+                    onEvent(
                         SampleEvent.ShowSnackBar(
                             message = UiText.DynamicString("Show SnackBar")
                         )
@@ -133,7 +141,7 @@ fun SampleExampleScreen(
             }
             Button(
                 onClick = {
-                    sampleExampleViewModel.handleEvent(
+                    onEvent(
                         SampleEvent.ShowSnackBarWithAction(
                             message = UiText.DynamicString("Show SnackBar with Action")
                         )
@@ -148,15 +156,9 @@ fun SampleExampleScreen(
 @PhonePreview
 @Composable
 private fun SampleExampleScreenPreview() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Button(onClick = {}) { Text("Move Detail Screen") }
-        Button(onClick = {}) { Text("Show Loading") }
-        Button(onClick = {}) { Text("Show System Toast") }
-        Button(onClick = {}) { Text("Show Popup Toast") }
-        Button(onClick = {}) { Text("Show SnackBar") }
-    }
+    SampleExampleContent(
+        state = SampleState(),
+        onEvent = {},
+        onNavigateToDetails = {}
+    )
 }

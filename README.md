@@ -4,7 +4,7 @@ A beautiful, modern E-Commerce application built with Compose Multiplatform feat
 type-safe navigation, and dynamic theming. Explore products, manage favorites/wishlist, add items to cart,
 and enjoy a seamless experience across Android, Desktop, and iOS platforms powered by DummyJSON API.
 
-[![Store App Compose Multiplatform Preview](screenshot/pokemon_cmp_mvi_template.png)]()
+[![Store App Compose Multiplatform Preview](image/web/dark/01_web_products_catalog.png)]()
 
 ## ✨ Features
 
@@ -66,89 +66,225 @@ and enjoy a seamless experience across Android, Desktop, and iOS platforms power
 
 ---
 
-## Screenshot 💻
+## Screenshots 💻
 
-### Android
+### 📱 Android (Google Pixel 9)
 
-<table>
-   <tr>
-    <td><img src="screenshot/android/1_android.png" alt="android"></td>
-    <td><img src="screenshot/android/2_android.png" alt="android"></td>
-    <td><img src="screenshot/android/3_android.png" alt="android"></td>
-    <td><img src="screenshot/android/4_android.png" alt="android"></td>
-   </tr>
-   <tr>
-    <td><img src="screenshot/android/5_android.png" alt="android"></td>
-    <td><img src="screenshot/android/6_android.png" alt="android"></td>
-    <td><img src="screenshot/android/7_android.png" alt="android"></td>
-    <td><img src="screenshot/android/8_android.png" alt="android"></td>
-   </tr>
-   <tr>
-    <td><img src="screenshot/android/9_android.png" alt="android"></td>
-    <td><img src="screenshot/android/10_android.png" alt="android"></td>
-    <td><img src="screenshot/android/11_android.png" alt="android"></td>
-    <td><img src="screenshot/android/12_android.png" alt="android"></td>
-    </tr>
-   <tr>
-    <td><img src="screenshot/android/13_android.png" alt="android"></td>
-    <td><img src="screenshot/android/14_android.png" alt="android"></td>
-    <td><img src="screenshot/android/15_android.png" alt="android"></td>
-   </tr>
-</table>
-
-### iOS
+<details open>
+<summary><b>🌙 Dark Mode (12 Screens — Click to collapse)</b></summary>
+<br>
 
 <table>
-   <tr>
-        <td><img src="screenshot/ios/1_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/2_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/3_ios.png" alt="ios"></td>
-   </tr>
-   <tr>
-        <td><img src="screenshot/ios/4_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/5_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/6_ios.png" alt="ios"></td>
-   </tr>
-    <tr>
-        <td><img src="screenshot/ios/7_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/8_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/9_ios.png" alt="ios"></td>
-    </tr>
-    <tr>
-        <td><img src="screenshot/ios/10_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/11_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/12_ios.png" alt="ios"></td>
-    </tr>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/android/dark/01_products_catalog.png" alt="Products Catalog" width="220" /></td>
+    <td align="center"><b>02. Shimmer Loading</b><br><img src="image/android/dark/02_products_shimmer.png" alt="Shimmer Loading" width="220" /></td>
+    <td align="center"><b>03. Live Search & Filters</b><br><img src="image/android/dark/03_products_search.png" alt="Search & Filters" width="220" /></td>
+    <td align="center"><b>04. Sort Bottom Sheet</b><br><img src="image/android/dark/04_product_sort_sheet.png" alt="Sort Sheet" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. Product Details</b><br><img src="image/android/dark/05_product_details.png" alt="Product Details" width="220" /></td>
+    <td align="center"><b>06. Shopping Cart</b><br><img src="image/android/dark/06_cart_items.png" alt="Shopping Cart" width="220" /></td>
+    <td align="center"><b>07. Checkout Dialog</b><br><img src="image/android/dark/07_checkout_success_dialog.png" alt="Checkout Dialog" width="220" /></td>
+    <td align="center"><b>08. Favorites / Wishlist</b><br><img src="image/android/dark/08_favorites_list.png" alt="Favorites" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>09. User Profile (Auth)</b><br><img src="image/android/dark/09_profile_logged_in.png" alt="User Profile" width="220" /></td>
+    <td align="center"><b>10. Settings Screen</b><br><img src="image/android/dark/10_settings_screen.png" alt="Settings" width="220" /></td>
+    <td align="center"><b>11. Theme Selection</b><br><img src="image/android/dark/11_theme_selection_dialog.png" alt="Theme Selection" width="220" /></td>
+    <td align="center"><b>12. Onboarding</b><br><img src="image/android/dark/12_onboarding_screen.png" alt="Onboarding" width="220" /></td>
+  </tr>
 </table>
 
-### Desktop
+</details>
+
+<details>
+<summary><b>☀️ Light Mode (12 Screens — Click to expand)</b></summary>
+<br>
 
 <table>
-   <tr>
-        <td><img src="screenshot/desktop/1_desktop.png" alt="desktop"></td>
-        <td><img src="screenshot/desktop/2_desktop.png" alt="desktop"></td>
-   </tr>
-    <tr>
-        <td><img src="screenshot/desktop/3_desktop.png" alt="desktop"></td>
-        <td><img src="screenshot/desktop/4_desktop.png" alt="desktop"></td>
-    </tr>
-    <tr>
-        <td><img src="screenshot/desktop/5_desktop.png" alt="desktop"></td>
-        <td><img src="screenshot/desktop/6_desktop.png" alt="desktop"></td>
-    </tr>
-    <tr>
-        <td><img src="screenshot/desktop/7_desktop.png" alt="desktop"></td>
-        <td><img src="screenshot/desktop/8_desktop.png" alt="desktop"></td>
-    </tr>
-    <tr>
-        <td><img src="screenshot/desktop/9_desktop.png" alt="desktop"></td>    
-        <td><img src="screenshot/desktop/10_desktop.png" alt="desktop"></td>
-    </tr>
-    <tr>
-        <td><img src="screenshot/desktop/11_desktop.png" alt="desktop"></td>
-        <td><img src="screenshot/desktop/12_desktop.png" alt="desktop"></td>    
-    </tr>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/android/light/01_products_catalog.png" alt="Products Catalog" width="220" /></td>
+    <td align="center"><b>02. Shimmer Loading</b><br><img src="image/android/light/02_products_shimmer.png" alt="Shimmer Loading" width="220" /></td>
+    <td align="center"><b>03. Live Search & Filters</b><br><img src="image/android/light/03_products_search.png" alt="Search & Filters" width="220" /></td>
+    <td align="center"><b>04. Sort Bottom Sheet</b><br><img src="image/android/light/04_product_sort_sheet.png" alt="Sort Sheet" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. Product Details</b><br><img src="image/android/light/05_product_details.png" alt="Product Details" width="220" /></td>
+    <td align="center"><b>06. Shopping Cart</b><br><img src="image/android/light/06_cart_items.png" alt="Shopping Cart" width="220" /></td>
+    <td align="center"><b>07. Checkout Dialog</b><br><img src="image/android/light/07_checkout_success_dialog.png" alt="Checkout Dialog" width="220" /></td>
+    <td align="center"><b>08. Favorites / Wishlist</b><br><img src="image/android/light/08_favorites_list.png" alt="Favorites" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>09. User Profile (Auth)</b><br><img src="image/android/light/09_profile_logged_in.png" alt="User Profile" width="220" /></td>
+    <td align="center"><b>10. Settings Screen</b><br><img src="image/android/light/10_settings_screen.png" alt="Settings" width="220" /></td>
+    <td align="center"><b>11. Theme Selection</b><br><img src="image/android/light/11_theme_selection_dialog.png" alt="Theme Selection" width="220" /></td>
+    <td align="center"><b>12. Onboarding</b><br><img src="image/android/light/12_onboarding_screen.png" alt="Onboarding" width="220" /></td>
+  </tr>
 </table>
+
+</details>
+
+<br>
+
+### 🍎 iOS (Apple iPhone 16 Pro)
+
+<details open>
+<summary><b>🌙 Dark Mode (12 Screens — Click to collapse)</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/ios/dark/01_products_catalog.png" alt="Products Catalog" width="220" /></td>
+    <td align="center"><b>02. Shimmer Loading</b><br><img src="image/ios/dark/02_products_shimmer.png" alt="Shimmer Loading" width="220" /></td>
+    <td align="center"><b>03. Live Search & Filters</b><br><img src="image/ios/dark/03_products_search.png" alt="Search & Filters" width="220" /></td>
+    <td align="center"><b>04. Sort Bottom Sheet</b><br><img src="image/ios/dark/04_product_sort_sheet.png" alt="Sort Sheet" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. Product Details</b><br><img src="image/ios/dark/05_product_details.png" alt="Product Details" width="220" /></td>
+    <td align="center"><b>06. Shopping Cart</b><br><img src="image/ios/dark/06_cart_items.png" alt="Shopping Cart" width="220" /></td>
+    <td align="center"><b>07. Checkout Dialog</b><br><img src="image/ios/dark/07_checkout_success_dialog.png" alt="Checkout Dialog" width="220" /></td>
+    <td align="center"><b>08. Favorites / Wishlist</b><br><img src="image/ios/dark/08_favorites_list.png" alt="Favorites" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>09. User Profile (Auth)</b><br><img src="image/ios/dark/09_profile_logged_in.png" alt="User Profile" width="220" /></td>
+    <td align="center"><b>10. Settings Screen</b><br><img src="image/ios/dark/10_settings_screen.png" alt="Settings" width="220" /></td>
+    <td align="center"><b>11. Theme Selection</b><br><img src="image/ios/dark/11_theme_selection_dialog.png" alt="Theme Selection" width="220" /></td>
+    <td align="center"><b>12. Onboarding</b><br><img src="image/ios/dark/12_onboarding_screen.png" alt="Onboarding" width="220" /></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><b>☀️ Light Mode (12 Screens — Click to expand)</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/ios/light/01_products_catalog.png" alt="Products Catalog" width="220" /></td>
+    <td align="center"><b>02. Shimmer Loading</b><br><img src="image/ios/light/02_products_shimmer.png" alt="Shimmer Loading" width="220" /></td>
+    <td align="center"><b>03. Live Search & Filters</b><br><img src="image/ios/light/03_products_search.png" alt="Search & Filters" width="220" /></td>
+    <td align="center"><b>04. Sort Bottom Sheet</b><br><img src="image/ios/light/04_product_sort_sheet.png" alt="Sort Sheet" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. Product Details</b><br><img src="image/ios/light/05_product_details.png" alt="Product Details" width="220" /></td>
+    <td align="center"><b>06. Shopping Cart</b><br><img src="image/ios/light/06_cart_items.png" alt="Shopping Cart" width="220" /></td>
+    <td align="center"><b>07. Checkout Dialog</b><br><img src="image/ios/light/07_checkout_success_dialog.png" alt="Checkout Dialog" width="220" /></td>
+    <td align="center"><b>08. Favorites / Wishlist</b><br><img src="image/ios/light/08_favorites_list.png" alt="Favorites" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>09. User Profile (Auth)</b><br><img src="image/ios/light/09_profile_logged_in.png" alt="User Profile" width="220" /></td>
+    <td align="center"><b>10. Settings Screen</b><br><img src="image/ios/light/10_settings_screen.png" alt="Settings" width="220" /></td>
+    <td align="center"><b>11. Theme Selection</b><br><img src="image/ios/light/11_theme_selection_dialog.png" alt="Theme Selection" width="220" /></td>
+    <td align="center"><b>12. Onboarding</b><br><img src="image/ios/light/12_onboarding_screen.png" alt="Onboarding" width="220" /></td>
+  </tr>
+</table>
+
+</details>
+
+<br>
+
+### 🖥️ Desktop (macOS Large Window Two-Pane Layout)
+
+<details open>
+<summary><b>🌙 Dark Mode (7 Screens — Click to collapse)</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/mac/dark/01_desktop_products_catalog.png" alt="Products Catalog" /></td>
+    <td align="center"><b>02. Product Details</b><br><img src="image/mac/dark/02_desktop_product_details.png" alt="Product Details" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>03. Shopping Cart Summary</b><br><img src="image/mac/dark/03_desktop_cart_summary.png" alt="Shopping Cart Summary" /></td>
+    <td align="center"><b>04. Favorites Wishlist</b><br><img src="image/mac/dark/04_desktop_favorites_list.png" alt="Favorites Wishlist" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. User Profile</b><br><img src="image/mac/dark/05_desktop_profile_screen.png" alt="User Profile" /></td>
+    <td align="center"><b>06. Settings Screen</b><br><img src="image/mac/dark/06_desktop_settings_screen.png" alt="Settings Screen" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><b>07. Theme Selection Dialog</b><br><img src="image/mac/dark/07_desktop_theme_dialog.png" alt="Theme Selection Dialog" width="600" /></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><b>☀️ Light Mode (7 Screens — Click to expand)</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/mac/light/01_desktop_products_catalog.png" alt="Products Catalog" /></td>
+    <td align="center"><b>02. Product Details</b><br><img src="image/mac/light/02_desktop_product_details.png" alt="Product Details" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>03. Shopping Cart Summary</b><br><img src="image/mac/light/03_desktop_cart_summary.png" alt="Shopping Cart Summary" /></td>
+    <td align="center"><b>04. Favorites Wishlist</b><br><img src="image/mac/light/04_desktop_favorites_list.png" alt="Favorites Wishlist" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. User Profile</b><br><img src="image/mac/light/05_desktop_profile_screen.png" alt="User Profile" /></td>
+    <td align="center"><b>06. Settings Screen</b><br><img src="image/mac/light/06_desktop_settings_screen.png" alt="Settings Screen" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><b>07. Theme Selection Dialog</b><br><img src="image/mac/light/07_desktop_theme_dialog.png" alt="Theme Selection Dialog" width="600" /></td>
+  </tr>
+</table>
+
+</details>
+
+<br>
+
+### 🌐 Web (Google Chrome Browser Frame)
+
+<details open>
+<summary><b>🌙 Dark Mode (7 Screens — Click to collapse)</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/web/dark/01_web_products_catalog.png" alt="Web Products Catalog" /></td>
+    <td align="center"><b>02. Product Details</b><br><img src="image/web/dark/02_web_product_details.png" alt="Web Product Details" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>03. Shopping Cart Summary</b><br><img src="image/web/dark/03_web_cart_summary.png" alt="Web Shopping Cart" /></td>
+    <td align="center"><b>04. Favorites Wishlist</b><br><img src="image/web/dark/04_web_favorites_list.png" alt="Web Favorites" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. User Profile</b><br><img src="image/web/dark/05_web_profile_screen.png" alt="Web User Profile" /></td>
+    <td align="center"><b>06. Settings Screen</b><br><img src="image/web/dark/06_web_settings_screen.png" alt="Web Settings" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><b>07. Theme Selection Dialog</b><br><img src="image/web/dark/07_web_theme_dialog.png" alt="Web Theme Dialog" width="600" /></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><b>☀️ Light Mode (7 Screens — Click to expand)</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/web/light/01_web_products_catalog.png" alt="Web Products Catalog" /></td>
+    <td align="center"><b>02. Product Details</b><br><img src="image/web/light/02_web_product_details.png" alt="Web Product Details" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>03. Shopping Cart Summary</b><br><img src="image/web/light/03_web_cart_summary.png" alt="Web Shopping Cart" /></td>
+    <td align="center"><b>04. Favorites Wishlist</b><br><img src="image/web/light/04_web_favorites_list.png" alt="Web Favorites" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. User Profile</b><br><img src="image/web/light/05_web_profile_screen.png" alt="Web User Profile" /></td>
+    <td align="center"><b>06. Settings Screen</b><br><img src="image/web/light/06_web_settings_screen.png" alt="Web Settings" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><b>07. Theme Selection Dialog</b><br><img src="image/web/light/07_web_theme_dialog.png" alt="Web Theme Dialog" width="600" /></td>
+  </tr>
+</table>
+
+</details>
 
 ---
 

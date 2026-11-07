@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -35,7 +36,6 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SettingScreen() {
     val settingViewModel = koinViewModel<SettingViewModel>()
     val themeState by settingViewModel.settingState.collectAsStateWithLifecycle()
-    var showThemeDialog by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
 
     // Handle effects
@@ -50,8 +50,26 @@ fun SettingScreen() {
             }
         }
     }
+
+    SettingContent(
+        themeState = themeState,
+        snackBarHostState = snackBarHostState,
+        onEvent = settingViewModel::handleEvent
+    )
+}
+
+
+@Composable
+fun SettingContent(
+    themeState: SettingState,
+    snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onEvent: (SettingEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var showThemeDialog by remember { mutableStateOf(false) }
+
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(Res.string.title_settings)) }
@@ -61,11 +79,11 @@ fun SettingScreen() {
             SnackbarHost(snackBarHostState)
         }
     ) { paddingValues ->
-        SettingScreenContent(
+        SettingBody(
             themeState = themeState,
             onThemeClick = { showThemeDialog = true },
             onDynamicThemeToggle = {
-                settingViewModel.handleEvent(SettingEvent.SetDynamicTheme(it))
+                onEvent(SettingEvent.SetDynamicTheme(it))
             },
             modifier = Modifier.padding(paddingValues)
         )
@@ -76,7 +94,7 @@ fun SettingScreen() {
         ThemeSelectionDialog(
             currentThemeMode = themeState.themeMode,
             onThemeSelected = { themeMode ->
-                settingViewModel.handleEvent(SettingEvent.SetThemeMode(themeMode))
+                onEvent(SettingEvent.SetThemeMode(themeMode))
             },
             onDismiss = { showThemeDialog = false }
         )
@@ -84,7 +102,7 @@ fun SettingScreen() {
 }
 
 @Composable
-fun SettingScreenContent(
+fun SettingBody(
     themeState: SettingState,
     onThemeClick: () -> Unit,
     onDynamicThemeToggle: (Boolean) -> Unit,
@@ -113,15 +131,28 @@ fun SettingScreenContent(
     }
 }
 
+// Kept for backward compatibility
+@Composable
+fun SettingScreenContent(
+    themeState: SettingState,
+    onThemeClick: () -> Unit,
+    onDynamicThemeToggle: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) = SettingBody(
+    themeState = themeState,
+    onThemeClick = onThemeClick,
+    onDynamicThemeToggle = onDynamicThemeToggle,
+    modifier = modifier
+)
+
 @AllAdaptivePreviews
 @Composable
 private fun SettingScreenPreview() {
-    SettingScreenContent(
+    SettingContent(
         themeState = SettingState(
             themeMode = ThemeMode.SYSTEM,
             isDynamicColor = true
         ),
-        onThemeClick = {},
-        onDynamicThemeToggle = {}
+        onEvent = {}
     )
 }

@@ -19,6 +19,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +38,13 @@ fun ProductInfoSection(
     product: Product,
     modifier: Modifier = Modifier
 ) {
+    val tags by remember(
+        product.tags,  product.category
+    ) {
+        derivedStateOf {
+            product.tags.filter { it.lowercase() != product.category.lowercase() }
+        }
+    }
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -43,7 +53,7 @@ fun ProductInfoSection(
         )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            // Category & Brand
+            // Category, Brand & Tags
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -60,6 +70,21 @@ fun ProductInfoSection(
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
+                }
+
+                tags.forEach { tag ->
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(6.dp))
+                            .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f))
+                            .padding(horizontal = 6.dp, vertical = 4.dp)
+                    ) {
+                        Text(
+                            text = "#$tag",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    }
                 }
 
                 if (!product.brand.isNullOrBlank()) {

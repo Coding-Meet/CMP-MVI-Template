@@ -78,7 +78,23 @@ fun ProfileScreen() {
         }
     }
 
+    ProfileContent(
+        state = state,
+        snackBarHostState = snackBarHostState,
+        onEvent = authViewModel::handleEvent
+    )
+}
+
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@Composable
+fun ProfileContent(
+    state: AuthState,
+    snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onEvent: (AuthEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Scaffold(
+        modifier = modifier,
         topBar = {
             TopAppBar(
                 title = { Text(if (state.isLoggedIn) "My Profile" else "Account Sign In") }
@@ -93,37 +109,37 @@ fun ProfileScreen() {
         ) {
             if (state.isLoggedIn && state.user != null) {
                 LoggedInProfileContent(
-                    user = state.user!!,
+                    user = state.user,
                     onLogoutClick = {
-                        authViewModel.handleEvent(AuthEvent.ToggleLogoutDialog(true))
+                        onEvent(AuthEvent.ToggleLogoutDialog(true))
                     }
                 )
             } else {
                 SignInContent(
                     state = state,
-                    onUsernameChange = { authViewModel.handleEvent(AuthEvent.UpdateUsername(it)) },
-                    onPasswordChange = { authViewModel.handleEvent(AuthEvent.UpdatePassword(it)) },
-                    onTogglePasswordVisibility = { authViewModel.handleEvent(AuthEvent.TogglePasswordVisibility) },
-                    onFillDemoCredentials = { authViewModel.handleEvent(AuthEvent.FillDemoCredentials) },
-                    onSignInClick = { authViewModel.handleEvent(AuthEvent.Login) }
+                    onUsernameChange = { onEvent(AuthEvent.UpdateUsername(it)) },
+                    onPasswordChange = { onEvent(AuthEvent.UpdatePassword(it)) },
+                    onTogglePasswordVisibility = { onEvent(AuthEvent.TogglePasswordVisibility) },
+                    onFillDemoCredentials = { onEvent(AuthEvent.FillDemoCredentials) },
+                    onSignInClick = { onEvent(AuthEvent.Login) }
                 )
             }
 
             if (state.showLogoutDialog) {
                 AlertDialog(
-                    onDismissRequest = { authViewModel.handleEvent(AuthEvent.ToggleLogoutDialog(false)) },
+                    onDismissRequest = { onEvent(AuthEvent.ToggleLogoutDialog(false)) },
                     title = { Text("Sign Out") },
                     text = { Text("Are you sure you want to sign out of your account?") },
                     confirmButton = {
                         TextButton(
-                            onClick = { authViewModel.handleEvent(AuthEvent.Logout) }
+                            onClick = { onEvent(AuthEvent.Logout) }
                         ) {
                             Text("Sign Out", color = MaterialTheme.colorScheme.error)
                         }
                     },
                     dismissButton = {
                         TextButton(
-                            onClick = { authViewModel.handleEvent(AuthEvent.ToggleLogoutDialog(false)) }
+                            onClick = { onEvent(AuthEvent.ToggleLogoutDialog(false)) }
                         ) {
                             Text("Cancel")
                         }
@@ -135,7 +151,7 @@ fun ProfileScreen() {
 }
 
 @Composable
-private fun LoggedInProfileContent(
+fun LoggedInProfileContent(
     user: AuthUser,
     onLogoutClick: () -> Unit
 ) {
@@ -292,7 +308,7 @@ private fun InfoRow(label: String, value: String) {
 }
 
 @Composable
-private fun SignInContent(
+fun SignInContent(
     state: AuthState,
     onUsernameChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
@@ -439,32 +455,32 @@ private fun SignInContent(
 @AllAdaptivePreviews
 @Composable
 private fun LoggedInProfilePreview() {
-    LoggedInProfileContent(
-        user = AuthUser(
-            id = 1,
-            username = "emilys",
-            email = "emily.johnson@x.dummyjson.com",
-            firstName = "Emily",
-            lastName = "Johnson",
-            gender = "female",
-            image = ""
+    ProfileContent(
+        state = AuthState(
+            isLoggedIn = true,
+            user = AuthUser(
+                id = 1,
+                username = "emilys",
+                email = "emily.johnson@x.dummyjson.com",
+                firstName = "Emily",
+                lastName = "Johnson",
+                gender = "female",
+                image = ""
+            )
         ),
-        onLogoutClick = {}
+        onEvent = {}
     )
 }
 
 @PhonePreview
 @Composable
 private fun SignInContentPreview() {
-    SignInContent(
+    ProfileContent(
         state = AuthState(
+            isLoggedIn = false,
             usernameInput = "emilys",
             passwordInput = "emilyspass"
         ),
-        onUsernameChange = {},
-        onPasswordChange = {},
-        onTogglePasswordVisibility = {},
-        onFillDemoCredentials = {},
-        onSignInClick = {}
+        onEvent = {}
     )
 }

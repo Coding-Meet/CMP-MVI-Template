@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -37,20 +38,18 @@ import cmp_mvi_template.composeapp.generated.resources.no_products_found
 import cmp_mvi_template.composeapp.generated.resources.title_products
 import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
 import com.example.cmp_mvi_template.core.utility.UiText
+import com.example.cmp_mvi_template.feature.product.domain.entity.Product
+import com.example.cmp_mvi_template.feature.product.domain.entity.ProductCategory
 import com.example.cmp_mvi_template.feature.product.domain.entity.ProductSortOption
 import com.example.cmp_mvi_template.feature.product.presentation.component.ProductListShimmer
 import com.example.cmp_mvi_template.feature.product.presentation.product_list.component.CategoryChipsRow
-import com.example.cmp_mvi_template.feature.product.presentation.product_list.component.ProductListContent
+import com.example.cmp_mvi_template.feature.product.presentation.product_list.component.ProductListGrid
 import com.example.cmp_mvi_template.feature.product.presentation.product_list.component.SortBottomSheet
 import com.example.cmp_mvi_template.ui.layout.ErrorMessageLayout
-import kotlinx.coroutines.flow.distinctUntilChanged
-import com.example.cmp_mvi_template.feature.product.domain.entity.ProductCategory
-import com.example.cmp_mvi_template.feature.product.domain.entity.Product
 import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
-import com.example.cmp_mvi_template.ui.theme.PhonePreview
+import kotlinx.coroutines.flow.distinctUntilChanged
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-
 
 @Composable
 fun ProductListScreen(
@@ -58,7 +57,6 @@ fun ProductListScreen(
 ) {
     val productListViewModel = koinViewModel<ProductListViewModel>()
     val state by productListViewModel.state.collectAsStateWithLifecycle()
-    val listState = rememberLazyStaggeredGridState()
     val snackBarHostState = remember { SnackbarHostState() }
 
     // Handle effects
@@ -74,18 +72,38 @@ fun ProductListScreen(
         }
     }
 
+    ProductListContent(
+        state = state,
+        snackBarHostState = snackBarHostState,
+        onEvent = productListViewModel::handleEvent,
+        onNavigateToDetails = onNavigateToDetails
+    )
+}
+
+
+@Composable
+fun ProductListContent(
+    state: ProductListState,
+    snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onEvent: (ProductListEvent) -> Unit,
+    onNavigateToDetails: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val listState = rememberLazyStaggeredGridState()
+
     LaunchedEffect(state.productList) {
         snapshotFlow {
             listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
         }.distinctUntilChanged()
             .collect { lastVisibleIndex ->
                 if (lastVisibleIndex != null && lastVisibleIndex >= state.productList.lastIndex && state.hasMoreData) {
-                    productListViewModel.handleEvent(ProductListEvent.LoadMoreProducts)
+                    onEvent(ProductListEvent.LoadMoreProducts)
                 }
             }
     }
 
     Scaffold(
+        modifier = modifier,
         topBar = {
             Column {
                 if (state.isSearchBarVisible) {
@@ -93,9 +111,7 @@ fun ProductListScreen(
                         title = {
                             OutlinedTextField(
                                 value = state.searchQuery,
-                                onValueChange = {
-                                    productListViewModel.handleEvent(ProductListEvent.UpdateSearchQuery(it))
-                                },
+                                onValueChange = { onEvent(ProductListEvent.UpdateSearchQuery(it)) },
                                 placeholder = { Text("Search products...") },
                                 singleLine = true,
                                 modifier = Modifier.fillMaxWidth(),
@@ -107,7 +123,7 @@ fun ProductListScreen(
                                 trailingIcon = {
                                     if (state.searchQuery.isNotEmpty()) {
                                         IconButton(onClick = {
-                                            productListViewModel.handleEvent(ProductListEvent.UpdateSearchQuery(""))
+                                            onEvent(ProductListEvent.UpdateSearchQuery(""))
                                         }) {
                                             Icon(Icons.Filled.Close, contentDescription = "Clear search")
                                         }
@@ -117,7 +133,7 @@ fun ProductListScreen(
                         },
                         navigationIcon = {
                             IconButton(onClick = {
-                                productListViewModel.handleEvent(ProductListEvent.ToggleSearchBar(false))
+                                onEvent(ProductListEvent.ToggleSearchBar(false))
                             }) {
                                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                             }
@@ -128,13 +144,13 @@ fun ProductListScreen(
                         title = { Text(stringResource(Res.string.title_products)) },
                         actions = {
                             IconButton(onClick = {
-                                productListViewModel.handleEvent(ProductListEvent.ToggleSearchBar(true))
+                                onEvent(ProductListEvent.ToggleSearchBar(true))
                             }) {
                                 Icon(Icons.Filled.Search, contentDescription = "Search products")
                             }
 
                             IconButton(onClick = {
-                                productListViewModel.handleEvent(ProductListEvent.ToggleSortBottomSheet(true))
+                                onEvent(ProductListEvent.ToggleSortBottomSheet(true))
                             }) {
                                 BadgedBox(
                                     badge = {
@@ -156,7 +172,7 @@ fun ProductListScreen(
                         categories = state.categories,
                         selectedCategory = state.selectedCategory,
                         onCategorySelected = { categorySlug ->
-                            productListViewModel.handleEvent(ProductListEvent.SelectCategory(categorySlug))
+                            onEvent(ProductListEvent.SelectCategory(categorySlug))
                         }
                     )
                 }
@@ -172,9 +188,9 @@ fun ProductListScreen(
 
                 state.error != null -> {
                     ErrorMessageLayout(
-                        error = state.error!!,
+                        error = state.error,
                         onRetry = {
-                            productListViewModel.handleEvent(ProductListEvent.LoadProducts)
+                            onEvent(ProductListEvent.LoadProducts)
                         }
                     )
                 }
@@ -183,13 +199,18 @@ fun ProductListScreen(
                     ErrorMessageLayout(
                         error = UiText.StringResource(Res.string.no_products_found),
                         onRetry = {
-                            productListViewModel.handleEvent(ProductListEvent.LoadProducts)
+                            onEvent(ProductListEvent.LoadProducts)
                         }
                     )
                 }
 
                 state.productList.isNotEmpty() -> {
-                    ProductListContent(listState, state, productListViewModel)
+                    ProductListGrid(
+                        listState = listState,
+                        products = state.productList,
+                        isLoadingMore = state.isLoadingMore,
+                        onProductClick = onNavigateToDetails
+                    )
                 }
             }
 
@@ -198,10 +219,10 @@ fun ProductListScreen(
                 SortBottomSheet(
                     selectedSort = state.selectedSort,
                     onSortSelected = { option ->
-                        productListViewModel.handleEvent(ProductListEvent.SelectSortOption(option))
+                        onEvent(ProductListEvent.SelectSortOption(option))
                     },
                     onDismiss = {
-                        productListViewModel.handleEvent(ProductListEvent.ToggleSortBottomSheet(false))
+                        onEvent(ProductListEvent.ToggleSortBottomSheet(false))
                     }
                 )
             }
@@ -212,42 +233,19 @@ fun ProductListScreen(
 @AllAdaptivePreviews
 @Composable
 private fun ProductListScreenPreview() {
-    val listState = rememberLazyStaggeredGridState()
-    Scaffold(
-        topBar = {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                TopAppBar(
-                    title = { Text("Products") },
-                    actions = {
-                        IconButton(onClick = {}) {
-                            Icon(Icons.Filled.Search, contentDescription = "Search")
-                        }
-                        IconButton(onClick = {}) {
-                            Icon(Icons.Filled.Tune, contentDescription = "Sort")
-                        }
-                    }
-                )
-                CategoryChipsRow(
-                    categories = listOf(
-                        ProductCategory(slug = "beauty", name = "Beauty"),
-                        ProductCategory(slug = "fragrances", name = "Fragrances")
-                    ),
-                    selectedCategory = "beauty",
-                    onCategorySelected = {}
-                )
-            }
-        }
-    ) { paddingValues ->
-        Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
-            com.example.cmp_mvi_template.feature.product.presentation.product_list.component.ProductListGrid(
-                listState = listState,
-                products = listOf(
-                    Product(id = 1, title = "Essence Mascara", price = 9.99, rating = 4.9, brand = "Essence"),
-                    Product(id = 2, title = "Eyeshadow Palette", price = 19.99, rating = 4.5, brand = "Glamour")
-                ),
-                isLoadingMore = false,
-                onProductClick = {}
-            )
-        }
-    }
+    ProductListContent(
+        state = ProductListState(
+            productList = listOf(
+                Product(id = 1, title = "Essence Mascara", price = 9.99, rating = 4.9, brand = "Essence"),
+                Product(id = 2, title = "Eyeshadow Palette", price = 19.99, rating = 4.5, brand = "Glamour")
+            ),
+            categories = listOf(
+                ProductCategory(slug = "beauty", name = "Beauty"),
+                ProductCategory(slug = "fragrances", name = "Fragrances")
+            ),
+            selectedCategory = "beauty"
+        ),
+        onEvent = {},
+        onNavigateToDetails = {}
+    )
 }

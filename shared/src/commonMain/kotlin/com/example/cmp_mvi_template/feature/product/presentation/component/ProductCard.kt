@@ -30,6 +30,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,6 +55,13 @@ fun ProductCard(
     onFavoriteClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
+    val tag by remember(
+        product.tags,  product.category
+    ) {
+        derivedStateOf {
+            product.tags.firstOrNull { it.lowercase() != product.category.lowercase() }
+        }
+    }
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -87,7 +97,7 @@ fun ProductCard(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                // Category & Rating
+                // Category, Tag & Rating
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -103,6 +113,23 @@ fun ProductCard(
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
+                    }
+
+                    tag.let { tag ->
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(4.dp))
+                                .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f))
+                                .padding(horizontal = 5.dp, vertical = 2.dp)
+                        ) {
+                            Text(
+                                text = "#$tag",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
                     }
 
                     Row(
@@ -208,6 +235,7 @@ private fun ProductCardPreview() {
             discountPercentage = 7.17,
             rating = 4.94,
             stock = 5,
+            tags = listOf("beauty", "mascara"),
             brand = "Essence",
             thumbnail = ""
         ),

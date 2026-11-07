@@ -74,12 +74,27 @@ fun ProductDetailsScreen(
     ProductDetailsScreenContent(
         state = state,
         snackBarHostState = snackBarHostState,
+        onEvent = productDetailsViewModel::handleEvent,
+        onNavigateBack = onNavigateBack
+    )
+}
+
+@Composable
+fun ProductDetailsScreenContent(
+    state: ProductDetailsState,
+    snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onEvent: (ProductDetailsEvent) -> Unit,
+    onNavigateBack: () -> Unit
+) {
+    ProductDetailsScreenContent(
+        state = state,
+        snackBarHostState = snackBarHostState,
         onNavigateBack = onNavigateBack,
-        onAddToCart = { productDetailsViewModel.handleEvent(ProductDetailsEvent.AddToCart) },
-        onToggleFavorite = { productDetailsViewModel.handleEvent(ProductDetailsEvent.ToggleFavorite) },
+        onAddToCart = { onEvent(ProductDetailsEvent.AddToCart) },
+        onToggleFavorite = { onEvent(ProductDetailsEvent.ToggleFavorite) },
         onRetry = {
             state.product?.id?.let { id ->
-                productDetailsViewModel.handleEvent(ProductDetailsEvent.LoadProductDetails(id))
+                onEvent(ProductDetailsEvent.LoadProductDetails(id))
             }
         }
     )

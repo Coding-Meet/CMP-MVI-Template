@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeleteSweep
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -23,14 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
 import com.example.cmp_mvi_template.feature.cart.domain.entity.CartItem
-import com.example.cmp_mvi_template.feature.cart.domain.entity.CartSummary
 import com.example.cmp_mvi_template.feature.cart.presentation.component.CartItemCard
 import com.example.cmp_mvi_template.feature.cart.presentation.component.CartSummaryCard
 import com.example.cmp_mvi_template.feature.cart.presentation.component.CheckoutSuccessDialog
 import com.example.cmp_mvi_template.feature.cart.presentation.component.EmptyCartScreen
 import com.example.cmp_mvi_template.ui.layout.ErrorMessageLayout
 import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
-import com.example.cmp_mvi_template.ui.theme.PhonePreview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -50,13 +49,33 @@ fun CartScreen(
         }
     }
 
+    CartContent(
+        state = state,
+        snackBarHostState = snackBarHostState,
+        onEvent = cartViewModel::handleEvent,
+        onNavigateToDetails = onNavigateToDetails,
+        onNavigateToShop = onNavigateToShop
+    )
+}
+
+
+@Composable
+fun CartContent(
+    state: CartState,
+    snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onEvent: (CartEvent) -> Unit,
+    onNavigateToDetails: (Int) -> Unit,
+    onNavigateToShop: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Scaffold(
+        modifier = modifier,
         topBar = {
             TopAppBar(
                 title = { Text("Shopping Cart") },
                 actions = {
                     if (state.cartItems.isNotEmpty()) {
-                        IconButton(onClick = { cartViewModel.handleEvent(CartEvent.ClearCart) }) {
+                        IconButton(onClick = { onEvent(CartEvent.ClearCart) }) {
                             Icon(Icons.Filled.DeleteSweep, contentDescription = "Clear cart")
                         }
                     }
@@ -67,14 +86,14 @@ fun CartScreen(
     ) { paddingValues ->
         CartBody(
             state = state,
-            onIncrease = { id, qty -> cartViewModel.handleEvent(CartEvent.IncreaseQuantity(id, qty)) },
-            onDecrease = { id, qty -> cartViewModel.handleEvent(CartEvent.DecreaseQuantity(id, qty)) },
-            onRemove = { id -> cartViewModel.handleEvent(CartEvent.RemoveItem(id)) },
-            onItemClick = { id -> cartViewModel.handleEvent(CartEvent.NavigateToProductDetails(id)) },
-            onCheckout = { cartViewModel.handleEvent(CartEvent.Checkout) },
+            onIncrease = { id, qty -> onEvent(CartEvent.IncreaseQuantity(id, qty)) },
+            onDecrease = { id, qty -> onEvent(CartEvent.DecreaseQuantity(id, qty)) },
+            onRemove = { id -> onEvent(CartEvent.RemoveItem(id)) },
+            onItemClick = onNavigateToDetails,
+            onCheckout = { onEvent(CartEvent.Checkout) },
             onShopNow = onNavigateToShop,
-            onDismissDialog = { cartViewModel.handleEvent(CartEvent.DismissCheckoutDialog) },
-            onRetry = { cartViewModel.handleEvent(CartEvent.LoadCart) },
+            onDismissDialog = { onEvent(CartEvent.DismissCheckoutDialog) },
+            onRetry = { onEvent(CartEvent.LoadCart) },
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -144,20 +163,15 @@ fun CartBody(
 @AllAdaptivePreviews
 @Composable
 private fun CartScreenPreview() {
-    CartBody(
+    CartContent(
         state = CartState(
             cartItems = listOf(
                 CartItem(id = 1, title = "Essence Mascara", price = 9.99, discountPercentage = 7.17, quantity = 2),
                 CartItem(id = 2, title = "Eyeshadow Palette", price = 19.99, discountPercentage = 0.0, quantity = 1)
             )
         ),
-        onIncrease = { _, _ -> },
-        onDecrease = { _, _ -> },
-        onRemove = {},
-        onItemClick = {},
-        onCheckout = {},
-        onShopNow = {},
-        onDismissDialog = {},
-        onRetry = {}
+        onEvent = {},
+        onNavigateToDetails = {},
+        onNavigateToShop = {}
     )
 }

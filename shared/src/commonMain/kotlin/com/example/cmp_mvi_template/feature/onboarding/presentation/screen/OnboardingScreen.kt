@@ -16,6 +16,7 @@ import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
 import com.example.cmp_mvi_template.core.utility.rememberWindowInfo
 import com.example.cmp_mvi_template.feature.onboarding.presentation.component.CompactOnboardingLayout
 import com.example.cmp_mvi_template.feature.onboarding.presentation.component.ExpandedOnboardingLayout
+import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -23,27 +24,37 @@ fun OnboardingScreen(onFinished: () -> Unit) {
     val viewModel = koinViewModel<OnboardingViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    // Navigate away when effect fires
+    viewModel.effect.ObserveAsEvents { effect ->
+        if (effect is OnboardingEffect.NavigateToMain) onFinished()
+    }
+
+    OnboardingContent(
+        state = state,
+        onEvent = viewModel::handleEvent
+    )
+}
+
+@Composable
+fun OnboardingContent(
+    state: OnboardingState,
+    onEvent: (OnboardingEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val pagerState = rememberPagerState(pageCount = { state.pages.size })
 
-    // Drive pager from ViewModel state (button taps / skip)
+    // Drive pager from state (button taps / skip)
     LaunchedEffect(state.currentPage) {
         if (pagerState.currentPage != state.currentPage) {
             pagerState.animateScrollToPage(state.currentPage)
         }
     }
 
-    // Sync pager → ViewModel on manual swipes
+    // Sync pager on manual swipes
     LaunchedEffect(pagerState.currentPage) {
         if (pagerState.currentPage != state.currentPage) {
-            viewModel.handleEvent(
-                OnboardingEvent.PageChanged(pagerState.currentPage)
-            )
+            onEvent(OnboardingEvent.PageChanged(pagerState.currentPage))
         }
-    }
-
-    // Navigate away when effect fires
-    viewModel.effect.ObserveAsEvents { effect ->
-        if (effect is OnboardingEffect.NavigateToMain) onFinished()
     }
 
     // Per-page background colors — cycles through Material3 container roles
@@ -54,13 +65,14 @@ fun OnboardingScreen(onFinished: () -> Unit) {
         MaterialTheme.colorScheme.primaryContainer,
     )
     val currentContainerColor by animateColorAsState(
-        targetValue = containerColors[state.currentPage],
+        targetValue = containerColors.getOrElse(state.currentPage) { MaterialTheme.colorScheme.primaryContainer },
         animationSpec = tween(durationMillis = 400),
     )
 
     val windowInfo = rememberWindowInfo()
 
     Scaffold(
+        modifier = modifier,
         containerColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onBackground,
     ) { paddingValues ->
@@ -69,7 +81,7 @@ fun OnboardingScreen(onFinished: () -> Unit) {
                 pagerState = pagerState,
                 state = state,
                 containerColor = currentContainerColor,
-                onEvent = viewModel::handleEvent,
+                onEvent = onEvent,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
@@ -79,11 +91,20 @@ fun OnboardingScreen(onFinished: () -> Unit) {
                 pagerState = pagerState,
                 state = state,
                 containerColor = currentContainerColor,
-                onEvent = viewModel::handleEvent,
+                onEvent = onEvent,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
             )
         }
     }
+}
+
+@AllAdaptivePreviews
+@Composable
+private fun OnboardingScreenPreview() {
+    OnboardingContent(
+        state = OnboardingState(),
+        onEvent = {}
+    )
 }

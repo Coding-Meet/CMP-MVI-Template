@@ -22,6 +22,8 @@ import com.example.cmp_mvi_template.core.utility.IconResource
 import com.example.cmp_mvi_template.core.utility.UiText
 import cmp_mvi_template.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import com.example.cmp_mvi_template.core.data.datastore.ThemeMode
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @Composable
 fun ThemeSelectionRow(
@@ -72,4 +74,14 @@ fun ThemeSelectionRow(
             )
         }
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun ThemeSelectionRowPreview() {
+    ThemeSelectionRow(
+        iconResource = ThemeMode.SYSTEM.icon,
+        title = ThemeMode.SYSTEM.screenTitle,
+        onClick = {}
+    )
 }

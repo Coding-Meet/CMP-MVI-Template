@@ -1,38 +1,43 @@
-# 🧬 Pokémon App - MVI Compose Multiplatform Template ✨
+# 🛍️ Store App - MVI Compose Multiplatform Template ✨
 
-A beautiful, modern Pokemon application built with Compose Multiplatform featuring MVI architecture,
-type-safe navigation, and dynamic theming. Explore Pokemon, manage favorites, and enjoy a seamless
-experience across Android, Desktop, and iOS platforms.
+A beautiful, modern E-Commerce application built with Compose Multiplatform featuring MVI architecture,
+type-safe navigation, and dynamic theming. Explore products, manage favorites/wishlist, add items to cart,
+and enjoy a seamless experience across Android, Desktop, and iOS platforms powered by DummyJSON API.
 
-[![News Kotlin Multiplatform AppPreview](screenshot/pokemon_cmp_mvi_template.png)]()
+[![Store App Compose Multiplatform Preview](image/web/dark/01_web_products_catalog.png)]()
 
 ## ✨ Features
 
-🎯 Core Features
+### 🎯 Core Features
 
-- 📱 Multiplatform: Android, Desktop, and iOS support
-- 🏗️ MVI Architecture: Clean, predictable state management
-- 🧭 Type-Safe Navigation: Kotlin Serialization-based routing
-- 🎨 Material 3 Design: Modern UI with dynamic theming
-- 🌓 Theme Management: Dark mode + Android Dynamic Colors
-- 💾 Offline Support: Room database for favorites
-- 🔄 Reactive UI: Real-time updates with StateFlow
+- 📱 **Multiplatform**: Android, Desktop, and iOS support with shared business logic and UI
+- 🏗️ **MVI Architecture**: Clean, unidirectional data flow (Intent/Event -> ViewModel -> State & Effect)
+- 🧭 **Type-Safe Navigation**: Kotlin Serialization-based routing with adaptive navigation (Bottom Bar & Navigation Rail)
+- 🎨 **Material 3 Design**: Modern UI with dynamic theming and Material You integration
+- 🌓 **Theme Management**: Dark / Light / System default modes + Android Dynamic Colors persisted via DataStore
+- 💾 **Offline Support**: Room Multiplatform database with SQLite for persistent favorites and shopping cart
+- 🔄 **Reactive UI**: StateFlow and SharedFlow for real-time, responsive UI updates
+- 👁️ **MultiPreview Support**: Comprehensive `@ComponentPreviews`, `@AllAdaptivePreviews`, and `@PhonePreview` annotations with custom `MyThemeWrapper`
 
-🐾 Pokemon Features
+### 🛍️ Product & E-Commerce Features
 
-- 🔍 Pokemon List: Browse all Pokemon with infinite scrolling
-- ❤️ Favorites Management: Add/remove Pokemon from favorites
-- 📊 Detailed View: Stats, abilities, types, and more
-- 🎨 Type-based Theming: Colors based on Pokemon types
-- ✨ Shimmer Loading: Beautiful loading animations
+- 🔍 **Product Catalog**: Browse products with infinite scroll pagination and pull-to-refresh
+- 🔎 **Instant Search & Filters**: 350ms debounced live search, horizontal category pill filter, and dynamic sorting by Price (Low/High) & Rating
+- 🛒 **Shopping Cart System**: Room DB persisted cart with real-time bottom nav badge, quantity controls, discount calculations, item deletion, and checkout simulation
+- 👤 **User Authentication & Profile**: JWT token persistence via DataStore, 1-click demo login (`emilys`), detailed user profile view, and logout support
+- ❤️ **Favorites / Wishlist**: Add/remove products from favorites with swipe-to-delete gesture
+- 📊 **Rich Detailed View**: Image carousel, price, discount tags, ratings, stock status, specs, customer reviews, and direct "Add to Cart" action
+- ✨ **Shimmer Loading**: Polished shimmer placeholder animations for smooth loading states
 
-🎭 UI/UX Features
+### 🎭 UI/UX Features
 
-- 🌊 Smooth Animations: Page transitions and micro-interactions
-- 📱 Adaptive UI: Responsive design for all screen sizes
-- 👆 Swipe Actions: Swipe-to-delete favorites
-- 🌈 Dynamic Colors: Android 12+ Material You support
-- ⚡ Performance: Optimized with lazy loading and caching
+- 🌊 **Smooth Animations**: Animated transitions, bottom sheet modals, and micro-interactions
+- 📱 **Adaptive UI**: Responsive layouts scaling seamlessly from phones to tablets and desktop screens
+- 👆 **Swipe Actions**: Swipe-to-delete favorites with background reveal
+- 🌈 **Dynamic Colors**: Android 12+ Material You dynamic color extraction
+- ⚡ **Performance**: Optimized with Coil3 image caching, Room query flows, and lazy composables
+
+---
 
 ## Getting Started
 
@@ -42,110 +47,246 @@ experience across Android, Desktop, and iOS platforms.
    ```bash
    git clone https://github.com/Coding-Meet/CMP-MVI-Template.git
    ```
-2. Open in the latest version of Android Studio or intellij idea.
-3. This project includes a demo of how to use BuildConfig.
-   (Note: The API key here is just a placeholder and not used in the app.)
-   Create or update your local.properties with:
-   ```
-   API_KEY=API_KEY
+2. Open in the latest version of Android Studio or IntelliJ IDEA.
+3. Build configuration with BuildConfig (via BuildKonfig):
+   Create or update your `local.properties` file in the project root:
+   ```properties
    Is_Debug_Build=true
    ```
+   *(Note: The app is powered by the public [DummyJSON API](https://dummyjson.com/) — no external API key is required!)*
 
 ### Run the app on your device or emulator:
 
-- For Android, run the `androidApp` module by selecting the `app` configuration. If you need help
-  with the configuration, follow this link
-  for [android](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html#run-your-application-on-android)
-- For iOS, run the `iosApp` configuration in Xcode. If you need help with the configuration,
-  follow this link
-  for [iOS](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html#run-your-application-on-ios)
-- For Desktop, run `./gradlew :desktopApp:run`
-- For Desktop with hot reload, run
-  `./gradlew :desktopApp:desktopRun -DmainClass=com.example.cmp_mvi_template.MainKt`
+- **Android**: Run the `androidApp` module by selecting the `app` run configuration in Android Studio.
+- **iOS**: Run the `iosApp` scheme in Xcode or via Android Studio's Kotlin Multiplatform plugin.
+- **Desktop**: Run the Gradle task:
+  ```bash
+  ./gradlew :desktopApp:run
+  ```
 
-## Screenshot 💻
+---
 
-## Android
+## Screenshots 💻
 
-<table>
-   <tr>
-    <td><img src="screenshot/android/1_android.png" alt="android"></td>
-    <td><img src="screenshot/android/2_android.png" alt="android"></td>
-    <td><img src="screenshot/android/3_android.png" alt="android"></td>
-    <td><img src="screenshot/android/4_android.png" alt="android"></td>
-   </tr>
-   <tr>
-    <td><img src="screenshot/android/5_android.png" alt="android"></td>
-    <td><img src="screenshot/android/6_android.png" alt="android"></td>
-    <td><img src="screenshot/android/7_android.png" alt="android"></td>
-    <td><img src="screenshot/android/8_android.png" alt="android"></td>
-   </tr>
-   <tr>
-    <td><img src="screenshot/android/9_android.png" alt="android"></td>
-    <td><img src="screenshot/android/10_android.png" alt="android"></td>
-    <td><img src="screenshot/android/11_android.png" alt="android"></td>
-    <td><img src="screenshot/android/12_android.png" alt="android"></td>
-    </tr>
-   <tr>
-    <td><img src="screenshot/android/13_android.png" alt="android"></td>
-    <td><img src="screenshot/android/14_android.png" alt="android"></td>
-    <td><img src="screenshot/android/15_android.png" alt="android"></td>
-   </tr>
-</table>
+### 📱 Android (Google Pixel 9)
 
-## IOS
+<details open>
+<summary><b>🌙 Dark Mode (12 Screens — Click to collapse)</b></summary>
+<br>
 
 <table>
-   <tr>
-        <td><img src="screenshot/ios/1_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/2_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/3_ios.png" alt="ios"></td>
-   </tr>
-   <tr>
-        <td><img src="screenshot/ios/4_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/5_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/6_ios.png" alt="ios"></td>
-   </tr>
-    <tr>
-        <td><img src="screenshot/ios/7_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/8_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/9_ios.png" alt="ios"></td>
-    </tr>
-    <tr>
-        <td><img src="screenshot/ios/10_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/11_ios.png" alt="ios"></td>
-        <td><img src="screenshot/ios/12_ios.png" alt="ios"></td>
-    </tr>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/android/dark/01_products_catalog.png" alt="Products Catalog" width="220" /></td>
+    <td align="center"><b>02. Shimmer Loading</b><br><img src="image/android/dark/02_products_shimmer.png" alt="Shimmer Loading" width="220" /></td>
+    <td align="center"><b>03. Live Search & Filters</b><br><img src="image/android/dark/03_products_search.png" alt="Search & Filters" width="220" /></td>
+    <td align="center"><b>04. Sort Bottom Sheet</b><br><img src="image/android/dark/04_product_sort_sheet.png" alt="Sort Sheet" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. Product Details</b><br><img src="image/android/dark/05_product_details.png" alt="Product Details" width="220" /></td>
+    <td align="center"><b>06. Shopping Cart</b><br><img src="image/android/dark/06_cart_items.png" alt="Shopping Cart" width="220" /></td>
+    <td align="center"><b>07. Checkout Dialog</b><br><img src="image/android/dark/07_checkout_success_dialog.png" alt="Checkout Dialog" width="220" /></td>
+    <td align="center"><b>08. Favorites / Wishlist</b><br><img src="image/android/dark/08_favorites_list.png" alt="Favorites" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>09. User Profile (Auth)</b><br><img src="image/android/dark/09_profile_logged_in.png" alt="User Profile" width="220" /></td>
+    <td align="center"><b>10. Settings Screen</b><br><img src="image/android/dark/10_settings_screen.png" alt="Settings" width="220" /></td>
+    <td align="center"><b>11. Theme Selection</b><br><img src="image/android/dark/11_theme_selection_dialog.png" alt="Theme Selection" width="220" /></td>
+    <td align="center"><b>12. Onboarding</b><br><img src="image/android/dark/12_onboarding_screen.png" alt="Onboarding" width="220" /></td>
+  </tr>
 </table>
 
-## Desktop
+</details>
+
+<details>
+<summary><b>☀️ Light Mode (12 Screens — Click to expand)</b></summary>
+<br>
 
 <table>
-   <tr>
-        <td><img src="screenshot/desktop/1_desktop.png" alt="desktop"></td>
-        <td><img src="screenshot/desktop/2_desktop.png" alt="desktop"></td>
-   </tr>
-    <tr>
-        <td><img src="screenshot/desktop/3_desktop.png" alt="desktop"></td>
-        <td><img src="screenshot/desktop/4_desktop.png" alt="desktop"></td>
-    </tr>
-    <tr>
-        <td><img src="screenshot/desktop/5_desktop.png" alt="desktop"></td>
-        <td><img src="screenshot/desktop/6_desktop.png" alt="desktop"></td>
-    </tr>
-    <tr>
-        <td><img src="screenshot/desktop/7_desktop.png" alt="desktop"></td>
-        <td><img src="screenshot/desktop/8_desktop.png" alt="desktop"></td>
-    </tr>
-    <tr>
-        <td><img src="screenshot/desktop/9_desktop.png" alt="desktop"></td>    
-        <td><img src="screenshot/desktop/10_desktop.png" alt="desktop"></td>
-    </tr>
-    <tr>
-        <td><img src="screenshot/desktop/11_desktop.png" alt="desktop"></td>
-        <td><img src="screenshot/desktop/12_desktop.png" alt="desktop"></td>    
-    </tr>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/android/light/01_products_catalog.png" alt="Products Catalog" width="220" /></td>
+    <td align="center"><b>02. Shimmer Loading</b><br><img src="image/android/light/02_products_shimmer.png" alt="Shimmer Loading" width="220" /></td>
+    <td align="center"><b>03. Live Search & Filters</b><br><img src="image/android/light/03_products_search.png" alt="Search & Filters" width="220" /></td>
+    <td align="center"><b>04. Sort Bottom Sheet</b><br><img src="image/android/light/04_product_sort_sheet.png" alt="Sort Sheet" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. Product Details</b><br><img src="image/android/light/05_product_details.png" alt="Product Details" width="220" /></td>
+    <td align="center"><b>06. Shopping Cart</b><br><img src="image/android/light/06_cart_items.png" alt="Shopping Cart" width="220" /></td>
+    <td align="center"><b>07. Checkout Dialog</b><br><img src="image/android/light/07_checkout_success_dialog.png" alt="Checkout Dialog" width="220" /></td>
+    <td align="center"><b>08. Favorites / Wishlist</b><br><img src="image/android/light/08_favorites_list.png" alt="Favorites" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>09. User Profile (Auth)</b><br><img src="image/android/light/09_profile_logged_in.png" alt="User Profile" width="220" /></td>
+    <td align="center"><b>10. Settings Screen</b><br><img src="image/android/light/10_settings_screen.png" alt="Settings" width="220" /></td>
+    <td align="center"><b>11. Theme Selection</b><br><img src="image/android/light/11_theme_selection_dialog.png" alt="Theme Selection" width="220" /></td>
+    <td align="center"><b>12. Onboarding</b><br><img src="image/android/light/12_onboarding_screen.png" alt="Onboarding" width="220" /></td>
+  </tr>
 </table>
+
+</details>
+
+<br>
+
+### 🍎 iOS (Apple iPhone 16 Pro)
+
+<details open>
+<summary><b>🌙 Dark Mode (12 Screens — Click to collapse)</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/ios/dark/01_products_catalog.png" alt="Products Catalog" width="220" /></td>
+    <td align="center"><b>02. Shimmer Loading</b><br><img src="image/ios/dark/02_products_shimmer.png" alt="Shimmer Loading" width="220" /></td>
+    <td align="center"><b>03. Live Search & Filters</b><br><img src="image/ios/dark/03_products_search.png" alt="Search & Filters" width="220" /></td>
+    <td align="center"><b>04. Sort Bottom Sheet</b><br><img src="image/ios/dark/04_product_sort_sheet.png" alt="Sort Sheet" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. Product Details</b><br><img src="image/ios/dark/05_product_details.png" alt="Product Details" width="220" /></td>
+    <td align="center"><b>06. Shopping Cart</b><br><img src="image/ios/dark/06_cart_items.png" alt="Shopping Cart" width="220" /></td>
+    <td align="center"><b>07. Checkout Dialog</b><br><img src="image/ios/dark/07_checkout_success_dialog.png" alt="Checkout Dialog" width="220" /></td>
+    <td align="center"><b>08. Favorites / Wishlist</b><br><img src="image/ios/dark/08_favorites_list.png" alt="Favorites" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>09. User Profile (Auth)</b><br><img src="image/ios/dark/09_profile_logged_in.png" alt="User Profile" width="220" /></td>
+    <td align="center"><b>10. Settings Screen</b><br><img src="image/ios/dark/10_settings_screen.png" alt="Settings" width="220" /></td>
+    <td align="center"><b>11. Theme Selection</b><br><img src="image/ios/dark/11_theme_selection_dialog.png" alt="Theme Selection" width="220" /></td>
+    <td align="center"><b>12. Onboarding</b><br><img src="image/ios/dark/12_onboarding_screen.png" alt="Onboarding" width="220" /></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><b>☀️ Light Mode (12 Screens — Click to expand)</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/ios/light/01_products_catalog.png" alt="Products Catalog" width="220" /></td>
+    <td align="center"><b>02. Shimmer Loading</b><br><img src="image/ios/light/02_products_shimmer.png" alt="Shimmer Loading" width="220" /></td>
+    <td align="center"><b>03. Live Search & Filters</b><br><img src="image/ios/light/03_products_search.png" alt="Search & Filters" width="220" /></td>
+    <td align="center"><b>04. Sort Bottom Sheet</b><br><img src="image/ios/light/04_product_sort_sheet.png" alt="Sort Sheet" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. Product Details</b><br><img src="image/ios/light/05_product_details.png" alt="Product Details" width="220" /></td>
+    <td align="center"><b>06. Shopping Cart</b><br><img src="image/ios/light/06_cart_items.png" alt="Shopping Cart" width="220" /></td>
+    <td align="center"><b>07. Checkout Dialog</b><br><img src="image/ios/light/07_checkout_success_dialog.png" alt="Checkout Dialog" width="220" /></td>
+    <td align="center"><b>08. Favorites / Wishlist</b><br><img src="image/ios/light/08_favorites_list.png" alt="Favorites" width="220" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>09. User Profile (Auth)</b><br><img src="image/ios/light/09_profile_logged_in.png" alt="User Profile" width="220" /></td>
+    <td align="center"><b>10. Settings Screen</b><br><img src="image/ios/light/10_settings_screen.png" alt="Settings" width="220" /></td>
+    <td align="center"><b>11. Theme Selection</b><br><img src="image/ios/light/11_theme_selection_dialog.png" alt="Theme Selection" width="220" /></td>
+    <td align="center"><b>12. Onboarding</b><br><img src="image/ios/light/12_onboarding_screen.png" alt="Onboarding" width="220" /></td>
+  </tr>
+</table>
+
+</details>
+
+<br>
+
+### 🖥️ Desktop (macOS Large Window Two-Pane Layout)
+
+<details open>
+<summary><b>🌙 Dark Mode (7 Screens — Click to collapse)</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/mac/dark/01_desktop_products_catalog.png" alt="Products Catalog" /></td>
+    <td align="center"><b>02. Product Details</b><br><img src="image/mac/dark/02_desktop_product_details.png" alt="Product Details" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>03. Shopping Cart Summary</b><br><img src="image/mac/dark/03_desktop_cart_summary.png" alt="Shopping Cart Summary" /></td>
+    <td align="center"><b>04. Favorites Wishlist</b><br><img src="image/mac/dark/04_desktop_favorites_list.png" alt="Favorites Wishlist" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. User Profile</b><br><img src="image/mac/dark/05_desktop_profile_screen.png" alt="User Profile" /></td>
+    <td align="center"><b>06. Settings Screen</b><br><img src="image/mac/dark/06_desktop_settings_screen.png" alt="Settings Screen" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><b>07. Theme Selection Dialog</b><br><img src="image/mac/dark/07_desktop_theme_dialog.png" alt="Theme Selection Dialog" width="600" /></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><b>☀️ Light Mode (7 Screens — Click to expand)</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/mac/light/01_desktop_products_catalog.png" alt="Products Catalog" /></td>
+    <td align="center"><b>02. Product Details</b><br><img src="image/mac/light/02_desktop_product_details.png" alt="Product Details" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>03. Shopping Cart Summary</b><br><img src="image/mac/light/03_desktop_cart_summary.png" alt="Shopping Cart Summary" /></td>
+    <td align="center"><b>04. Favorites Wishlist</b><br><img src="image/mac/light/04_desktop_favorites_list.png" alt="Favorites Wishlist" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. User Profile</b><br><img src="image/mac/light/05_desktop_profile_screen.png" alt="User Profile" /></td>
+    <td align="center"><b>06. Settings Screen</b><br><img src="image/mac/light/06_desktop_settings_screen.png" alt="Settings Screen" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><b>07. Theme Selection Dialog</b><br><img src="image/mac/light/07_desktop_theme_dialog.png" alt="Theme Selection Dialog" width="600" /></td>
+  </tr>
+</table>
+
+</details>
+
+<br>
+
+### 🌐 Web (Google Chrome Browser Frame)
+
+<details open>
+<summary><b>🌙 Dark Mode (7 Screens — Click to collapse)</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/web/dark/01_web_products_catalog.png" alt="Web Products Catalog" /></td>
+    <td align="center"><b>02. Product Details</b><br><img src="image/web/dark/02_web_product_details.png" alt="Web Product Details" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>03. Shopping Cart Summary</b><br><img src="image/web/dark/03_web_cart_summary.png" alt="Web Shopping Cart" /></td>
+    <td align="center"><b>04. Favorites Wishlist</b><br><img src="image/web/dark/04_web_favorites_list.png" alt="Web Favorites" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. User Profile</b><br><img src="image/web/dark/05_web_profile_screen.png" alt="Web User Profile" /></td>
+    <td align="center"><b>06. Settings Screen</b><br><img src="image/web/dark/06_web_settings_screen.png" alt="Web Settings" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><b>07. Theme Selection Dialog</b><br><img src="image/web/dark/07_web_theme_dialog.png" alt="Web Theme Dialog" width="600" /></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><b>☀️ Light Mode (7 Screens — Click to expand)</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>01. Products Catalog</b><br><img src="image/web/light/01_web_products_catalog.png" alt="Web Products Catalog" /></td>
+    <td align="center"><b>02. Product Details</b><br><img src="image/web/light/02_web_product_details.png" alt="Web Product Details" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>03. Shopping Cart Summary</b><br><img src="image/web/light/03_web_cart_summary.png" alt="Web Shopping Cart" /></td>
+    <td align="center"><b>04. Favorites Wishlist</b><br><img src="image/web/light/04_web_favorites_list.png" alt="Web Favorites" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>05. User Profile</b><br><img src="image/web/light/05_web_profile_screen.png" alt="Web User Profile" /></td>
+    <td align="center"><b>06. Settings Screen</b><br><img src="image/web/light/06_web_settings_screen.png" alt="Web Settings" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><b>07. Theme Selection Dialog</b><br><img src="image/web/light/07_web_theme_dialog.png" alt="Web Theme Dialog" width="600" /></td>
+  </tr>
+</table>
+
+</details>
+
+---
 
 ## 🏗️ Architecture
 
@@ -153,31 +294,33 @@ experience across Android, Desktop, and iOS platforms.
 
 ```
 📱 Presentation Layer (UI)
-├── 🎭 Compose Screens
-├── 🧠 ViewModels (MVI)
-└── 📊 State Management
+├── 🎭 Compose Screens (Declarative UI)
+├── 🧠 ViewModels (MVI State & Effect Emitters)
+└── 📊 State Management (StateFlow & SharedFlow)
 
 💼 Domain Layer (Business Logic)  
-├── 📋 Use Cases
-├── 🏪 Repository Interfaces
-└── 📦 Domain Models
+├── 📋 Use Cases (Single-responsibility business rules)
+├── 🏪 Repository Interfaces (Domain contracts)
+└── 📦 Domain Models (Pure Kotlin entities)
 
 💾 Data Layer (Data Sources)
-├── 🌐 Remote (Ktor + PokéAPI)
-├── 💿 Local (Room Database)  
-└── 🔄 Repository Implementation
+├── 🌐 Remote (Ktor + DummyJSON API)
+├── 💿 Local (Room Database + Preferences DataStore)  
+└── 🔄 Repository Implementation (Data orchestration & mapping)
 ```
 
 ### Tech Stack
 
-- 🎯 UI: Compose Multiplatform + Material 3
-- 🏗️ Architecture: MVI + Clean Architecture + Use Cases
-- 🧭 Navigation: Compose Navigation + Type-safe routes
-- 🌐 Networking: Ktor Client + JSON Serialization
-- 💾 Database: Room + SQLite (multiplatform)
-- 🎨 Theming: DataStore Preferences + Dynamic Colors
-- 🔧 Dependency Injection: Koin
-- 🖼️ Images: Coil3 (async image loading)
+- 🎯 **UI**: Compose Multiplatform + Material 3 + Adaptive Layouts
+- 🏗️ **Architecture**: MVI (Model-View-Intent) + Clean Architecture + Domain Use Cases
+- 🧭 **Navigation**: Jetpack Compose Navigation + Type-safe Serialization Routes
+- 🌐 **Networking**: Ktor Client (CIO / Darwin / OkHttp) + kotlinx.serialization
+- 💾 **Database**: Room Multiplatform + SQLite Bundled Driver
+- 🎨 **Theming & Preferences**: androidx.datastore (Preferences DataStore)
+- 🔧 **Dependency Injection**: Koin Multiplatform
+- 🖼️ **Image Loading**: Coil3 (Async Image Loading & Memory Caching)
+
+---
 
 ## 📁 Project Structure
 
@@ -185,86 +328,54 @@ experience across Android, Desktop, and iOS platforms.
 CMP-MVI-Template/
 ├── shared/                                 # ✅ KMP library — shared code for all platforms
 │   ├── build.gradle.kts                    # ➕ Gradle config (com.android.kotlin.multiplatform.library)
-│   ├── setting.preferences_pb              # 📦 Proto DataStore schema for user settings (theme, etc.)
-│
+│   ├── setting.preferences_pb              # 📦 Proto DataStore schema for user settings
+│   │
 │   └── src/
-│       ├── androidMain/                    # 🤖 Android-specific implementations
-│       │   └── kotlin/
-│       │       └── com/example/cmp_mvi_template/
-│       │           └── core/platform/      # 🔌 Android actual implementations for platform interfaces
-│
-│       ├── iosMain/                        # 🍎 iOS-specific code (uses Kotlin/Native)
-│       │   └── kotlin/
-│       │       └── com/example/cmp_mvi_template/
-│       │           ├── MainViewController.kt # 🧭 iOS screen entry point (UIKit)
-│       │           └── core/platform/        # 🔌 iOS actual implementations for platform interfaces
-│
-│       ├── desktopMain/                    # 🖥 Desktop-specific implementations
-│       │   └── kotlin/
-│       │       └── com/example/cmp_mvi_template/
-│       │           └── core/platform/      # 🔌 Desktop actual implementations for platform interfaces
-│
+│       ├── androidMain/                    # 🤖 Android-specific implementations (Toast, SQLite Driver, Engine)
+│       ├── iosMain/                        # 🍎 iOS-specific code (Darwin HTTP Engine, MainViewController)
+│       ├── desktopMain/                    # 🖥 Desktop-specific implementations (JVM Engine, Toast)
+│       │
 │       ├── commonMain/                     # 🔁 Shared code between all platforms
-│       │   ├── composeResources/           # 🎨 Compose Multiplatform resources (fonts, strings, etc.)
-│       │   └── kotlin/
-│       │       └── com/example/cmp_mvi_template/
+│       │   ├── composeResources/           # 🎨 Compose Multiplatform resources (drawables, strings)
+│       │   └── kotlin/com/example/cmp_mvi_template/
+│       │       ├── app/                    # 🌐 Root app navigation, AppScaffold, AppViewModel
+│       │       ├── di/                     # 🧩 Dependency Injection modules (AppModule, CoreModule, initKoin)
+│       │       ├── core/                   # 📚 Core reusable utilities, domain errors, networking, local DB
+│       │       │   ├── data/               # 🗃️ Local database, DataStore, Ktor client factory
+│       │       │   ├── domain/             # 📦 Base models, ResultWrapper, DataError, Paginator
+│       │       │   ├── platform/           # 🌍 Expect/actual platform bridges (Database, Toast, DataStore)
+│       │       │   └── utility/            # 🔧 WindowSize, AppLogger, UiText, StateController
+│       │       ├── ui/                     # 🧱 Reusable UI components, themes, and dialogs
+│       │       │   ├── component/          # 🧩 15+ Material3 custom components (Buttons, TopAppBar, etc.)
+│       │       │   ├── dialog/             # 💬 ToastPopup, LoadingDialog
+│       │       │   ├── layout/             # 📐 ErrorMessageLayout
+│       │       │   ├── navigation/         # 🧭 AdaptiveNavigation, BottomNavigationBar, Destinations
+│       │       │   └── theme/              # 🎨 Material3 Theme, Dimens, and MultiPreview Annotations
+│       │       └── feature/                # 🌟 Feature modules (Clean Architecture + MVI per feature)
+│       │           ├── product/            # 🛍️ Catalog, Search, Categories, Sort, Details, Favorites
+│       │           ├── cart/               # 🛒 Room-backed Shopping Cart & Checkout
+│       │           ├── auth/               # 👤 User Authentication & Profile (DataStore JWT token)
+│       │           ├── onboarding/         # 🚀 First-launch Onboarding Pager
+│       │           ├── splash/             # ⏳ App Splash Flow & Initial Route Resolution
+│       │           ├── setting/            # ⚙️ Theme Selection & Dynamic Colors
+│       │           └── sample_example/     # 🧪 Reference MVI feature template
 │       │
-│       │           ├── di/                 # 🧩 Dependency Injection modules using Koin
-│       │           │   ├── AppModule.kt
-│       │           │   └── PlatformModule.kt
-│       │
-│       │           ├── app/                # 🌐 App-level shared state (theme, scaffold, etc.)
-│       │           │   ├── AppViewModel.kt
-│       │           │   └── AppScaffold.kt
-│       │
-│       │           ├── core/               # 📚 Core layer for base domain, utils, and data sources
-│       │           │   ├── utility/        # 🔧 Utility helpers (formatters, validators, etc.)
-│       │           │   ├── domain/         # 📦 Base models like pagination, error handling
-│       │           │   ├── data/           # 🗃️ Base local + remote source contracts or shared logic
-│       │           │   └── platform/       # 🌍 Expect interfaces for platform-specific functionality
-│       │
-│       │           ├── ui/                 # 🧱 Reusable UI components
-│       │           │   ├── Button/
-│       │           │   ├── Dialog/
-│       │           │   ├── Layout/
-│       │           │   └── Theme/          # 🎨 Theme definitions (Typography, Colors, Dimens)
-│       │
-│       │           └── feature/            # 🌟 Feature modules – each screen or flow has its own folder
-│       │               ├── pokemon/        # 🐱 Pokemon feature (MVI pattern)
-│       │               │   ├── domain/     # 🔁 Business logic interfaces & models
-│       │               │   ├── data/       # 💾 Repository, fake/local/remote data
-│       │               │   ├── presentation/ # 🎭 UI state, event, screen, and ViewModel
-│       │               │   └── di/         # 🧩 Feature-specific DI
-│       │
-│       │               ├── setting/        # ⚙️ App settings (e.g., theme selection)
-│       │               │   └── presentation/ # 🎭 UI state + screen for settings
-│       │
-│       │               └── sample_example/ # 🧪 Optional example/template feature
-│       │                   ├── presentation/
-│       │                   └── domain/
 │       └── commonTest/                     # 🧪 Shared unit tests
-│           └── com/example/cmp_mvi_template/
-│               └── ComposeAppCommonTest.kt # ✅ Sample shared test
 │
 ├── androidApp/                             # 🤖 Android entry point module
 │   ├── build.gradle.kts                    # ➕ Gradle config (com.android.application)
-│   └── src/main/
-│       ├── AndroidManifest.xml             # 📄 App manifest (launcher activity, permissions)
-│       ├── kotlin/com/example/cmp_mvi_template/
-│       │   ├── MainActivity.kt             # 🚀 Entry point for Android app
-│       │   └── MyApplication.kt            # 🏁 Application class for Koin setup
-│       └── res/                            # 🎨 Android resources (icons, themes, strings)
+│   └── src/main/kotlin/                    # 🚀 MainActivity & MyApplication (Koin setup)
 │
 ├── desktopApp/                             # 🖥 Desktop entry point module
 │   ├── build.gradle.kts                    # ➕ Gradle config (Compose Desktop application)
-│   └── src/desktopMain/kotlin/com/example/cmp_mvi_template/
-│       └── main.kt                         # 💻 Desktop launcher with ComposeWindow
+│   └── src/desktopMain/kotlin/             # 💻 Desktop launcher (main.kt)
 │
-└── iosApp/                                 # 🍎 iOS Xcode project (unchanged)
-
+└── iosApp/                                 # 🍎 iOS Xcode project entry point
 ```
 
-## 📁 Detail Project Structure
+---
+
+## 📁 Detailed Project Structure
 
 ```
 └── CMP-MVI-Template/
@@ -272,329 +383,315 @@ CMP-MVI-Template/
 │   ├── build.gradle.kts
 │   └── src/main/
 │       ├── AndroidManifest.xml
-│       ├── res/
-│       │   └── values/
-│       │       └── strings.xml
-│       └── kotlin/
-│           └── com/
-│               └── example/
-│                   └── cmp_mvi_template/
-│                       ├── MyApplication.kt
-│                       └── MainActivity.kt
+│       └── kotlin/com/example/cmp_mvi_template/
+│           ├── MyApplication.kt
+│           └── MainActivity.kt
 ├── desktopApp/
 │   ├── build.gradle.kts
-│   └── src/desktopMain/
-│       └── kotlin/
-│           └── com/
-│               └── example/
-│                   └── cmp_mvi_template/
-│                       └── main.kt
+│   └── src/desktopMain/kotlin/com/example/cmp_mvi_template/
+│       └── main.kt
 ├── shared/
-│   ├── setting.preferences_pb
 │   ├── build.gradle.kts
 │   └── src/
-│       ├── androidMain/
-│       │   └── kotlin/
-│       │       └── com/
-│       │           └── example/
-│       │               └── cmp_mvi_template/
-│       │                   └── core/
-│       │                       └── platform/
-│       │                           ├── theme/
-│       │                           │   └── PlatformTheme.android.kt
-│       │                           ├── datastore/
-│       │                           │   └── createDataStore.android.kt
-│       │                           ├── toast/
-│       │                           │   ├── AndroidToastManager.kt
-│       │                           │   └── ToastManager.android.kt
-│       │                           ├── http_engine/
-│       │                           │   └── GetHttpClientEngine.android.kt
-│       │                           └── database/
-│       │                               └── getDatabaseBuilder.android.kt
+│       ├── androidMain/kotlin/com/example/cmp_mvi_template/core/platform/
+│       │   ├── theme/PlatformTheme.android.kt
+│       │   ├── datastore/createDataStore.android.kt
+│       │   ├── toast/AndroidToastManager.kt
+│       │   ├── http_engine/GetHttpClientEngine.android.kt
+│       │   └── database/getDatabaseBuilder.android.kt
 │       ├── commonMain/
 │       │   ├── composeResources/
-│       │   │   ├── values/
-│       │   │   │   └── strings.xml
-│       │   │   └── drawable/
-│       │   │       └── compose-multiplatform.xml
-│       │   └── kotlin/
-│       │       └── com/
-│       │           └── example/
-│       │               └── cmp_mvi_template/
-│       │                   ├── di/
-│       │                   │   ├── initKoin.kt
-│       │                   │   └── CoreModule.kt
-│       │                   ├── app/
-│       │                   │   ├── presentation/
-│       │                   │   │   ├── App.kt
-│       │                   │   │   ├── AppThemeState.kt
-│       │                   │   │   └── AppViewModel.kt
-│       │                   │   └── di/
-│       │                   │       └── AppModule.kt
-│       │                   ├── core/
-│       │                   │   ├── utility/
-│       │                   │   │   ├── ComposableExtensions.kt
-│       │                   │   │   ├── UiText.kt
-│       │                   │   │   ├── IconResource.kt
-│       │                   │   │   ├── AppLogger.kt
-│       │                   │   │   └── StateController.kt
-│       │                   │   ├── domain/
-│       │                   │   │   ├── DataErrorToUiTextExtension.kt
-│       │                   │   │   ├── Paginator.kt
-│       │                   │   │   ├── DataError.kt
-│       │                   │   │   ├── Error.kt
-│       │                   │   │   └── ResultWrapper.kt
-│       │                   │   ├── data/
-│       │                   │   │   ├── datastore/
-│       │                   │   │   │   ├── ThemeMode.kt
-│       │                   │   │   │   └── ThemePreferences.kt
-│       │                   │   │   ├── local/
-│       │                   │   │   │   ├── PokemonDatabase.kt
-│       │                   │   │   │   ├── PokemonDatabaseConstructor.kt
-│       │                   │   │   │   └── dao/
-│       │                   │   │   │       └── PokemonDao.kt
-│       │                   │   │   └── network/
-│       │                   │   │       ├── NetworkExtensions.kt
-│       │                   │   │       └── HttpClientFactory.kt
-│       │                   │   └── platform/
-│       │                   │       ├── theme/
-│       │                   │       │   └── PlatformTheme.kt
-│       │                   │       ├── datastore/
-│       │                   │       │   ├── createDataStore.kt
-│       │                   │       │   └── AppSettings.kt
-│       │                   │       ├── toast/
-│       │                   │       │   ├── ToastManager.kt
-│       │                   │       │   ├── ToastManagerFactory.kt
-│       │                   │       │   └── ToastDuration.kt
-│       │                   │       ├── http_engine/
-│       │                   │       │   └── GetHttpClientEngine.kt
-│       │                   │       └── database/
-│       │                   │           └── getDatabaseBuilder.kt
-│       │                   ├── ui/
-│       │                   │   ├── theme/
-│       │                   │   │   ├── AnnotationPreview.kt
-│       │                   │   │   ├── Color.kt
-│       │                   │   │   ├── Theme.kt
-│       │                   │   │   └── Type.kt
-│       │                   │   ├── dialog/
-│       │                   │   │   ├── ToastPopup.kt
-│       │                   │   │   └── LoadingDialog.kt
-│       │                   │   ├── navigation/
-│       │                   │   │   ├── AppDestination.kt
-│       │                   │   │   ├── AdaptiveNavigation.kt
-│       │                   │   │   ├── NavigationExtensions.kt
-│       │                   │   │   └── bottom_navigation_bar/
-│       │                   │   │       ├── NavigationItem.kt
-│       │                   │   │       └── BottomNavigationBar.kt
-│       │                   │   ├── layout/
-│       │                   │   │   └── ErrorMessageLayout.kt
-│       │                   │   └── component/
-│       │                   │       ├── badges/
-│       │                   │       │   └── Badges.kt
-│       │                   │       ├── text/
-│       │                   │       │   └── Text.kt
-│       │                   │       ├── radio_button/
-│       │                   │       │   └── RadioButton.kt
-│       │                   │       ├── divider/
-│       │                   │       │   └── Divider.kt
-│       │                   │       ├── navigation_bar/
-│       │                   │       │   └── NavigationBar.kt
-│       │                   │       ├── progress_indicator/
-│       │                   │       │   └── ProgressIndicators.kt
-│       │                   │       ├── button/
-│       │                   │       │   └── Button.kt
-│       │                   │       ├── switch_custom/
-│       │                   │       │   └── Switch.kt
-│       │                   │       ├── slider/
-│       │                   │       │   └── Slider.kt
-│       │                   │       ├── icon_button/
-│       │                   │       │   └── IconButton.kt
-│       │                   │       ├── checkbox/
-│       │                   │       │   └── Checkbox.kt
-│       │                   │       ├── fab/
-│       │                   │       │   └── Fab.kt
-│       │                   │       ├── segmented_button/
-│       │                   │       │   └── SegmentedButton.kt
-│       │                   │       ├── bottom_app_bar/
-│       │                   │       │   └── BottomAppBar.kt
-│       │                   │       └── top_app_bar/
-│       │                   │           └── TopAppBar.kt
-│       │                   └── feature/
-│       │                       ├── setting/
-│       │                       │   ├── di/
-│       │                       │   │   └── SettingModule.kt
-│       │                       │   └── presentation/
-│       │                       │       ├── screen/
-│       │                       │       │   ├── SettingScreen.kt
-│       │                       │       │   ├── SettingEvent.kt
-│       │                       │       │   ├── SettingState.kt
-│       │                       │       │   ├── SettingViewModel.kt
-│       │                       │       │   └── SettingEffect.kt
-│       │                       │       └── component/
-│       │                       │           ├── DynamicThemeToggleAndroidOnly.kt
-│       │                       │           ├── ThemeSelectionRow.kt
-│       │                       │           ├── ThemeSelectionDialog.kt
-│       │                       │           └── ThemePreview.kt
-│       │                       ├── pokemon/
-│       │                       │   ├── di/
-│       │                       │   │   └── PokemonModule.kt
-│       │                       │   ├── presentation/
-│       │                       │   │   ├── component/
-│       │                       │   │   │   ├── PokemonCard.kt
-│       │                       │   │   │   └── ShimmerEffect.kt
-│       │                       │   │   ├── pokemon_details/
-│       │                       │   │   │   ├── screen/
-│       │                       │   │   │   │   ├── PokemonDetailsViewModel.kt
-│       │                       │   │   │   │   ├── PokemonDetailsEvent.kt
-│       │                       │   │   │   │   ├── PokemonDetailsScreen.kt
-│       │                       │   │   │   │   ├── PokemonDetailsEffect.kt
-│       │                       │   │   │   │   └── PokemonDetailsState.kt
-│       │                       │   │   │   └── component/
-│       │                       │   │   │       ├── PokemonAbilitiesSection.kt
-│       │                       │   │   │       ├── PokemonDetailsContent.kt
-│       │                       │   │   │       ├── PokemonStatsSection.kt
-│       │                       │   │   │       ├── PokemonBasicInfoSection.kt
-│       │                       │   │   │       └── PokemonImageSection.kt
-│       │                       │   │   ├── pokemon_list/
-│       │                       │   │   │   └── screen/
-│       │                       │   │   │       ├── PokemonListEvent.kt
-│       │                       │   │   │       ├── PokemonListViewModel.kt
-│       │                       │   │   │       ├── PokemonListScreen.kt
-│       │                       │   │   │       ├── PokemonListEffect.kt
-│       │                       │   │   │       └── PokemonListState.kt
-│       │                       │   │   └── favorites/
-│       │                       │   │       ├── screen/
-│       │                       │   │       │   ├── FavoritesState.kt
-│       │                       │   │       │   ├── FavoritesScreen.kt
-│       │                       │   │       │   ├── FavoritesEffect.kt
-│       │                       │   │       │   ├── FavoritesEvent.kt
-│       │                       │   │       │   └── FavoritesViewModel.kt
-│       │                       │   │       └── component/
-│       │                       │   │           ├── SwipeToDeletePokemonCard.kt
-│       │                       │   │           ├── FavoritesListContent.kt
-│       │                       │   │           └── EmptyFavoritesScreen.kt
-│       │                       │   ├── domain/
-│       │                       │   │   ├── usecase/
-│       │                       │   │   │   ├── GetFavoritesPokemonUseCase.kt
-│       │                       │   │   │   ├── GetPokemonDetailsUseCase.kt
-│       │                       │   │   │   ├── CheckIfFavoriteUseCase.kt
-│       │                       │   │   │   ├── GetPokemonListUseCase.kt
-│       │                       │   │   │   └── ToggleFavoriteUseCase.kt
-│       │                       │   │   ├── entity/
-│       │                       │   │   │   ├── PokemonEntity.kt
-│       │                       │   │   │   └── Pokemon.kt
-│       │                       │   │   └── repository/
-│       │                       │   │       └── PokemonRepository.kt
-│       │                       │   └── data/
-│       │                       │       ├── mapper/
-│       │                       │       │   └── toDomain.kt
-│       │                       │       ├── repository/
-│       │                       │       │   └── PokemonRepositoryImpl.kt
-│       │                       │       └── remote/
-│       │                       │           ├── api/
-│       │                       │           │   ├── PokemonApiServiceImpl.kt
-│       │                       │           │   └── PokemonApiService.kt
-│       │                       │           └── dto/
-│       │                       │               └── PokemonListResponseDto.kt
-│       │                       └── sample_example/
-│       │                           ├── di/
-│       │                           │   └── SampleExampleModule.kt
-│       │                           └── presentation/
-│       │                               └── screen/
-│       │                                   ├── SampleEffect.kt
-│       │                                   ├── SampleExampleScreen.kt
-│       │                                   ├── SampleEvent.kt
-│       │                                   ├── SampleState.kt
-│       │                                   └── SampleExampleViewModel.kt
-│       ├── desktopMain/
-│       │   └── kotlin/
-│       │       └── com/
-│       │           └── example/
-│       │               └── cmp_mvi_template/
-│       │                   └── core/
-│       │                       └── platform/
-│       │                           ├── theme/
-│       │                           │   └── PlatformTheme.desktop.kt
-│       │                           ├── datastore/
-│       │                           │   └── createDataStore.desktop.kt
-│       │                           ├── toast/
-│       │                           │   ├── RoundedPanel.kt
-│       │                           │   ├── ToastManager.desktop.kt
-│       │                           │   └── DesktopToastManager.kt
-│       │                           ├── http_engine/
-│       │                           │   └── GetHttpClientEngine.desktop.kt
-│       │                           └── database/
-│       │                               └── getDatabaseBuilder.desktop.kt
-│       ├── commonTest/
-│       │   └── kotlin/
-│       │       └── com/
-│       │           └── example/
-│       │               └── cmp_mvi_template/
-│       │                   └── ComposeAppCommonTest.kt
-│       └── iosMain/
-│           └── kotlin/
-│               └── com/
-│                   └── example/
-│                       └── cmp_mvi_template/
-│                           ├── MainViewController.kt
-│                           └── core/
-│                               └── platform/
-│                                   ├── theme/
-│                                   │   └── PlatformTheme.ios.kt
-│                                   ├── datastore/
-│                                   │   └── createDataStore.ios.kt
-│                                   ├── toast/
-│                                   │   ├── ToastManager.ios.kt
-│                                   │   └── IosToastManager.kt
-│                                   ├── http_engine/
-│                                   │   └── GetHttpClientEngine.ios.kt
-│                                   └── database/
-│                                       └── getDatabaseBuilder.ios.kt
+│       │   │   ├── drawable/
+│       │   │   └── values/strings.xml
+│       │   └── kotlin/com/example/cmp_mvi_template/
+│       │       ├── app/
+│       │       │   ├── presentation/
+│       │       │   │   ├── App.kt
+│       │       │   │   ├── AppThemeState.kt
+│       │       │   │   └── AppViewModel.kt
+│       │       │   └── di/AppModule.kt
+│       │       ├── di/
+│       │       │   ├── initKoin.kt
+│       │       │   └── CoreModule.kt
+│       │       ├── core/
+│       │       │   ├── data/
+│       │       │   │   ├── datastore/
+│       │       │   │   │   ├── ThemeMode.kt
+│       │       │   │   │   ├── ThemePreferences.kt
+│       │       │   │   │   └── onboarding/OnboardingPreferences.kt
+│       │       │   │   ├── local/
+│       │       │   │   │   ├── AppDatabase.kt
+│       │       │   │   │   ├── AppDatabaseConstructor.kt
+│       │       │   │   │   └── dao/
+│       │       │   │   │       ├── ProductDao.kt
+│       │       │   │   │       └── CartDao.kt
+│       │       │   │   └── network/
+│       │       │   │       ├── HttpClientFactory.kt
+│       │       │   │       └── NetworkExtensions.kt
+│       │       │   ├── domain/
+│       │       │   │   ├── DataError.kt
+│       │       │   │   ├── DataErrorToUiTextExtension.kt
+│       │       │   │   ├── Error.kt
+│       │       │   │   ├── Paginator.kt
+│       │       │   │   └── ResultWrapper.kt
+│       │       │   ├── platform/
+│       │       │   │   ├── database/getDatabaseBuilder.kt
+│       │       │   │   ├── datastore/AppSettings.kt
+│       │       │   │   ├── datastore/createDataStore.kt
+│       │       │   │   ├── http_engine/GetHttpClientEngine.kt
+│       │       │   │   ├── theme/PlatformTheme.kt
+│       │       │   │   └── toast/
+│       │       │   │       ├── ToastDuration.kt
+│       │       │   │       ├── ToastManager.kt
+│       │       │   │       └── ToastManagerFactory.kt
+│       │       │   └── utility/
+│       │       │       ├── AppLogger.kt
+│       │       │       ├── ComposableExtensions.kt
+│       │       │       ├── IconResource.kt
+│       │       │       ├── StateController.kt
+│       │       │       ├── UiText.kt
+│       │       │       └── WindowSize.kt
+│       │       ├── ui/
+│       │       │   ├── component/
+│       │       │   │   ├── badges/Badges.kt
+│       │       │   │   ├── bottom_app_bar/BottomAppBar.kt
+│       │       │   │   ├── button/Button.kt
+│       │       │   │   ├── checkbox/Checkbox.kt
+│       │       │   │   ├── divider/Divider.kt
+│       │       │   │   ├── fab/Fab.kt
+│       │       │   │   ├── icon_button/IconButton.kt
+│       │       │   │   ├── navigation_bar/NavigationBar.kt
+│       │       │   │   ├── progress_indicator/ProgressIndicators.kt
+│       │       │   │   ├── radio_button/RadioButton.kt
+│       │       │   │   ├── segmented_button/SegmentedButton.kt
+│       │       │   │   ├── slider/Slider.kt
+│       │       │   │   ├── switch_custom/Switch.kt
+│       │       │   │   ├── text/Text.kt
+│       │       │   │   └── top_app_bar/TopAppBar.kt
+│       │       │   ├── dialog/
+│       │       │   │   ├── LoadingDialog.kt
+│       │       │   │   └── ToastPopup.kt
+│       │       │   ├── layout/ErrorMessageLayout.kt
+│       │       │   ├── navigation/
+│       │       │   │   ├── AdaptiveNavigation.kt
+│       │       │   │   ├── AppDestination.kt
+│       │       │   │   ├── NavigationExtensions.kt
+│       │       │   │   └── bottom_navigation_bar/
+│       │       │   │       ├── BottomNavigationBar.kt
+│       │       │   │       └── NavigationItem.kt
+│       │       │   └── theme/
+│       │       │       ├── AnnotationPreview.kt
+│       │       │       ├── Color.kt
+│       │       │       ├── Dimens.kt
+│       │       │       ├── Theme.kt
+│       │       │       └── Type.kt
+│       │       └── feature/
+│       │           ├── product/
+│       │           │   ├── di/ProductModule.kt
+│       │           │   ├── data/
+│       │           │   │   ├── mapper/toDomain.kt
+│       │           │   │   ├── remote/
+│       │           │   │   │   ├── api/
+│       │           │   │   │   │   ├── ProductApiService.kt
+│       │           │   │   │   │   └── ProductApiServiceImpl.kt
+│       │           │   │   │   └── dto/ProductDto.kt
+│       │           │   │   └── repository/ProductRepositoryImpl.kt
+│       │           │   ├── domain/
+│       │           │   │   ├── entity/
+│       │           │   │   │   ├── Product.kt
+│       │           │   │   │   └── ProductEntity.kt
+│       │           │   │   ├── repository/ProductRepository.kt
+│       │           │   │   └── usecase/
+│       │           │   │       ├── CheckIfProductFavoriteUseCase.kt
+│       │           │   │       ├── GetCategoriesUseCase.kt
+│       │           │   │       ├── GetFavoriteProductsUseCase.kt
+│       │           │   │       ├── GetProductDetailsUseCase.kt
+│       │           │   │       ├── GetProductListUseCase.kt
+│       │           │   │       └── ToggleFavoriteProductUseCase.kt
+│       │           │   └── presentation/
+│       │           │       ├── component/
+│       │           │       │   ├── ProductCard.kt
+│       │           │       │   └── ShimmerEffect.kt
+│       │           │       ├── product_list/
+│       │           │       │   ├── component/
+│       │           │       │   │   ├── CategoryChipsRow.kt
+│       │           │       │   │   ├── ProductListContent.kt
+│       │           │       │   │   └── SortBottomSheet.kt
+│       │           │       │   └── screen/
+│       │           │       │       ├── ProductListEffect.kt
+│       │           │       │       ├── ProductListEvent.kt
+│       │           │       │       ├── ProductListScreen.kt
+│       │           │       │       ├── ProductListState.kt
+│       │           │       │       └── ProductListViewModel.kt
+│       │           │       ├── product_details/
+│       │           │       │   ├── component/
+│       │           │       │   │   ├── ProductDetailsContent.kt
+│       │           │       │   │   ├── ProductImageCarousel.kt
+│       │           │       │   │   ├── ProductInfoSection.kt
+│       │           │       │   │   ├── ProductReviewsSection.kt
+│       │           │       │   │   └── ProductSpecsSection.kt
+│       │           │       │   └── screen/
+│       │           │       │       ├── ProductDetailsEffect.kt
+│       │           │       │       ├── ProductDetailsEvent.kt
+│       │           │       │       ├── ProductDetailsScreen.kt
+│       │           │       │       ├── ProductDetailsState.kt
+│       │           │       │       └── ProductDetailsViewModel.kt
+│       │           │       └── favorites/
+│       │           │           ├── component/
+│       │           │           │   ├── EmptyFavoritesScreen.kt
+│       │           │           │   ├── FavoritesListContent.kt
+│       │           │           │   └── SwipeToDeleteProductCard.kt
+│       │           │           └── screen/
+│       │           │               ├── FavoritesEffect.kt
+│       │           │               ├── FavoritesEvent.kt
+│       │           │               ├── FavoritesScreen.kt
+│       │           │               ├── FavoritesState.kt
+│       │           │               └── FavoritesViewModel.kt
+│       │           ├── cart/
+│       │           │   ├── di/CartModule.kt
+│       │           │   ├── data/
+│       │           │   │   ├── mapper/toDomain.kt
+│       │           │   │   └── repository/CartRepositoryImpl.kt
+│       │           │   ├── domain/
+│       │           │   │   ├── entity/
+│       │           │   │   │   ├── CartItem.kt
+│       │           │   │   │   └── CartItemEntity.kt
+│       │           │   │   ├── repository/CartRepository.kt
+│       │           │   │   └── usecase/
+│       │           │   │       ├── AddToCartUseCase.kt
+│       │           │   │       ├── ClearCartUseCase.kt
+│       │           │   │       ├── GetCartCountUseCase.kt
+│       │           │   │       ├── GetCartItemsUseCase.kt
+│       │           │   │       ├── RemoveFromCartUseCase.kt
+│       │           │   │       └── UpdateCartQuantityUseCase.kt
+│       │           │   └── presentation/
+│       │           │       ├── component/
+│       │           │       │   ├── CartItemCard.kt
+│       │           │       │   ├── CartSummaryCard.kt
+│       │           │       │   ├── CheckoutSuccessDialog.kt
+│       │           │       │   └── EmptyCartScreen.kt
+│       │           │       └── screen/
+│       │           │           ├── CartEffect.kt
+│       │           │           ├── CartEvent.kt
+│       │           │           ├── CartScreen.kt
+│       │           │           ├── CartState.kt
+│       │           │           └── CartViewModel.kt
+│       │           ├── auth/
+│       │           │   ├── di/AuthModule.kt
+│       │           │   ├── data/
+│       │           │   │   ├── datastore/AuthPreferences.kt
+│       │           │   │   ├── mapper/toDomain.kt
+│       │           │   │   ├── remote/
+│       │           │   │   │   ├── api/
+│       │           │   │   │   │   ├── AuthApiService.kt
+│       │           │   │   │   │   └── AuthApiServiceImpl.kt
+│       │           │   │   │   └── dto/AuthDto.kt
+│       │           │   │   └── repository/AuthRepositoryImpl.kt
+│       │           │   ├── domain/
+│       │           │   │   ├── entity/AuthUser.kt
+│       │           │   │   ├── repository/AuthRepository.kt
+│       │           │   │   └── usecase/
+│       │           │   │       ├── GetAuthStateUseCase.kt
+│       │           │   │       ├── LoginUseCase.kt
+│       │           │   │       └── LogoutUseCase.kt
+│       │           │   └── presentation/screen/
+│       │           │       ├── AuthEffect.kt
+│       │           │       ├── AuthEvent.kt
+│       │           │       ├── AuthState.kt
+│       │           │       ├── AuthViewModel.kt
+│       │           │       └── ProfileScreen.kt
+│       │           ├── onboarding/
+│       │           │   ├── di/OnboardingModule.kt
+│       │           │   └── presentation/
+│       │           │       ├── model/OnboardingPage.kt
+│       │           │       ├── component/
+│       │           │       │   ├── OnboardingPageContent.kt
+│       │           │       │   └── OnboardingPageIndicator.kt
+│       │           │       └── screen/
+│       │           │           ├── OnboardingEffect.kt
+│       │           │           ├── OnboardingEvent.kt
+│       │           │           ├── OnboardingScreen.kt
+│       │           │           ├── OnboardingState.kt
+│       │           │           └── OnboardingViewModel.kt
+│       │           ├── splash/
+│       │           │   ├── di/SplashModule.kt
+│       │           │   └── presentation/screen/
+│       │           │       ├── SplashEffect.kt
+│       │           │       ├── SplashScreen.kt
+│       │           │       └── SplashViewModel.kt
+│       │           ├── setting/
+│       │           │   ├── di/SettingModule.kt
+│       │           │   └── presentation/
+│       │           │       ├── component/
+│       │           │       │   ├── DynamicThemeToggleAndroidOnly.kt
+│       │           │       │   ├── ThemePreview.kt
+│       │           │       │   ├── ThemeSelectionDialog.kt
+│       │           │       │   └── ThemeSelectionRow.kt
+│       │           │       └── screen/
+│       │           │           ├── SettingEffect.kt
+│       │           │           ├── SettingEvent.kt
+│       │           │           ├── SettingScreen.kt
+│       │           │           ├── SettingState.kt
+│       │           │           └── SettingViewModel.kt
+│       │           └── sample_example/
+│       │               ├── di/SampleExampleModule.kt
+│       │               └── presentation/screen/
+│       │                   ├── SampleEffect.kt
+│       │                   ├── SampleEvent.kt
+│       │                   ├── SampleExampleScreen.kt
+│       │                   ├── SampleExampleViewModel.kt
+│       │                   └── SampleState.kt
+│       ├── desktopMain/kotlin/com/example/cmp_mvi_template/core/platform/
+│       │   ├── database/getDatabaseBuilder.desktop.kt
+│       │   ├── datastore/createDataStore.desktop.kt
+│       │   ├── http_engine/GetHttpClientEngine.desktop.kt
+│       │   ├── theme/PlatformTheme.desktop.kt
+│       │   └── toast/
+│       │       ├── DesktopToastManager.kt
+│       │       ├── RoundedPanel.kt
+│       │       └── ToastManager.desktop.kt
+│       ├── iosMain/kotlin/com/example/cmp_mvi_template/
+│       │   ├── MainViewController.kt
+│       │   └── core/platform/
+│       │       ├── database/getDatabaseBuilder.ios.kt
+│       │       ├── datastore/createDataStore.ios.kt
+│       │       ├── http_engine/GetHttpClientEngine.ios.kt
+│       │       ├── theme/PlatformTheme.ios.kt
+│       │       └── toast/
+│       │           ├── IosToastManager.kt
+│       │           └── ToastManager.ios.kt
+│       └── commonTest/kotlin/com/example/cmp_mvi_template/
+│           └── ComposeAppCommonTest.kt
 ```
+
+---
 
 ## 🎯 Next Goals
 
-Here are the upcoming tasks and feature enhancements planned for the project:
+Here are upcoming feature enhancements and engineering improvements planned for the project:
 
-- Koin Annotations Integration
-    - Use Koin Annotation processing (@Single, @Factory, etc.) to simplify and reduce boilerplate
-      for dependency injection.
+- 🏷️ **Koin Annotations Integration**
+  - Integrate Koin Annotations processing (`@Single`, `@Factory`) to reduce manual DI module boilerplate.
 
-- 🔄 GraphQL Support for Pokémon API
-    - Implement a GraphQL version of the Pokémon API using Ktor Client. Will be explored in a
-      separate branch for experimentation.
+- 💳 **Payment & Checkout Gateway**
+  - Integrate simulated/live payment flows (Stripe / Mock Gateway) into the checkout experience.
 
-- 🗃️ SQLDelight Sample Integration
-    - Integrate SQLDelight only as a working code sample in a separate module/branch.
-    - Purpose: Keep reusable code ready for future use or cross-platform Kotlin projects.
-    - ✅ Room will continue as the primary local storage solution for this app.
+- 🔔 **Push Notifications**
+  - Multiplatform push notifications for order updates and flash sale alerts.
 
-- ⚙️ Dev Tooling Scripts (Automation)
-    - Build Gradle or Kotlin-based scripts for:
-        - 🔁 Renaming package names along with folder structure
-        - 📦 Creating distributable builds per platform
-        - 🚀 Auto-generating feature modules with basic files (UI, ViewModel, State, Events) by
-          providing just a feature name
+- ⚙️ **Dev Tooling & Automation Scripts**
+  - Create Gradle scripts for automatic feature module scaffolding (generating MVI contracts, ViewModel, and screen templates).
+  - Package renaming automation scripts.
 
-- 🧩 Component Showcase Screen
-    - All UI components are implemented but not visible inside the app.
-    - A new Component Explorer Screen will be added where:
-        - You can view all components (buttons, cards, inputs, etc.)
-        - Helpful for testing and design consistency on a real device
+- 🧪 **Unit & UI Flow Testing**
+  - Comprehensive unit testing for UseCases, ViewModels, and Room DAOs.
+  - Integration with Maestro for end-to-end multiplatform UI flow tests.
 
-- 🧪 Unit & Instrumented Testing
-    - Add unit tests for core business logic and ViewModels
-    - Add instrumented UI tests for critical user flows
-    - Integrate test coverage tools for quality tracking
-
-- 📱 Maestro Integration (UI Flow Testing)
-    - Set up Maestro to define UI flow test scripts
+---
 
 ## Contributing 🤝
 
-Feel free to contribute to this project by submitting issues, pull requests, or providing valuable
-feedback. Your
-contributions are always welcome! 🙌
+Feel free to contribute to this project by submitting issues, feature suggestions, or pull requests. Your contributions are always welcome! 🙌
 
 ## ❤ Show your support
 

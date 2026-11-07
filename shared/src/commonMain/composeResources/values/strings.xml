@@ -8,32 +8,24 @@
     <string name="error_serialization">Could n't serialize or deserialize data.</string>
     <string name="error_disk_full">Disk is full.</string>
 
-
-    <string name="tab_pokemon">Pokemon</string>
+    <string name="tab_products">Products</string>
+    <string name="tab_cart">Cart</string>
     <string name="tab_favorites">Favorites</string>
+    <string name="tab_profile">Profile</string>
     <string name="tab_settings">Settings</string>
     <string name="tab_example">Example</string>
 
-
-    <string name="title_pokemon">Pokemon</string>
+    <string name="title_products">Products</string>
+    <string name="title_cart">Cart</string>
     <string name="title_favorites">Favorites</string>
+    <string name="title_profile">Profile</string>
     <string name="title_settings">Setting</string>
-
-    <string name="abilities">Abilities</string>
-    <string name="hidden_label">(Hidden)</string>
-    <string name="basic_information">Basic Information</string>
-
-    <string name="height">Height</string>
-    <string name="weight">Weight</string>
-    <string name="base_xp">Base XP</string>
-
-    <string name="base_stats">Base Stats</string>
 
     <string name="back">Back</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
 
-    <string name="no_pokemon_found">No Pokemon Found. Please try again later.</string>
+    <string name="no_products_found">No Products Found. Please try again later.</string>
 
     <string name="added_to_favorites">%1$s added to favorites</string>
     <string name="removed_from_favorites">%1$s removed from favorites</string>
@@ -41,12 +33,11 @@
     <string name="error_failed_to_load_favorites">Failed to load favorites</string>
     <string name="success_removed_from_favorites">%1$s removed from favorites</string>
 
-    <string name="no_favorite_pokemon">No Favorite Pokemon</string>
-    <string name="add_favorite_hint">Add some Pokemon to your favorites from the Pokemon list!</string>
+    <string name="no_favorite_products">No Saved Products</string>
+    <string name="add_favorite_hint">Add products to your favorites from the catalog!</string>
 
     <string name="remove_from_favorites">Remove from favorites</string>
     <string name="add_to_favorites">Add to favorites</string>
-
 
     <string name="choose_theme">Choose Theme</string>
     <string name="choose_theme_subtitle">Select your preferred theme mode</string>
@@ -82,12 +73,12 @@
     <string name="onboarding_page1_title">Welcome</string>
     <string name="onboarding_page1_desc">A modern Compose Multiplatform template for Android, iOS and Desktop.</string>
 
-    <string name="onboarding_page2_title">Explore Pokemon</string>
-    <string name="onboarding_page2_desc">Browse hundreds of Pokemon with beautiful cards and infinite scrolling.</string>
+    <string name="onboarding_page2_title">Explore Products</string>
+    <string name="onboarding_page2_desc">Browse hundreds of products with beautiful cards and infinite scrolling.</string>
 
     <string name="onboarding_page3_title">Save Favorites</string>
-    <string name="onboarding_page3_desc">Keep your favorite Pokemon and access them anytime, even offline.</string>
+    <string name="onboarding_page3_desc">Keep your favorite products and access them anytime, even offline.</string>
 
-    <string name="onboarding_page4_title">Ready to Explore?</string>
-    <string name="onboarding_page4_desc">Your adventure begins now. Let's catch 'em all!</string>
+    <string name="onboarding_page4_title">Ready to Shop?</string>
+    <string name="onboarding_page4_desc">Your shopping experience begins now. Discover amazing deals!</string>
 </resources>

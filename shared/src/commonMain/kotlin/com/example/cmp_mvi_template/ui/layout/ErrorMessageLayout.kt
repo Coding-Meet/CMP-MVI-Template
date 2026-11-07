@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.cmp_mvi_template.core.utility.UiText
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 @Composable
 fun ErrorMessageLayout(
@@ -37,4 +38,13 @@ fun ErrorMessageLayout(
             Text("Retry")
         }
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun ErrorMessageLayoutPreview() {
+    ErrorMessageLayout(
+        error = UiText.DynamicString("Unable to connect to the server. Please try again."),
+        onRetry = {}
+    )
 }

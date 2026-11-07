@@ -33,6 +33,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import cmp_mvi_template.composeapp.generated.resources.Res
 import cmp_mvi_template.composeapp.generated.resources.compose_multiplatform
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 import com.example.cmp_mvi_template.core.platform.toast.ToastManagerFactory
 import com.example.cmp_mvi_template.core.utility.IconResource
 import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
@@ -161,4 +162,16 @@ private fun AppToastContent(
             )
         }
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun AppToastContentPreview() {
+    AppToastContent(
+        message = "Item added to cart successfully!",
+        backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
+        textColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        appIcon = IconResource.DrawableResource(Res.drawable.compose_multiplatform),
+        bottomPadding = 16.dp
+    )
 }

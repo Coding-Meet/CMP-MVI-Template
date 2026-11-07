@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -21,20 +22,20 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmp_mvi_template.composeapp.generated.resources.Res
 import cmp_mvi_template.composeapp.generated.resources.title_settings
+import com.example.cmp_mvi_template.core.data.datastore.ThemeMode
 import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
 import com.example.cmp_mvi_template.feature.setting.presentation.component.DynamicThemeToggleAndroidOnly
 import com.example.cmp_mvi_template.feature.setting.presentation.component.ThemePreview
 import com.example.cmp_mvi_template.feature.setting.presentation.component.ThemeSelectionDialog
 import com.example.cmp_mvi_template.feature.setting.presentation.component.ThemeSelectionRow
+import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-
 
 @Composable
 fun SettingScreen() {
     val settingViewModel = koinViewModel<SettingViewModel>()
     val themeState by settingViewModel.settingState.collectAsStateWithLifecycle()
-    var showThemeDialog by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
 
     // Handle effects
@@ -49,8 +50,26 @@ fun SettingScreen() {
             }
         }
     }
+
+    SettingContent(
+        themeState = themeState,
+        snackBarHostState = snackBarHostState,
+        onEvent = settingViewModel::handleEvent
+    )
+}
+
+
+@Composable
+fun SettingContent(
+    themeState: SettingState,
+    snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onEvent: (SettingEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var showThemeDialog by remember { mutableStateOf(false) }
+
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(Res.string.title_settings)) }
@@ -60,31 +79,14 @@ fun SettingScreen() {
             SnackbarHost(snackBarHostState)
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 10.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-
-            ThemeSelectionRow(
-                themeState.themeMode.icon,
-                themeState.themeMode.screenTitle,
-                onClick = {
-                    showThemeDialog = true
-                })
-
-            // Dynamic Theme Toggle (Android only)
-            DynamicThemeToggleAndroidOnly(themeState) {
-                settingViewModel.handleEvent(
-                    SettingEvent.SetDynamicTheme(it)
-                )
-            }
-            // Theme Preview
-            ThemePreview()
-        }
+        SettingBody(
+            themeState = themeState,
+            onThemeClick = { showThemeDialog = true },
+            onDynamicThemeToggle = {
+                onEvent(SettingEvent.SetDynamicTheme(it))
+            },
+            modifier = Modifier.padding(paddingValues)
+        )
     }
 
     // Show Theme Selection Dialog
@@ -92,10 +94,65 @@ fun SettingScreen() {
         ThemeSelectionDialog(
             currentThemeMode = themeState.themeMode,
             onThemeSelected = { themeMode ->
-                settingViewModel.handleEvent(SettingEvent.SetThemeMode(themeMode))
+                onEvent(SettingEvent.SetThemeMode(themeMode))
             },
             onDismiss = { showThemeDialog = false }
         )
     }
 }
 
+@Composable
+fun SettingBody(
+    themeState: SettingState,
+    onThemeClick: () -> Unit,
+    onDynamicThemeToggle: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 10.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        ThemeSelectionRow(
+            themeState.themeMode.icon,
+            themeState.themeMode.screenTitle,
+            onClick = onThemeClick
+        )
+
+        // Dynamic Theme Toggle (Android only)
+        DynamicThemeToggleAndroidOnly(themeState) {
+            onDynamicThemeToggle(it)
+        }
+
+        // Theme Preview
+        ThemePreview()
+    }
+}
+
+// Kept for backward compatibility
+@Composable
+fun SettingScreenContent(
+    themeState: SettingState,
+    onThemeClick: () -> Unit,
+    onDynamicThemeToggle: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) = SettingBody(
+    themeState = themeState,
+    onThemeClick = onThemeClick,
+    onDynamicThemeToggle = onDynamicThemeToggle,
+    modifier = modifier
+)
+
+@AllAdaptivePreviews
+@Composable
+private fun SettingScreenPreview() {
+    SettingContent(
+        themeState = SettingState(
+            themeMode = ThemeMode.SYSTEM,
+            isDynamicColor = true
+        ),
+        onEvent = {}
+    )
+}

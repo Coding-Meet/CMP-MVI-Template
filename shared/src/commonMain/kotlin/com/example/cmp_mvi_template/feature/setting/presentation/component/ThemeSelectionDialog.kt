@@ -16,6 +16,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.example.cmp_mvi_template.core.data.datastore.ThemeMode
 import cmp_mvi_template.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import com.example.cmp_mvi_template.ui.theme.ComponentPreviews
 
 
 @Composable
@@ -149,4 +150,14 @@ private fun ThemeOptionItem(
             }
         }
     }
+}
+
+@ComponentPreviews
+@Composable
+private fun ThemeSelectionDialogPreview() {
+    ThemeSelectionDialog(
+        currentThemeMode = ThemeMode.SYSTEM,
+        onThemeSelected = {},
+        onDismiss = {}
+    )
 }

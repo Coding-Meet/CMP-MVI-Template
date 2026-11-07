@@ -2,9 +2,9 @@ package com.example.cmp_mvi_template.di
 
 import com.example.cmp_mvi_template.core.data.datastore.ThemePreferences
 import com.example.cmp_mvi_template.core.data.datastore.onboarding.OnboardingPreferences
-import com.example.cmp_mvi_template.core.data.local.PokemonDatabase
+import com.example.cmp_mvi_template.core.data.local.AppDatabase
 import com.example.cmp_mvi_template.core.data.network.HttpClientFactory
-import com.example.cmp_mvi_template.core.platform.database.getPokemonDatabase
+import com.example.cmp_mvi_template.core.platform.database.getAppDatabase
 import com.example.cmp_mvi_template.core.platform.datastore.createDataStore
 import com.example.cmp_mvi_template.core.platform.toast.toastManager
 import org.koin.core.module.dsl.singleOf
@@ -19,8 +19,9 @@ val coreModule = module {
     single { HttpClientFactory.create() }
 
     // Database
-    singleOf(::getPokemonDatabase)
-    single { get<PokemonDatabase>().pokemonDao() }
+    singleOf(::getAppDatabase)
+    single { get<AppDatabase>().productDao() }
+    single { get<AppDatabase>().cartDao() }
 
     // DataStore
     singleOf(::createDataStore)

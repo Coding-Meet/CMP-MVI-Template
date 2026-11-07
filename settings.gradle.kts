@@ -1,5 +1,4 @@
 rootProject.name = "CMP-MVI-Template"
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {

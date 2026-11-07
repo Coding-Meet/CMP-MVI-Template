@@ -1,8 +1,12 @@
 package com.example.cmp_mvi_template.core.platform.toast
 
-import java.awt.*
+import java.awt.Color
+import java.awt.FlowLayout
+import java.awt.Graphics
+import java.awt.Graphics2D
+import java.awt.RenderingHints
 import java.awt.geom.RoundRectangle2D
-import javax.swing.*
+import javax.swing.JPanel
 
 class RoundedPanel(
     private val arcWidth: Int = 24,

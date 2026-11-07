@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -28,15 +27,16 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import cmp_mvi_template.composeapp.generated.resources.*
-import com.example.cmp_mvi_template.ui.theme.ComposeThemePreview
-import com.example.cmp_mvi_template.ui.theme.DefaultPreview
+import cmp_mvi_template.composeapp.generated.resources.Res
+import cmp_mvi_template.composeapp.generated.resources.app_name
+import cmp_mvi_template.composeapp.generated.resources.compose_multiplatform
 import com.example.cmp_mvi_template.core.utility.IconResource
 import com.example.cmp_mvi_template.core.utility.UiText
 import com.example.cmp_mvi_template.ui.component.icon_button.CustomIconButton
+import com.example.cmp_mvi_template.ui.theme.ComposeThemePreview
+import com.example.cmp_mvi_template.ui.theme.DefaultPreview
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomSmallTopAppBar(
     title: UiText,
@@ -65,12 +65,12 @@ fun CustomSmallTopAppBar(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun CustomMediumTopAppBar(
     title: UiText,
     modifier: Modifier = Modifier,
-    colors: TopAppBarColors = TopAppBarDefaults.mediumTopAppBarColors(),
+    colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(),
     scrollBehavior: TopAppBarScrollBehavior? = null,
     navigationIcon: IconResource? = null,
     onNavigationClick: () -> Unit = {},
@@ -94,12 +94,12 @@ fun CustomMediumTopAppBar(
     }, colors = colors, scrollBehavior = scrollBehavior, actions = actions, modifier = modifier)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun CustomLargeTopAppBar(
     title: UiText,
     modifier: Modifier = Modifier,
-    colors: TopAppBarColors = TopAppBarDefaults.largeTopAppBarColors(),
+    colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(),
     scrollBehavior: TopAppBarScrollBehavior? = null,
     navigationIcon: IconResource? = null,
     onNavigationClick: () -> Unit = {},
@@ -123,12 +123,12 @@ fun CustomLargeTopAppBar(
     }, colors = colors, scrollBehavior = scrollBehavior, actions = actions, modifier = modifier)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun CustomCenterAlignedTopAppBar(
     title: UiText,
     modifier: Modifier = Modifier,
-    colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
+    colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(),
     scrollBehavior: TopAppBarScrollBehavior? = null,
     navigationIcon: IconResource? = null,
     onNavigationClick: () -> Unit = {},
@@ -156,7 +156,7 @@ fun CustomCenterAlignedTopAppBar(
 }
 
 @DefaultPreview
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun TopAppBarPreview() {
     ComposeThemePreview {
@@ -214,7 +214,7 @@ fun TopAppBarPreview() {
                 )
                 CustomMediumTopAppBar(
                     title = UiText.StringResource(Res.string.app_name),
-                    colors = TopAppBarDefaults.mediumTopAppBarColors(
+                    colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         titleContentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                         navigationIconContentColor = MaterialTheme.colorScheme.onSecondaryContainer
@@ -238,7 +238,7 @@ fun TopAppBarPreview() {
                 )
                 CustomLargeTopAppBar(
                     title = UiText.StringResource(Res.string.app_name),
-                    colors = TopAppBarDefaults.largeTopAppBarColors(
+                    colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                         titleContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
                         navigationIconContentColor = MaterialTheme.colorScheme.onTertiaryContainer
@@ -248,7 +248,7 @@ fun TopAppBarPreview() {
                 )
                 CustomCenterAlignedTopAppBar(
                     title = UiText.StringResource(Res.string.app_name),
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surface,
                         titleContentColor = MaterialTheme.colorScheme.onSurface,
                         navigationIconContentColor = MaterialTheme.colorScheme.onSurface
@@ -258,7 +258,7 @@ fun TopAppBarPreview() {
                 )
                 CustomCenterAlignedTopAppBar(
                     title = UiText.StringResource(Res.string.app_name),
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer,
                         titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer

@@ -4,7 +4,7 @@ A beautiful, modern E-Commerce application built with Compose Multiplatform feat
 type-safe navigation, and dynamic theming. Explore products, manage favorites/wishlist, add items to cart,
 and enjoy a seamless experience across Android, Desktop, and iOS platforms powered by DummyJSON API.
 
-[![Store App Compose Multiplatform Preview](image/web/dark/01_web_products_catalog.png)]()
+<img width="1280" height="720" alt="07_grand_showcase" src="https://github.com/user-attachments/assets/0e3d97d9-7886-4f76-a533-192393113330" />
 
 ## ✨ Features
 

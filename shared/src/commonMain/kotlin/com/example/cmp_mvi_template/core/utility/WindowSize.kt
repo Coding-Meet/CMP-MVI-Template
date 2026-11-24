@@ -1,6 +1,6 @@
 package com.example.cmp_mvi_template.core.utility
 
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.window.core.layout.WindowSizeClass
@@ -108,7 +108,7 @@ data class WindowInfo(
 @Composable
 fun rememberWindowInfo(): WindowInfo {
 
-    val windowAdaptiveInfo = currentWindowAdaptiveInfo()
+    val windowAdaptiveInfo = currentWindowAdaptiveInfoV2()
     val sizeClass = windowAdaptiveInfo.windowSizeClass
 
     val widthType = when {

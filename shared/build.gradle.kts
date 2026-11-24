@@ -79,6 +79,10 @@ kotlin {
             // Navigation
             implementation(libs.androidx.navigation.compose)
 
+            // AndroidX Paging 3 Multiplatform
+            implementation(libs.androidx.paging.common)
+            implementation(libs.androidx.paging.compose)
+
             // Lifecycle & ViewModel
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.viewmodel.compose)

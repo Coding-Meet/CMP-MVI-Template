@@ -10,11 +10,13 @@ data class ProductListState(
     val categories: List<ProductCategory> = emptyList(),
     val selectedCategory: String? = null,
     val searchQuery: String = "",
+    val activeSearchQuery: String = "",
     val isSearchBarVisible: Boolean = false,
     val selectedSort: ProductSortOption = ProductSortOption.DEFAULT,
     val showSortBottomSheet: Boolean = false,
     val isLoading: Boolean = false,
     val isLoadingMore: Boolean = false,
     val hasMoreData: Boolean = true,
-    val error: UiText? = null
+    val error: UiText? = null,
+    val refreshTrigger: Long = 0L
 )

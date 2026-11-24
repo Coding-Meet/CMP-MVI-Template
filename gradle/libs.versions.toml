@@ -31,6 +31,9 @@ junit = "4.13.2"
 # Navigation
 androidx-navigation = "2.10.0"
 
+# Paging 3
+androidx-paging = "3.5.3"
+
 # Material Design
 material3 = "1.12.0-alpha03"
 material3-adaptive = "1.3.0"
@@ -108,6 +111,10 @@ material3-adaptive-navigation = { group = "org.jetbrains.compose.material3.adapt
 
 # Navigation
 androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
+
+# Paging 3
+androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "androidx-paging" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 
 # Ktor Client
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }

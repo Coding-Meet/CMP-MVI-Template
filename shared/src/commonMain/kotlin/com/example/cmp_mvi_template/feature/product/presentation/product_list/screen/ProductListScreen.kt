@@ -26,14 +26,17 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import cmp_mvi_template.composeapp.generated.resources.Res
+import cmp_mvi_template.composeapp.generated.resources.error_unknown
 import cmp_mvi_template.composeapp.generated.resources.no_products_found
 import cmp_mvi_template.composeapp.generated.resources.title_products
 import com.example.cmp_mvi_template.core.utility.ObserveAsEvents
@@ -47,7 +50,6 @@ import com.example.cmp_mvi_template.feature.product.presentation.product_list.co
 import com.example.cmp_mvi_template.feature.product.presentation.product_list.component.SortBottomSheet
 import com.example.cmp_mvi_template.ui.layout.ErrorMessageLayout
 import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
-import kotlinx.coroutines.flow.distinctUntilChanged
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -57,6 +59,7 @@ fun ProductListScreen(
 ) {
     val productListViewModel = koinViewModel<ProductListViewModel>()
     val state by productListViewModel.state.collectAsStateWithLifecycle()
+    val pagingItems = productListViewModel.productPagingFlow.collectAsLazyPagingItems()
     val snackBarHostState = remember { SnackbarHostState() }
 
     // Handle effects
@@ -74,16 +77,17 @@ fun ProductListScreen(
 
     ProductListContent(
         state = state,
+        pagingItems = pagingItems,
         snackBarHostState = snackBarHostState,
         onEvent = productListViewModel::handleEvent,
         onNavigateToDetails = onNavigateToDetails
     )
 }
 
-
 @Composable
 fun ProductListContent(
     state: ProductListState,
+    pagingItems: LazyPagingItems<Product>? = null,
     snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onEvent: (ProductListEvent) -> Unit,
     onNavigateToDetails: (Int) -> Unit,
@@ -91,16 +95,47 @@ fun ProductListContent(
 ) {
     val listState = rememberLazyStaggeredGridState()
 
-    LaunchedEffect(state.productList) {
-        snapshotFlow {
-            listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
-        }.distinctUntilChanged()
-            .collect { lastVisibleIndex ->
-                if (lastVisibleIndex != null && lastVisibleIndex >= state.productList.lastIndex && state.hasMoreData) {
-                    onEvent(ProductListEvent.LoadMoreProducts)
-                }
+    val isInitialLoading by remember(pagingItems, state.isLoading) {
+        derivedStateOf {
+            if (pagingItems != null) {
+                pagingItems.loadState.refresh is LoadState.Loading && pagingItems.itemCount == 0
+            } else {
+                state.isLoading
             }
+        }
     }
+
+    val refreshError: UiText? by remember(pagingItems, state.error) {
+        derivedStateOf {
+            if (pagingItems != null) {
+                when (val refresh = pagingItems.loadState.refresh) {
+                    is LoadState.Error -> refresh.error.message?.let { UiText.DynamicString(it) }
+                        ?: UiText.StringResource(Res.string.error_unknown)
+                    else -> state.error
+                }
+            } else {
+                state.error
+            }
+        }
+    }
+
+    val isItemsEmpty by remember(pagingItems, state.isLoading, state.productList) {
+        derivedStateOf {
+            if (pagingItems != null) {
+                pagingItems.loadState.refresh is LoadState.NotLoading && pagingItems.itemCount == 0
+            } else {
+                !state.isLoading && state.productList.isEmpty()
+            }
+        }
+    }
+
+    val isSortActive by remember(state.selectedSort) {
+        derivedStateOf {
+            state.selectedSort != ProductSortOption.DEFAULT
+        }
+    }
+
+    val currentError = refreshError
 
     Scaffold(
         modifier = modifier,
@@ -154,7 +189,7 @@ fun ProductListContent(
                             }) {
                                 BadgedBox(
                                     badge = {
-                                        if (state.selectedSort != ProductSortOption.DEFAULT) {
+                                        if (isSortActive) {
                                             Badge()
                                         }
                                     }
@@ -182,31 +217,40 @@ fun ProductListContent(
     ) { paddingValues ->
         Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
             when {
-                state.isLoading -> {
+                isInitialLoading -> {
                     ProductListShimmer()
                 }
 
-                state.error != null -> {
+                currentError != null -> {
                     ErrorMessageLayout(
-                        error = state.error,
+                        error = currentError,
                         onRetry = {
-                            onEvent(ProductListEvent.LoadProducts)
+                            if (pagingItems != null) {
+                                pagingItems.retry()
+                            } else {
+                                onEvent(ProductListEvent.LoadProducts)
+                            }
                         }
                     )
                 }
 
-                state.productList.isEmpty() -> {
+                isItemsEmpty -> {
                     ErrorMessageLayout(
                         error = UiText.StringResource(Res.string.no_products_found),
                         onRetry = {
-                            onEvent(ProductListEvent.LoadProducts)
+                            if (pagingItems != null) {
+                                pagingItems.refresh()
+                            } else {
+                                onEvent(ProductListEvent.LoadProducts)
+                            }
                         }
                     )
                 }
 
-                state.productList.isNotEmpty() -> {
+                else -> {
                     ProductListGrid(
                         listState = listState,
+                        pagingItems = pagingItems,
                         products = state.productList,
                         isLoadingMore = state.isLoadingMore,
                         onProductClick = onNavigateToDetails

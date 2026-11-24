@@ -2,23 +2,38 @@ package com.example.cmp_mvi_template.feature.product.presentation.product_list.s
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cmp_mvi_template.core.domain.Paginator
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.cmp_mvi_template.core.domain.onSuccess
-import com.example.cmp_mvi_template.core.domain.toUiText
-import com.example.cmp_mvi_template.core.utility.AppLogger
+import com.example.cmp_mvi_template.feature.product.domain.entity.Product
 import com.example.cmp_mvi_template.feature.product.domain.entity.ProductSortOption
 import com.example.cmp_mvi_template.feature.product.domain.usecase.GetCategoriesUseCase
 import com.example.cmp_mvi_template.feature.product.domain.usecase.GetProductListUseCase
+import com.example.cmp_mvi_template.feature.product.presentation.product_list.paging.ProductPagingSource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
+private data class PagingKey(
+    val category: String?,
+    val searchQuery: String,
+    val sortOption: ProductSortOption,
+    val refreshTrigger: Long
+)
 
 class ProductListViewModel(
     private val getProductListUseCase: GetProductListUseCase,
@@ -29,7 +44,6 @@ class ProductListViewModel(
     val state = _state
         .onStart {
             loadCategories()
-            handleEvent(ProductListEvent.LoadProducts)
         }
         .stateIn(
             viewModelScope,
@@ -41,57 +55,40 @@ class ProductListViewModel(
     val effect = _effect.asSharedFlow()
 
     private var searchJob: Job? = null
-    private var currentSkip = 0
-    private val limit = 20
 
-    private val paginator = Paginator(
-        initialKey = 0,
-        onLoadUpdated = { isLoadingMore ->
-            _state.update { it.copy(isLoadingMore = isLoadingMore) }
-        },
-        onRequest = { skip ->
-            val currentState = _state.value
-            AppLogger.d("ProductListViewModel") {
-                "onRequest skip: $skip, cat: ${currentState.selectedCategory}, search: ${currentState.searchQuery}"
-            }
-            getProductListUseCase(
-                limit = limit,
-                skip = skip,
-                category = currentState.selectedCategory,
-                searchQuery = currentState.searchQuery.ifBlank { null },
-                sortBy = currentState.selectedSort.sortBy,
-                order = currentState.selectedSort.order
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val productPagingFlow: Flow<PagingData<Product>> = _state
+        .map { s ->
+            PagingKey(
+                category = s.selectedCategory,
+                searchQuery = s.activeSearchQuery,
+                sortOption = s.selectedSort,
+                refreshTrigger = s.refreshTrigger
             )
-        },
-        getNextKey = { currentSkip, _ ->
-            currentSkip + limit
-        },
-        onError = { error ->
-            _state.update {
-                it.copy(error = error.toUiText())
-            }
-        },
-        onSuccess = { response, newSkip ->
-            AppLogger.d("ProductListViewModel") {
-                "onSuccess total: ${response.total}, newSkip: $newSkip"
-            }
-            currentSkip = newSkip
-            _state.update {
-                it.copy(
-                    productList = it.productList + response.products,
-                    hasMoreData = response.skip + response.limit < response.total
-                )
-            }
-        },
-        endReached = { _, response ->
-            response.skip + response.limit >= response.total
         }
-    )
+        .distinctUntilChanged()
+        .flatMapLatest { key ->
+            Pager(
+                config = PagingConfig(
+                    pageSize = 20,
+                    enablePlaceholders = false,
+                    initialLoadSize = 20
+                )
+            ) {
+                ProductPagingSource(
+                    getProductListUseCase = getProductListUseCase,
+                    category = key.category,
+                    searchQuery = key.searchQuery,
+                    sortOption = key.sortOption
+                )
+            }.flow
+        }
+        .cachedIn(viewModelScope)
 
     fun handleEvent(event: ProductListEvent) {
         when (event) {
-            ProductListEvent.LoadProducts -> loadProducts()
-            ProductListEvent.LoadMoreProducts -> loadMoreProducts()
+            ProductListEvent.LoadProducts -> refreshProducts()
+            ProductListEvent.LoadMoreProducts -> { /* Handled automatically by Paging 3 */ }
             is ProductListEvent.SelectCategory -> selectCategory(event.categorySlug)
             is ProductListEvent.UpdateSearchQuery -> updateSearchQuery(event.query)
             is ProductListEvent.SelectSortOption -> selectSortOption(event.sortOption)
@@ -110,26 +107,20 @@ class ProductListViewModel(
         }
     }
 
-    private fun loadProducts() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true, error = null, productList = emptyList()) }
-            paginator.reset()
-            currentSkip = 0
-            paginator.loadNextItems()
-            _state.update { it.copy(isLoading = false) }
-        }
-    }
-
-    private fun loadMoreProducts() {
-        viewModelScope.launch {
-            paginator.loadNextItems()
-        }
+    private fun refreshProducts() {
+        _state.update { it.copy(refreshTrigger = it.refreshTrigger + 1) }
     }
 
     private fun selectCategory(categorySlug: String?) {
         if (_state.value.selectedCategory == categorySlug) return
-        _state.update { it.copy(selectedCategory = categorySlug, searchQuery = "") }
-        loadProducts()
+        searchJob?.cancel()
+        _state.update {
+            it.copy(
+                selectedCategory = categorySlug,
+                searchQuery = "",
+                activeSearchQuery = ""
+            )
+        }
     }
 
     private fun updateSearchQuery(query: String) {
@@ -137,7 +128,7 @@ class ProductListViewModel(
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(350L) // Debounce
-            loadProducts()
+            _state.update { it.copy(activeSearchQuery = query) }
         }
     }
 
@@ -147,7 +138,6 @@ class ProductListViewModel(
             return
         }
         _state.update { it.copy(selectedSort = sortOption, showSortBottomSheet = false) }
-        loadProducts()
     }
 
     private fun toggleSortBottomSheet(show: Boolean) {
@@ -155,14 +145,13 @@ class ProductListViewModel(
     }
 
     private fun toggleSearchBar(visible: Boolean) {
+        searchJob?.cancel()
         _state.update {
             it.copy(
                 isSearchBarVisible = visible,
-                searchQuery = if (!visible) "" else it.searchQuery
+                searchQuery = if (!visible) "" else it.searchQuery,
+                activeSearchQuery = if (!visible) "" else it.activeSearchQuery
             )
-        }
-        if (!visible) {
-            loadProducts()
         }
     }
 

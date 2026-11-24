@@ -4,7 +4,7 @@ A beautiful, modern E-Commerce application built with Compose Multiplatform feat
 type-safe navigation, and dynamic theming. Explore products, manage favorites/wishlist, add items to cart,
 and enjoy a seamless experience across Android, Desktop, and iOS platforms powered by DummyJSON API.
 
-[![Store App Compose Multiplatform Preview](image/web/dark/01_web_products_catalog.png)]()
+<img width="1280" height="720" alt="07_grand_showcase" src="https://github.com/user-attachments/assets/0e3d97d9-7886-4f76-a533-192393113330" />
 
 ## ✨ Features
 
@@ -21,19 +21,18 @@ and enjoy a seamless experience across Android, Desktop, and iOS platforms power
 
 ### 🛍️ Product & E-Commerce Features
 
-- 🔍 **Product Catalog**: Browse products with infinite scroll pagination and pull-to-refresh
+- 🔍 **Product Catalog**: AndroidX Paging 3 infinite scroll pagination
 - 🔎 **Instant Search & Filters**: 350ms debounced live search, horizontal category pill filter, and dynamic sorting by Price (Low/High) & Rating
 - 🛒 **Shopping Cart System**: Room DB persisted cart with real-time bottom nav badge, quantity controls, discount calculations, item deletion, and checkout simulation
 - 👤 **User Authentication & Profile**: JWT token persistence via DataStore, 1-click demo login (`emilys`), detailed user profile view, and logout support
-- ❤️ **Favorites / Wishlist**: Add/remove products from favorites with swipe-to-delete gesture
-- 📊 **Rich Detailed View**: Image carousel, price, discount tags, ratings, stock status, specs, customer reviews, and direct "Add to Cart" action
+- ❤️ **Favorites / Wishlist**: Add/remove products from favorites with 1-click heart toggle
+- 📊 **Rich Detailed View**: Multi-image carousel with thumbnails, adaptive 2-column layout on larger screens, specs, customer reviews, and direct "Add to Cart" action
 - ✨ **Shimmer Loading**: Polished shimmer placeholder animations for smooth loading states
 
 ### 🎭 UI/UX Features
 
 - 🌊 **Smooth Animations**: Animated transitions, bottom sheet modals, and micro-interactions
 - 📱 **Adaptive UI**: Responsive layouts scaling seamlessly from phones to tablets and desktop screens
-- 👆 **Swipe Actions**: Swipe-to-delete favorites with background reveal
 - 🌈 **Dynamic Colors**: Android 12+ Material You dynamic color extraction
 - ⚡ **Performance**: Optimized with Coil3 image caching, Room query flows, and lazy composables
 
@@ -314,6 +313,7 @@ and enjoy a seamless experience across Android, Desktop, and iOS platforms power
 - 🎯 **UI**: Compose Multiplatform + Material 3 + Adaptive Layouts
 - 🏗️ **Architecture**: MVI (Model-View-Intent) + Clean Architecture + Domain Use Cases
 - 🧭 **Navigation**: Jetpack Compose Navigation + Type-safe Serialization Routes
+- 📄 **Pagination**: AndroidX Paging 3
 - 🌐 **Networking**: Ktor Client (CIO / Darwin / OkHttp) + kotlinx.serialization
 - 💾 **Database**: Room Multiplatform + SQLite Bundled Driver
 - 🎨 **Theming & Preferences**: androidx.datastore (Preferences DataStore)
@@ -342,7 +342,7 @@ CMP-MVI-Template/
 │       │       ├── di/                     # 🧩 Dependency Injection modules (AppModule, CoreModule, initKoin)
 │       │       ├── core/                   # 📚 Core reusable utilities, domain errors, networking, local DB
 │       │       │   ├── data/               # 🗃️ Local database, DataStore, Ktor client factory
-│       │       │   ├── domain/             # 📦 Base models, ResultWrapper, DataError, Paginator
+│       │       │   ├── domain/             # 📦 Base models, ResultWrapper, DataError
 │       │       │   ├── platform/           # 🌍 Expect/actual platform bridges (Database, Toast, DataStore)
 │       │       │   └── utility/            # 🔧 WindowSize, AppLogger, UiText, StateController
 │       │       ├── ui/                     # 🧱 Reusable UI components, themes, and dialogs
@@ -432,7 +432,6 @@ CMP-MVI-Template/
 │       │       │   │   ├── DataError.kt
 │       │       │   │   ├── DataErrorToUiTextExtension.kt
 │       │       │   │   ├── Error.kt
-│       │       │   │   ├── Paginator.kt
 │       │       │   │   └── ResultWrapper.kt
 │       │       │   ├── platform/
 │       │       │   │   ├── database/getDatabaseBuilder.kt
@@ -515,8 +514,10 @@ CMP-MVI-Template/
 │       │           │       ├── product_list/
 │       │           │       │   ├── component/
 │       │           │       │   │   ├── CategoryChipsRow.kt
-│       │           │       │   │   ├── ProductListContent.kt
+│       │           │       │   │   ├── ProductListGrid.kt
 │       │           │       │   │   └── SortBottomSheet.kt
+│       │           │       │   ├── paging/
+│       │           │       │   │   └── ProductPagingSource.kt
 │       │           │       │   └── screen/
 │       │           │       │       ├── ProductListEffect.kt
 │       │           │       │       ├── ProductListEvent.kt
@@ -539,8 +540,7 @@ CMP-MVI-Template/
 │       │           │       └── favorites/
 │       │           │           ├── component/
 │       │           │           │   ├── EmptyFavoritesScreen.kt
-│       │           │           │   ├── FavoritesListContent.kt
-│       │           │           │   └── SwipeToDeleteProductCard.kt
+│       │           │           │   └── FavoritesGrid.kt
 │       │           │           └── screen/
 │       │           │               ├── FavoritesEffect.kt
 │       │           │               ├── FavoritesEvent.kt

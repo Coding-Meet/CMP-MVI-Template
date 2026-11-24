@@ -7,8 +7,14 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemKey
 import com.example.cmp_mvi_template.feature.product.domain.entity.Product
 import com.example.cmp_mvi_template.feature.product.presentation.component.ProductCard
 import com.example.cmp_mvi_template.feature.product.presentation.component.productListLoadingShimmer
@@ -18,28 +24,54 @@ import com.example.cmp_mvi_template.ui.theme.minCardSize
 @Composable
 fun ProductListGrid(
     listState: LazyStaggeredGridState,
-    products: List<Product>,
-    isLoadingMore: Boolean,
+    pagingItems: LazyPagingItems<Product>? = null,
+    products: List<Product> = emptyList(),
+    isLoadingMore: Boolean = false,
     onProductClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val isAppendLoading by remember(pagingItems, isLoadingMore) {
+        derivedStateOf {
+            if (pagingItems != null) {
+                pagingItems.loadState.append is LoadState.Loading
+            } else {
+                isLoadingMore
+            }
+        }
+    }
+
     LazyVerticalStaggeredGrid(
         state = listState,
         columns = StaggeredGridCells.Adaptive(minCardSize),
         contentPadding = PaddingValues(bottom = 16.dp),
         modifier = modifier
     ) {
-        items(
-            items = products,
-            key = { product -> product.id }
-        ) { product ->
-            ProductCard(
-                product = product,
-                onProductClick = { onProductClick(product.id) }
-            )
+        if (pagingItems != null) {
+            items(
+                count = pagingItems.itemCount,
+                key = pagingItems.itemKey { it.id }
+            ) { index ->
+                val product = pagingItems[index]
+                if (product != null) {
+                    ProductCard(
+                        product = product,
+                        onProductClick = { onProductClick(product.id) }
+                    )
+                }
+            }
+        } else {
+            items(
+                items = products,
+                key = { product -> product.id }
+            ) { product ->
+                ProductCard(
+                    product = product,
+                    onProductClick = { onProductClick(product.id) }
+                )
+            }
         }
 
-        if (isLoadingMore) {
+        if (isAppendLoading) {
             productListLoadingShimmer()
         }
     }
@@ -59,4 +91,3 @@ private fun ProductListGridPreview() {
         onProductClick = {}
     )
 }
-

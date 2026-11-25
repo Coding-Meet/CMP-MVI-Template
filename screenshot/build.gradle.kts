@@ -43,6 +43,10 @@ dependencies {
 
     implementation(libs.compose.uiToolingPreview)
 
+    // AndroidX Paging 3 Multiplatform
+    implementation(libs.androidx.paging.common)
+    implementation(libs.androidx.paging.compose)
+
     testImplementation(kotlin("test"))
     @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
     testImplementation(compose.uiTest)

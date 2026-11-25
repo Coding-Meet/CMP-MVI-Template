@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.cmp_mvi_template.feature.product.domain.entity.Product
+import com.example.cmp_mvi_template.feature.product.presentation.component.ProductCard
 import com.example.cmp_mvi_template.ui.theme.AllAdaptivePreviews
 import com.example.cmp_mvi_template.ui.theme.minCardSize
 
@@ -27,10 +28,11 @@ fun FavoritesGrid(
             items = products,
             key = { product -> product.id }
         ) { product ->
-            SwipeToDeleteProductCard(
+            ProductCard(
                 product = product,
+                isFavorite = true,
                 onProductClick = { onProductClick(product.id) },
-                onDeleteClick = { onDeleteClick(product) }
+                onFavoriteClick = { onDeleteClick(product) }
             )
         }
     }
@@ -48,4 +50,3 @@ private fun FavoritesGridPreview() {
         onDeleteClick = {}
     )
 }
-
